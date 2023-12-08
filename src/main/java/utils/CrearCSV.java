@@ -6,7 +6,9 @@ package utils;
 
 import dto.Aeropuerto;
 import dto.CompanyaAerea;
+import dto.VueloBase;
 import dto.VueloDiario;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -58,6 +60,33 @@ public class CrearCSV {
             throw new RuntimeException("Error al escribir en el archivo CSV de compañías aéreas", e);
         }
     }
+ public static void writeVueloBaseCSV(String ruta, HashMap<String, VueloBase> vueloBaseHashMap) {
+    try {
+        Files.createDirectories(Path.of(ruta).getParent());
+        if (!Files.exists(Path.of(ruta))) {
+            Files.createFile(Path.of(ruta));
+        }
+
+        // Open the file once before the loop
+        try (BufferedWriter writer = Files.newBufferedWriter(Path.of(ruta), StandardOpenOption.APPEND)) {
+            for (HashMap.Entry<String, VueloBase> entry : vueloBaseHashMap.entrySet()) {
+                VueloBase vueloBase = entry.getValue();
+                String horaSalidaStr = new SimpleDateFormat("HH:mm:ss").format(vueloBase.getHoraOficialSalida());
+                String horaLlegadaStr = new SimpleDateFormat("HH:mm:ss").format(vueloBase.getHoraOficialLlegada());
+
+                String linea = String.format("%s;%s;%s;%d;%s;%s;%s;\n",
+                        vueloBase.getCodigoVuelo(), vueloBase.getAeropuertoOrigen(),
+                        vueloBase.getAeropuertoDestino(), vueloBase.getNumPlazas(), horaSalidaStr,
+                        horaLlegadaStr, vueloBase.getDiasOpera());
+
+                // Write the line to the file
+                writer.write(linea);
+            }
+        }
+    } catch (IOException e) {
+        throw new RuntimeException("Error al escribir en el archivo CSV de vuelos base", e);
+    }
+}
 
     public static void writeVueloDiarioCSV(String ruta, HashMap<String, VueloDiario> vueloDiarioHashMap) {
         try {

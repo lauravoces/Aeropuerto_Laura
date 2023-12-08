@@ -6,10 +6,13 @@ package utils;
 
 import dto.Aeropuerto;
 import dto.CompanyaAerea;
+import dto.VueloBase;
 import dto.VueloDiario;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -18,10 +21,12 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.HashMap;
-import static utils.Archivos.PATH_AIRLINECOMPANY;
-import static utils.Archivos.PATH_AIRPORTS;
-import static utils.Archivos.PATH_DAILYFLIGH;
+import java.util.List;
 import static utils.Archivos.PATH_MUNICIPIOS;
+import static utils.Archivos.PATH_COMPANYAAEREA;
+import static utils.Archivos.PATH_AEROPUERTO;
+import static utils.Archivos.PATH_VUELODIARIO;
+import static utils.Archivos.PATH_VUELOSBASE;
 
 /**
  * Son todo lecturas desde archivo, no escrituras.
@@ -29,6 +34,8 @@ import static utils.Archivos.PATH_MUNICIPIOS;
  * @param <T>
  */
 public class LectorCSV<T> {
+    
+    
     public HashMap<String, String> readMunicipiosCSV() {
         HashMap<String, String> municipiosHashMap = new HashMap<>();
 
@@ -50,7 +57,7 @@ public class LectorCSV<T> {
    public HashMap<String, Aeropuerto> readAeropuertoCsv() {
         HashMap<String, Aeropuerto> aeropuertoHashMap = new HashMap<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(PATH_AIRPORTS))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(PATH_AEROPUERTO))) {
             br.lines()
                 .map(linea -> linea.split(";"))
                 .filter(valores -> valores.length == 3)
@@ -65,7 +72,7 @@ public class LectorCSV<T> {
    public HashMap<String, CompanyaAerea> readCompanyaCsv() {
         HashMap<String, CompanyaAerea> companyaHashMap = new HashMap<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(PATH_AIRLINECOMPANY))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(PATH_COMPANYAAEREA))) {
             br.lines()
                 .map(linea -> linea.split(";"))
                 .filter(valores -> valores.length == 7)
@@ -90,7 +97,7 @@ public class LectorCSV<T> {
     public HashMap<String, VueloDiario> readVueloDiarioCsv() {
         HashMap<String, VueloDiario> vueloDiarioHashMap = new HashMap<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(PATH_DAILYFLIGH))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(PATH_VUELODIARIO))) {
             String linea;
 
             while ((linea = br.readLine()) != null) {
@@ -119,4 +126,41 @@ public class LectorCSV<T> {
         }
         return vueloDiarioHashMap;
     }
+   public HashMap<String, VueloBase> readVueloBaseCSV() {
+        HashMap<String, VueloBase> vueloBaseHashMap = new HashMap<>();
+
+        try {
+            List<String> lineas = Files.readAllLines(Path.of(PATH_VUELOSBASE));
+
+            for (String linea : lineas) {
+                String[] campos = linea.split(";");
+                if (campos.length == 8) {
+                    String codigoVuelo = campos[0];
+                    String aeropuertoOrigen = campos[1];
+                    String aeropuertoDestino = campos[2];
+                    int numPlazas = Integer.parseInt(campos[3]);
+                    String horaSalidaStr = campos[4];
+                    String horaLlegadaStr = campos[5];
+                    String diasOpera = campos[6];
+
+                    SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
+                    Date horaSalida = formatoHora.parse(horaSalidaStr);
+                    Date horaLlegada = formatoHora.parse(horaLlegadaStr);
+
+                    VueloBase vueloBase = new VueloBase(codigoVuelo, aeropuertoOrigen, aeropuertoDestino,
+                            numPlazas, horaSalida, horaLlegada, diasOpera);
+
+                    vueloBaseHashMap.put(codigoVuelo, vueloBase);
+                } else {
+                    // Manejar el formato incorrecto de la línea del CSV
+                    System.out.println("Formato incorrecto en línea del CSV: " + linea);
+                }
+            }
+        } catch (IOException | ParseException e) {
+            throw new RuntimeException("Error al leer el archivo CSV de vuelos base", e);
+        }
+
+        return vueloBaseHashMap;
+    }
+
 }

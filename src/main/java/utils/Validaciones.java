@@ -44,4 +44,18 @@ public class Validaciones {
         String diaSemana = formatoFecha.format(fecha).toUpperCase();
         return diasOperativos.contains(diaSemana);
         }
+      public static boolean esDiaSemanaValido(String dia) {
+        switch (dia) {
+            case Semana.MONDAY:
+            case Semana.TUESDAY:
+            case Semana.WEDNESDAY:
+            case Semana.THURSDAY:
+            case Semana.FRIDAY:
+            case Semana.SATURDAY:
+            case Semana.SUNDAY:
+                return true;
+            default:
+                return false;
+        }
+    }
 }

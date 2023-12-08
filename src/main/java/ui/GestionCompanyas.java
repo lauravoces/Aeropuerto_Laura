@@ -5,23 +5,56 @@
 package ui;
 
 import dto.CompanyaAerea;
+
 import java.util.HashMap;
-import static utils.Archivos.PATH_AIRLINECOMPANY;
+import javax.swing.JPanel;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.JFrame;
+
 import static utils.BorrarLineasCSV.borrarLineaCSV;
 import static utils.CrearCSV.writeCompanyaCSV;
 import static utils.ModificarCSV.modificarLineaCSV;
+import static utils.Archivos.PATH_COMPANYAAEREA;
 
 /**
  *
  * @author laura
  */
 public class GestionCompanyas extends javax.swing.JFrame {
- private HashMap<String, CompanyaAerea> companyaMap = new HashMap<>();
+
+    private HashMap<String, CompanyaAerea> companyaMap = new HashMap<>();
+    private panelAyuda ayudaFrame = new panelAyuda();
     /**
      * Creates new form GestionCompanyas
      */
+    
     public GestionCompanyas() {
         initComponents();
+        // PARA EL F1
+              // Configurar el KeyListener para detectar la tecla F1
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                // No necesitas implementar esto para la tecla F1
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_F1) {
+                    // Mostrar el JPanel en una nueva ventana al presionar F1
+                    mostrarPanelEnVentana(ayudaFrame, "Ayuda");
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                // No necesitas implementar esto para la tecla F1
+            }
+        });
+
+        // Hacer que el JFrame sea enfocable para que pueda recibir eventos de teclado
+        setFocusable(true);
     }
 
     /**
@@ -118,8 +151,18 @@ public class GestionCompanyas extends javax.swing.JFrame {
         });
 
         jButton3.setText("Cerrar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Ayuda");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -156,9 +199,7 @@ public class GestionCompanyas extends javax.swing.JFrame {
                                 .addComponent(txtNombreComp)
                                 .addComponent(txtCodigoComp)
                                 .addComponent(txtPrefijoComp, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(208, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton4)
                     .addComponent(jButton3))
@@ -168,10 +209,10 @@ public class GestionCompanyas extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(16, 16, 16)
-                .addComponent(jButton4)
-                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jButton4))
+                .addGap(67, 67, 67)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPrefijoComp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
@@ -203,10 +244,9 @@ public class GestionCompanyas extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardarComp)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addGap(17, 17, 17))
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         pack();
@@ -215,7 +255,7 @@ public class GestionCompanyas extends javax.swing.JFrame {
     private void txtPrefijoCompActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrefijoCompActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPrefijoCompActionPerformed
-private HashMap<String, CompanyaAerea> obtenerHashMapActual() {
+    private HashMap<String, CompanyaAerea> obtenerHashMapActual() {
         // Devolver el HashMap almacenado en tu formulario
         return companyaMap;
     }
@@ -229,41 +269,76 @@ private HashMap<String, CompanyaAerea> obtenerHashMapActual() {
         cAerea.setNumInfoAeropuerto(txtTlfInfoPasajeros.getText());
         cAerea.setNumInfoPasajero(txtTlfInfoAeropuerto.getText());
         cAerea.setMunicipio(txtMunicipioSedeCentral.getText());
-            // Obtener el HashMap actual de CompanyaAerea
-         HashMap<String, CompanyaAerea> mapaCompanya = obtenerHashMapActual(); 
+        // Obtener el HashMap actual de CompanyaAerea
+        HashMap<String, CompanyaAerea> mapaCompanya = obtenerHashMapActual();
 
-            // Agregar la nueva instancia al HashMap
-         mapaCompanya.put(cAerea.getCodigo(), cAerea);
+        // Agregar la nueva instancia al HashMap
+        mapaCompanya.put(cAerea.getCodigo(), cAerea);
 
-            // Llamar al método para escribir en el archivo CSV
-         writeCompanyaCSV(PATH_AIRLINECOMPANY, mapaCompanya);
-        System.out.println(cAerea.getNombre()+" "+cAerea.getCodigo() + " "+ cAerea.getDireccion());
+        // Llamar al método para escribir en el archivo CSV
+        writeCompanyaCSV(PATH_COMPANYAAEREA, mapaCompanya);
+        System.out.println(cAerea.getNombre() + " " + cAerea.getCodigo() + " " + cAerea.getDireccion());
+        //vaciado del codigo si ha ido bien
+        txtPrefijoComp.setText("");
+        txtCodigoComp.setText("");
+        txtNombreComp.setText("");
+        txtDirSedeCentral.setText("");
+        txtTlfInfoPasajeros.setText("");
+        txtTlfInfoAeropuerto.setText("");
+        txtMunicipioSedeCentral.setText("");
 
     }//GEN-LAST:event_btnGuardarCompActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-     String codigoABorrar = txtPrefijoComp.getText(); // Reemplaza con el código de la compañía que deseas borrar
-    borrarLineaCSV(PATH_AIRLINECOMPANY, codigoABorrar);        // TODO add your handling code here:
+        String codigoABorrar = txtPrefijoComp.getText(); // Reemplaza con el código de la compañía que deseas borrar
+        borrarLineaCSV(PATH_COMPANYAAEREA, codigoABorrar);        // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       String codigoAModificar = txtCodigoComp.getText(); // Reemplaza con el código de la compañía que deseas modificar
-    String nuevoPrefijo = txtPrefijoComp.getText();
-    String nuevoNombre = txtNombreComp.getText();
-    String nuevaDireccion = txtDirSedeCentral.getText();
-    String nuevoMunicipio = txtMunicipioSedeCentral.getText();
-    String nuevoNumInfoPasajero = txtTlfInfoPasajeros.getText();
-    String nuevoNumInfoAeropuerto = txtTlfInfoAeropuerto.getText();
+        String codigoAModificar = txtCodigoComp.getText(); // Reemplaza con el código de la compañía que deseas modificar
+        String nuevoPrefijo = txtPrefijoComp.getText();
+        String nuevoNombre = txtNombreComp.getText();
+        String nuevaDireccion = txtDirSedeCentral.getText();
+        String nuevoMunicipio = txtMunicipioSedeCentral.getText();
+        String nuevoNumInfoPasajero = txtTlfInfoPasajeros.getText();
+        String nuevoNumInfoAeropuerto = txtTlfInfoAeropuerto.getText();
 
-    // Construir la línea actualizada para el CSV
-    String nuevaLinea = String.format("%s;%s;%s;%s;%s;%s;%s",
-            nuevoPrefijo, codigoAModificar, nuevoNombre, nuevaDireccion,
-            nuevoMunicipio, nuevoNumInfoPasajero, nuevoNumInfoAeropuerto);
+        // Construir la línea actualizada para el CSV
+        String nuevaLinea = String.format("%s;%s;%s;%s;%s;%s;%s",
+                nuevoPrefijo, codigoAModificar, nuevoNombre, nuevaDireccion,
+                nuevoMunicipio, nuevoNumInfoPasajero, nuevoNumInfoAeropuerto);
 
-    // Llamar al método para modificar la línea en el archivo CSV
-    modificarLineaCSV(PATH_AIRLINECOMPANY, codigoAModificar, nuevaLinea);
-  System.out.println(nuevaLinea);
+        // Llamar al método para modificar la línea en el archivo CSV
+        modificarLineaCSV(PATH_COMPANYAAEREA, codigoAModificar, nuevaLinea);
+        System.out.println(nuevaLinea);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // Cerrar el formulario actual
+                dispose();
+
+              
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    
+     mostrarPanelEnVentana(ayudaFrame, "Ayuda");
+              
+    }//GEN-LAST:event_jButton4ActionPerformed
+  private void mostrarPanelEnVentana(JPanel panel, String titulo) {
+        // Crear una nueva ventana (JFrame) para representar el JPanel
+        JFrame ventanaPanel = new JFrame(titulo);
+
+        // Configurar la ventana
+        ventanaPanel.setSize(500, 300); // Ajusta el tamaño según tus necesidades
+        ventanaPanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        // Agregar el JPanel a la ventana
+        ventanaPanel.add(panel);
+
+        // Hacer visible la ventana
+        ventanaPanel.setVisible(true);
+    }
 
     /**
      * @param args the command line arguments
@@ -322,4 +397,6 @@ private HashMap<String, CompanyaAerea> obtenerHashMapActual() {
     private javax.swing.JTextField txtTlfInfoAeropuerto;
     private javax.swing.JTextField txtTlfInfoPasajeros;
     // End of variables declaration//GEN-END:variables
+
+    
 }

@@ -15,5 +15,5 @@ public interface Semana {
     String THURSDAY = "J";
     String FRIDAY = "V";
     String SATURDAY = "S";
-    String SUNDAY = "M";
+    String SUNDAY = "D";
 }

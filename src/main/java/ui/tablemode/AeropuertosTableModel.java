@@ -30,7 +30,7 @@ public class AeropuertosTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 60;
+        return columnas.length;
     }
 
     @Override

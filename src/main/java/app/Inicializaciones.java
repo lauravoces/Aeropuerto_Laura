@@ -28,6 +28,7 @@ public class Inicializaciones {
 
     protected static List<Aeropuerto> lstAeropuertos;   
     protected static List<CompanyaAerea> lstCompanya;
+    protected static List<VueloBase>lstVueloBase;
     private Inicializaciones() {
         init();
     }
@@ -35,20 +36,32 @@ public class Inicializaciones {
     private void init() {
         //CREO EL OBJ para leer
         LectorCSV csvReader = new LectorCSV();
+        
         municipiosHashMap = csvReader.readMunicipiosCSV();
+        
+        aeropuertoHashMap= csvReader.readAeropuertoCsv();
+        
+        vueloBaseHashMap= csvReader.readVueloBaseCSV();
+        companyaHashMap= csvReader.readCompanyaCsv();
+        
         lstAeropuertos = new ArrayList<>(aeropuertoHashMap.values());
         lstCompanya= new ArrayList<>(companyaHashMap.values());
+        lstVueloBase=new ArrayList<>(vueloBaseHashMap.values());
+        
     }
 
 
     public static Inicializaciones getInstance() {
         return INSTANCE;
     }
-    public List<Aeropuerto> getLstAeropuertos() {
-        return new ArrayList<>(aeropuertoHashMap.values());
+     public List<Aeropuerto> getLstAeropuertos() {
+        return lstAeropuertos;  // Devuelve directamente la lista cargada
     }
     public List<CompanyaAerea> getLstCompanya() {
-        return new ArrayList<>(companyaHashMap.values());
+        return lstCompanya;
+    }
+    public List<VueloBase> getListVueloBase(){
+        return lstVueloBase;
     }
     
  }

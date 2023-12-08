@@ -20,7 +20,8 @@ import java.util.List;
 public class Logica {
     
 /*METODOS PARA AEROPUERTOS*/
-    
+   
+   
   private static List<Aeropuerto> lstAeropuertos;
 
   //Precargar la lista con todos los aeropuertos
@@ -48,9 +49,11 @@ public class Logica {
     
     /*METODOS PARA LAS COMPAÑIAS*/
     private static List<CompanyaAerea> lstCompanyas = new ArrayList<CompanyaAerea>();
-
+    
+     //Precargar la lista con todas las companyas
     public static List<CompanyaAerea> getAllCompanyas() {
-        return new ArrayList<CompanyaAerea>();
+        lstCompanyas = Inicializaciones.getInstance().getLstCompanya();
+        return lstCompanyas;
     }
 
     public static CompanyaAerea getCompanyaByCodigo(String codigo) {
