@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package utils;
+package app;
 
 import dto.CompanyaAerea;
 import java.util.List;
@@ -13,7 +13,10 @@ import logica.Logica;
  * @author laura
  */
 public class main {
+    
      public static void main(String args[]) {
+     Inicializaciones.getInstance();
+     
      CompanyaAerea c1 = new CompanyaAerea(75,
     "IB",
     "iberia Lineas Aereas de España",
