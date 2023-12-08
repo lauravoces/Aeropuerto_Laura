@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ui;
 
-/**
- *
- * @author laura
- */
 import api.AEMET_API;
 import javax.swing.*;
 import java.awt.*;
@@ -35,8 +27,12 @@ public class ConsultaTempsPanel extends JPanel {
 
                 try {
                     Temperaturas temperaturas = consultarTemperaturas(aeropuertoCodigo, municipioCodigo);
-                    resultadoLabel.setText("<html>Temperatura Mínima: " + temperaturas.getMinTemp() +
-                            "<br>Temperatura Máxima: " + temperaturas.getMaxTemp() + "</html>");
+                    if (temperaturas != null) {
+                        resultadoLabel.setText("<html>Temperatura Mínima: " + temperaturas.getMinTemp() +
+                                "<br>Temperatura Máxima: " + temperaturas.getMaxTemp() + "</html>");
+                    } else {
+                        resultadoLabel.setText("Error al consultar las temperaturas.");
+                    }
                 } catch (Exception ex) {
                     resultadoLabel.setText("Error al consultar las temperaturas.");
                     ex.printStackTrace();
@@ -56,8 +52,15 @@ public class ConsultaTempsPanel extends JPanel {
 
     private Temperaturas consultarTemperaturas(String aeropuertoCodigo, String municipioCodigo) {
         try {
-            return aemetApi.getTemperaturas(aeropuertoCodigo, municipioCodigo);
+            Temperaturas temperaturas = aemetApi.getTemperaturas(aeropuertoCodigo, municipioCodigo);
+            if (temperaturas != null) {
+                return temperaturas;
+            } else {
+                System.out.println("Error al consultar las temperaturas.");
+                return null;
+            }
         } catch (Exception e) {
+            System.out.println("Error al consultar las temperaturas.");
             e.printStackTrace();
             return null;
         }

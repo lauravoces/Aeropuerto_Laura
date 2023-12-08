@@ -8,7 +8,9 @@ import dto.Aeropuerto;
 import dto.CompanyaAerea;
 import dto.VueloBase;
 import dto.VueloDiario;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import utils.LectorCSV;
 
 /**
@@ -24,18 +26,29 @@ public class Inicializaciones {
     private static HashMap<String, VueloDiario> vueloDiarioHashMap = new HashMap<>();
     private static HashMap<String, String> municipiosHashMap = new HashMap<>();
 
-
+    protected static List<Aeropuerto> lstAeropuertos;   
+    protected static List<CompanyaAerea> lstCompanya;
     private Inicializaciones() {
         init();
     }
 
     private void init() {
+        //CREO EL OBJ para leer
         LectorCSV csvReader = new LectorCSV();
         municipiosHashMap = csvReader.readMunicipiosCSV();
+        lstAeropuertos = new ArrayList<>(aeropuertoHashMap.values());
+        lstCompanya= new ArrayList<>(companyaHashMap.values());
     }
 
 
-    protected static Inicializaciones getInstance() {
+    public static Inicializaciones getInstance() {
         return INSTANCE;
     }
-}
+    public List<Aeropuerto> getLstAeropuertos() {
+        return new ArrayList<>(aeropuertoHashMap.values());
+    }
+    public List<CompanyaAerea> getLstCompanya() {
+        return new ArrayList<>(companyaHashMap.values());
+    }
+    
+ }

@@ -7,17 +7,25 @@ package app;
 import dto.CompanyaAerea;
 import java.util.List;
 import logica.Logica;
+import ui.Principal;
 
 /**
  *
  * @author laura
  */
 public class main {
-    
+    private static Principal pInstance; 
      public static void main(String args[]) {
-     Inicializaciones.getInstance();
-     
-     CompanyaAerea c1 = new CompanyaAerea(75,
+     Inicializaciones.getInstance();//esto en teoria inicia los hasmap y los lectores
+      if (pInstance == null) {
+            // Si no hay, crea una nueva instancia y la guarda
+            pInstance = new Principal();
+        }
+
+        // Hace visible la instancia actual
+        pInstance.setVisible(true);  
+        
+   /*  CompanyaAerea c1 = new CompanyaAerea(75,
     "IB",
     "iberia Lineas Aereas de España",
     "C/Marques s/n",
@@ -40,6 +48,6 @@ public class main {
     );
     Logica.addCompanyaAerea(c2);
     //LogicaNegocio.addVueloBase(new VueloBase("IB123",3,new Date(),new Date(),new Date(), "LNV",LogicaNegocio.aeropuertoBase.getCodigoIATA(), "ABC"));
-    List<CompanyaAerea> lista = Logica.getAllCompanyas();
+    List<CompanyaAerea> lista = Logica.getAllCompanyas();*/
     }
 }

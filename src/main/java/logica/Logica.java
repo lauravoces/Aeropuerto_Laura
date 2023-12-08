@@ -4,11 +4,13 @@
  */
 package logica;
 
+import app.Inicializaciones;
 import dto.Aeropuerto;
 import dto.CompanyaAerea;
 import dto.VueloBase;
 import dto.VueloDiario;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -16,18 +18,23 @@ import java.util.List;
  * @author laura
  */
 public class Logica {
+    
+/*METODOS PARA AEROPUERTOS*/
+    
+  private static List<Aeropuerto> lstAeropuertos;
 
-    private static List<Aeropuerto> lstAeropuertos = new ArrayList<Aeropuerto>();
-
+  //Precargar la lista con todos los aeropuertos
     public static List<Aeropuerto> getAllAeropuertos() {
-        return new ArrayList<Aeropuerto>();
+        // Llama al método de Inicializaciones para obtener la lista de aeropuertos
+        lstAeropuertos = Inicializaciones.getInstance().getLstAeropuertos();
+        return lstAeropuertos;
     }
 
     public static Aeropuerto getAeropuertoByCodigoIATA(String codigoIATA) {
+        lstAeropuertos = Inicializaciones.getInstance().getLstAeropuertos();
         Aeropuerto valorSalida = null;
 
         for (Aeropuerto a : lstAeropuertos) {
-
             if (a.getCodigoIATA().equals(codigoIATA)) {
                 valorSalida = a;
                 return valorSalida;
@@ -38,6 +45,8 @@ public class Logica {
 
     public static Aeropuerto aeropuertoBase = getAeropuertoByCodigoIATA("OVD");
 
+    
+    /*METODOS PARA LAS COMPAÑIAS*/
     private static List<CompanyaAerea> lstCompanyas = new ArrayList<CompanyaAerea>();
 
     public static List<CompanyaAerea> getAllCompanyas() {

@@ -10,6 +10,7 @@ package ui;
  */
 public class Principal extends javax.swing.JFrame {
 private static Companya companyaInstance; 
+private static GestionCompanyas cInstance;
     /**
      * Creates new form Principal
      */
@@ -48,10 +49,11 @@ private static Companya companyaInstance;
         });
         getContentPane().add(jButton1);
 
-        jButton4.setText("Registro Vuelo Diario");
+        jButton4.setText("Vuelo Diario");
+        jButton4.setActionCommand("Vuelo Diario");
         getContentPane().add(jButton4);
 
-        jButton3.setText("Vuelos");
+        jButton3.setText("Vuelo Base");
         getContentPane().add(jButton3);
 
         jButton5.setText("Información");
@@ -62,13 +64,13 @@ private static Companya companyaInstance;
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
        // Verifica si ya hay una instancia de Companya
-        if (companyaInstance == null) {
+        if (cInstance == null) {
             // Si no hay, crea una nueva instancia y la guarda en companyaInstance
-            companyaInstance = new Companya();
+            cInstance = new GestionCompanyas();
         }
 
         // Hace visible la instancia actual de Companya
-        companyaInstance.setVisible(true);      // TODO add your handling code here:
+        cInstance.setVisible(true);      // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

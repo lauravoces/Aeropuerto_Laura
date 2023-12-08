@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package ui.tablemode;
-
+import logica.Logica;
 import dto.Aeropuerto;
 import dto.VueloDiario;
 import java.util.List;
@@ -15,6 +15,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class AeropuertosTableModel extends AbstractTableModel {
     private List<Aeropuerto> listAero;
+    
     private String[] columnas={
         "Código","Nombre","Municipio"
     };
@@ -38,11 +39,11 @@ public class AeropuertosTableModel extends AbstractTableModel {
            case 0:
                return listAero.get(rowIndex).getCodigoIATA();
            case 1:
-                return listAero.get(rowIndex).getCodigoMunicipio();
+               return listAero.get(rowIndex).getNombre();
            case 2:
                 return listAero.get(rowIndex).getCodigoMunicipio();
-           case 3:
-                return listAero.get(rowIndex).getNombre();       
+          
+                       
         }
         return null;
     
