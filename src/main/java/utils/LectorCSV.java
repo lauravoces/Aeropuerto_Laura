@@ -97,37 +97,57 @@ public class LectorCSV<T> {
  public HashMap<String, VueloDiario> readVueloDiarioCsv() {
     HashMap<String, VueloDiario> vueloDiarioHashMap = new HashMap<>();
 
-    try (BufferedReader br = new BufferedReader(new FileReader(PATH_VUELODIARIO))) {
-        String linea;
+    try {
+        List<String> lines = Files.readAllLines(Path.of(PATH_VUELODIARIO));
 
-        while ((linea = br.readLine()) != null) {
-            String[] valores = linea.split(";");
-            if (valores.length == 7) {
-                try {
-                    Date date = new SimpleDateFormat(DATE_FORMAT).parse(valores[1]);
-                    Date horaSalida = new SimpleDateFormat("HH:mm:ss").parse(valores[4]);
-                    Date horaLlegada = new SimpleDateFormat("HH:mm:ss").parse(valores[5]);
+        for (String line : lines) {
+            String[] fields = line.split(";");
+  if (fields.length == 6) {
+     
+    String codigoVuelo = fields[0];
+    String fechaStr = fields[1];
+    int numPlazas = Integer.parseInt(fields[2]);  
+    float precio = Float.parseFloat(fields[3]);
+    String horaSalidaStr = fields[4];
+    String horaLlegadaStr = fields[5];
 
-                    VueloDiario vueloDiario = new VueloDiario(
-                            valores[0],
-                            date,
-                            horaSalida,
-                            horaLlegada,
-                            Integer.parseInt(valores[2]),
-                            Float.parseFloat(valores[3])
-                    );
+    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+     SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+    Date horaSalida;
+    Date horaLlegada;
+ Date fecha;
+    try {
+        horaSalida = timeFormat.parse(horaSalidaStr);
+        horaLlegada = timeFormat.parse(horaLlegadaStr);
+          fecha = dateFormat.parse(fechaStr);
+    } catch (ParseException e) {
+        throw new RuntimeException("Error al parsear la hora en el archivo de vuelos diarios: " + e.getMessage(), e);
+    }
 
-                    vueloDiarioHashMap.put(valores[0], vueloDiario);
-                } catch (ParseException e) {
-                    throw new RuntimeException("Error al parsear la fecha en el archivo de vuelos diarios: " + e.getMessage(), e);
-                }
+         
+
+                VueloDiario vueloDiario = new VueloDiario(
+                        codigoVuelo,
+                        fecha,
+                        numPlazas,
+                        precio,
+                        horaSalida,
+                       horaLlegada
+                );
+
+                vueloDiarioHashMap.put(codigoVuelo, vueloDiario);
+            } else {
+                // Manejar el formato incorrecto de la línea del CSV
+                System.out.println("Formato incorrecto en línea del CSV: " + line);
             }
         }
     } catch (IOException e) {
         throw new RuntimeException("Error al leer el archivo de vuelos diarios", e);
     }
+
     return vueloDiarioHashMap;
 }
+
    public HashMap<String, VueloBase> readVueloBaseCSV() {
         HashMap<String, VueloBase> vueloBaseHashMap = new HashMap<>();
 
@@ -136,7 +156,7 @@ public class LectorCSV<T> {
 
             for (String linea : lineas) {
                 String[] campos = linea.split(";");
-                if (campos.length == 8) {
+                if (campos.length == 7) {
                     String codigoVuelo = campos[0];
                     String aeropuertoOrigen = campos[1];
                     String aeropuertoDestino = campos[2];
@@ -145,7 +165,7 @@ public class LectorCSV<T> {
                     String horaLlegadaStr = campos[5];
                     String diasOpera = campos[6];
 
-                    SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
+                    SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
                     Date horaSalida = formatoHora.parse(horaSalidaStr);
                     Date horaLlegada = formatoHora.parse(horaLlegadaStr);
 

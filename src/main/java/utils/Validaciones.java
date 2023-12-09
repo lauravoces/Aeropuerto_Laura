@@ -19,7 +19,7 @@ public class Validaciones {
         return prefijo >= 0 && prefijo <= 999;
     }
 
-    public boolean esCodigoCompaniaValido(String codigo) {
+    public static boolean esCodigoCompaniaValido(String codigo) {
         return codigo.length() == 2 && codigo.matches("[A-Z][A-Z0-9]");
     }
 

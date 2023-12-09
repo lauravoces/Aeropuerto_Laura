@@ -57,21 +57,29 @@ public class Logica {
     }
 
     public static CompanyaAerea getCompanyaByCodigo(String codigo) {
-        CompanyaAerea valorSalida = null;
-
-        return new CompanyaAerea();
+ 
+        CompanyaAerea valorSalida= null;
+        lstCompanyas = Inicializaciones.getInstance().getLstCompanya();
+        for(CompanyaAerea a : lstCompanyas){
+            if(a.getCodigo().equals(codigo)){
+                valorSalida = a;
+                return valorSalida;
+                
+            }
+        }
+         return valorSalida;
     }
 
     public static CompanyaAerea getCompanyaByPrefijo(int prefijo) {
-        CompanyaAerea valorSalida = null;
-        for (CompanyaAerea c : lstCompanyas) {
-
-            if (c.getPrefijo() == prefijo) {
-                valorSalida = c;
+        CompanyaAerea valorSalida= null;
+        lstCompanyas = Inicializaciones.getInstance().getLstCompanya();
+        for(CompanyaAerea a : lstCompanyas){
+            if(a.getPrefijo()==prefijo){
+                valorSalida = a;
                 return valorSalida;
             }
         }
-        return valorSalida;
+         return valorSalida;
 
     }
 
@@ -79,7 +87,9 @@ public class Logica {
     private static List<VueloBase> lstVuelosBase = new ArrayList<VueloBase>();
 
     public static List<VueloBase> getAllVuelosBase() {
-        return new ArrayList<VueloBase>();
+      lstVuelosBase = Inicializaciones.getInstance().getListVueloBase();
+   
+        return lstVuelosBase;
     }
 
     public static VueloBase getVueloBaseByCodigo(String codigo) {
@@ -106,11 +116,21 @@ public class Logica {
     private static List<VueloDiario> lstVuelosDiario = new ArrayList<VueloDiario>();
 
     public static List<VueloDiario> getAllVuelosDiarios() {
-        return new ArrayList<VueloDiario>();
+         lstVuelosDiario = Inicializaciones.getInstance().getListVueloDiario();
+        return lstVuelosDiario;
     }
 
     public static VueloDiario getVueloDiarioByCodigoVueloBase(String codigo) {
-        return new VueloDiario();
+      VueloDiario valorSalida = null;
+      lstVuelosDiario = Inicializaciones.getInstance().getListVueloDiario();
+      for(VueloDiario a: lstVuelosDiario){
+          if(a.getCodigoVueloBase().equals(codigo)){
+              valorSalida=a;
+              return valorSalida;
+          }
+      }
+       
+        return valorSalida;
     }
 
     public static void addCompanyaAerea(CompanyaAerea newComp) {
@@ -130,7 +150,7 @@ public class Logica {
         oldComp.setNumInfoPasajero(newComp.getNumInfoPasajero());
         oldComp.setNumInfoAeropuerto(newComp.getNumInfoAeropuerto());
 
-        //Optional<CompanyaAerea> optValorSalida = new Optional<CompanyaAerea>();
+        
     }
 
     public static void deleteCompanyaByCodigo(String codigo) {

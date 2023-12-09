@@ -21,6 +21,10 @@ public class VueloDiario {
     //vueloOirgen y vueloDestino
     private VueloBase vueloBase;
 
+    public VueloDiario(String codigoVuelo, Date fecha, int numPlazas, float precio) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     public String getCodigoVueloBase() {
         return codigoVueloBase;
     }
@@ -97,14 +101,14 @@ public class VueloDiario {
         this.precioVuelo = precioVuelo;
     }
 
-    public VueloDiario(String codigoVueloBase, Date fechaVuelo, Date horaSalidaReal, Date horaLlegadaReal, int numPlazasOcupadas, float precioVuelo, VueloBase vueloBase) {
+    public VueloDiario(String codigoVueloBase, Date fechaVuelo, int numPlazasOcupadas,  float precioVuelo, Date horaSalidaReal, Date horaLlegadaReal) {
         this.codigoVueloBase = codigoVueloBase;
         this.fechaVuelo = fechaVuelo;
         this.horaSalidaReal = horaSalidaReal;
         this.horaLlegadaReal = horaLlegadaReal;
         this.numPlazasOcupadas = numPlazasOcupadas;
         this.precioVuelo = precioVuelo;
-        this.vueloBase = vueloBase;
+       
     }
     
     

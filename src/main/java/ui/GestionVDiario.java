@@ -333,16 +333,18 @@ public class GestionVDiario extends javax.swing.JFrame {
             Date fechaVuelo = dateFormat.parse(txtFechaVueloDiario.getText());
             Date horaSRFormateada = formatoHora.parse(horaSR);
             Date horaLRFormateada = formatoHora.parse(horaLR);
-           
+           Time timehoraSR = new Time(horaSRFormateada.getTime());
+            Time timehoraLR = new Time(horaLRFormateada.getTime());
             vueloDiario.setCodigoVueloBase(txtCodigoVueloDiario.getText());
             vueloDiario.setNumPlazasOcupadas(Integer.parseInt(txtPlazasOcupadas.getText()));
             vueloDiario.setPrecioVuelo(Float.parseFloat(txtPrecioVuelo.getText()));
             vueloDiario.setFechaVuelo(fechaVuelo);
-            Time timehoraSR = new Time(horaSRFormateada.getTime());
-            Time timehoraLR = new Time(horaLRFormateada.getTime());
             
-            vueloDiario.setHoraSalidaReal(timehoraSR);
-            vueloDiario.setHoraLlegadaReal(timehoraLR);
+            
+           // Using java.sql.Time to store time values
+            
+             vueloDiario.setHoraSalidaReal(timehoraSR);
+             vueloDiario.setHoraLlegadaReal(timehoraLR);
             
               // Obtener el HashMap actual de CompanyaAerea
             HashMap<String, VueloDiario> vueloBaseD = obtenerHashMapActual();
@@ -368,15 +370,15 @@ public class GestionVDiario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarVD2ActionPerformed
 
     private void cbxHorasLRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxHorasLRActionPerformed
-       
+        actualizarLabel(lblHoraLR, cbxHorasLR, cbxMinutosLR);
     }//GEN-LAST:event_cbxHorasLRActionPerformed
 
     private void cbxMinutosLRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxMinutosLRActionPerformed
-       
+        actualizarLabel(lblHoraLR, cbxHorasLR, cbxMinutosLR);
     }//GEN-LAST:event_cbxMinutosLRActionPerformed
 
     private void cbxMinutosSRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxMinutosSRActionPerformed
-      
+       actualizarLabel(lblHoraSR, cbxHorasSR, cbxMinutosSR);
     }//GEN-LAST:event_cbxMinutosSRActionPerformed
 
     private void cbxHorasSRItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxHorasSRItemStateChanged
@@ -385,7 +387,7 @@ public class GestionVDiario extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxHorasSRItemStateChanged
 
     private void cbxHorasSRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxHorasSRActionPerformed
-       
+       actualizarLabel(lblHoraSR, cbxHorasSR, cbxMinutosSR);
     }//GEN-LAST:event_cbxHorasSRActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -432,6 +434,11 @@ public class GestionVDiario extends javax.swing.JFrame {
 
         // Hacer visible la ventana
         ventanaPanel.setVisible(true);
+    }
+  private void actualizarLabel(javax.swing.JLabel label, javax.swing.JComboBox<String> cbxHoras, javax.swing.JComboBox<String> cbxMinutos) {
+        String horas = cbxHoras.getSelectedItem() != null ? cbxHoras.getSelectedItem().toString() : "00";
+        String minutos = cbxMinutos.getSelectedItem() != null ? cbxMinutos.getSelectedItem().toString() : "00";
+        label.setText(horas + ":" + minutos);
     }
     /**
      * @param args the command line arguments
