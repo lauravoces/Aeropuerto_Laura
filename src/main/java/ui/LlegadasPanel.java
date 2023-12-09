@@ -4,6 +4,8 @@
  */
 package ui;
 
+import ui.tablas.tblVueloBase;
+
 /**
  *
  * @author laura

@@ -158,4 +158,9 @@ public class Logica {
         lstCompanyas.remove(delComp);
 
     }
+    
+    
+    
+    //metodo de presupuesto
+    
 }

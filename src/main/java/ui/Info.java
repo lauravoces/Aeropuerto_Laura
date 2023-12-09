@@ -81,6 +81,11 @@ public class Info extends javax.swing.JFrame {
         jButton3.setText("SALIDAS");
 
         jButton4.setText("RECAUDACIONES");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("V-COMPAÑIA");
 
@@ -190,6 +195,11 @@ public class Info extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+      pnlRecaudaciones pn= new pnlRecaudaciones(this, true);
+      pn.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

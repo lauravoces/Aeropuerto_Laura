@@ -20,7 +20,9 @@ private Logica logicaNegocio=new Logica();
         initComponents();
          jTable1.setModel(new VueloDiarioTableModel(logicaNegocio.getAllVuelosDiarios()));
     }
-
+    public javax.swing.JTable getTabla() {
+        return jTable1;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
