@@ -18,7 +18,7 @@ import utils.LectorCSV;
  * @author laura
  */
 public class Inicializaciones {
-    
+
     private static final Inicializaciones INSTANCE = new Inicializaciones();
     private static HashMap<String, Aeropuerto> aeropuertoHashMap = new HashMap<>();
     private static HashMap<String, CompanyaAerea> companyaHashMap = new HashMap<>();
@@ -26,9 +26,16 @@ public class Inicializaciones {
     private static HashMap<String, VueloDiario> vueloDiarioHashMap = new HashMap<>();
     private static HashMap<String, String> municipiosHashMap = new HashMap<>();
 
-    protected static List<Aeropuerto> lstAeropuertos;   
+    protected static List<Aeropuerto> lstAeropuertos;
+    
     protected static List<CompanyaAerea> lstCompanya;
-    protected static List<VueloBase>lstVueloBase;
+    
+    protected static List<VueloBase> lstVueloBase;
+    
+    protected static List<VueloDiario> lstVueloDiario;
+    
+    protected static List<String> lstMunicipio;
+
     private Inicializaciones() {
         init();
     }
@@ -37,16 +44,18 @@ public class Inicializaciones {
         //CREO EL OBJ para leer
         LectorCSV csvReader = new LectorCSV();
         
-        municipiosHashMap = csvReader.readMunicipiosCSV();
-        
-        aeropuertoHashMap= csvReader.readAeropuertoCsv();
-        
+        municipiosHashMap = csvReader.readMunicipiosCSV();       
+        aeropuertoHashMap= csvReader.readAeropuertoCsv();     
         vueloBaseHashMap= csvReader.readVueloBaseCSV();
+        vueloDiarioHashMap=csvReader.readVueloDiarioCsv();
         companyaHashMap= csvReader.readCompanyaCsv();
         
-        lstAeropuertos = new ArrayList<>(aeropuertoHashMap.values());
+          lstAeropuertos = new ArrayList<>(aeropuertoHashMap.values());
+        lstMunicipio=new  ArrayList<>(municipiosHashMap.values());
+      
         lstCompanya= new ArrayList<>(companyaHashMap.values());
         lstVueloBase=new ArrayList<>(vueloBaseHashMap.values());
+        lstVueloDiario=new ArrayList<>(vueloDiarioHashMap.values());
         
     }
 
@@ -63,5 +72,10 @@ public class Inicializaciones {
     public List<VueloBase> getListVueloBase(){
         return lstVueloBase;
     }
-    
+     public List<VueloDiario> getListVueloDiario(){
+        return lstVueloDiario;
+    }
+     public List<String> getListMunicipio(){
+        return lstMunicipio;
+    }
  }

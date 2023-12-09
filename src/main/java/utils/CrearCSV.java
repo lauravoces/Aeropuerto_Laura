@@ -101,9 +101,14 @@ public class CrearCSV {
                 String horaSalidaStr = new SimpleDateFormat("HH:mm:ss").format(vueloDiario.getHoraSalidaReal());
                 String horaLlegadaStr = new SimpleDateFormat("HH:mm:ss").format(vueloDiario.getHoraLlegadaReal());
 
-                String linea = String.format("%d;%s;%s;%s;%s;%d;%f\n",
-                        vueloDiario.getCodigoVueloBase(), dateStr, horaSalidaStr, horaLlegadaStr,
-                        vueloDiario.getNumPlazasOcupadas(), vueloDiario.getPrecioVuelo());
+                String linea = String.format("%s;%s;%s;%s;%s;%f;\n",
+                        vueloDiario.getCodigoVueloBase(),
+                        dateStr, 
+                        horaSalidaStr, 
+                        horaLlegadaStr,
+                        vueloDiario.getNumPlazasOcupadas(), 
+                        vueloDiario.getPrecioVuelo());
+                
                 Files.writeString(Path.of(ruta), linea, StandardOpenOption.APPEND);
             }
         } catch (IOException e) {

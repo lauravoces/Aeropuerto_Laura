@@ -92,14 +92,7 @@ public class Logica {
         return vueloBaseSalida;
     }
 
-    /*
-     public static VueloBase getVueloBaseByDiaSemana(char diaSemana){
-         List<VueloBase> VueloBaseByDiaSemana= lstVuelosBase.stream()
-                 .filter(v-> v.getDiasOperacion().matches(diaSemana))
-                 .toList();
-    return new VueloBase();
-    }
-     */
+   
     public static VueloBase getVueloBaseByAeropuertoOrigen(String codigoIATA) {
 
         return new VueloBase();
@@ -109,7 +102,7 @@ public class Logica {
         return new VueloBase();
     }
 
-    //logica vuelos diarios
+    //Logica Vuelod Diarios
     private static List<VueloDiario> lstVuelosDiario = new ArrayList<VueloDiario>();
 
     public static List<VueloDiario> getAllVuelosDiarios() {

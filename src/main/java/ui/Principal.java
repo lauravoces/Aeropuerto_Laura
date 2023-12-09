@@ -9,8 +9,10 @@ package ui;
  * @author laura
  */
 public class Principal extends javax.swing.JFrame {
-private static Companya companyaInstance; 
 private static GestionCompanyas cInstance;
+private static GestionVBase cInstanceVB;
+private static GestionVDiario cInstanceVD;
+private static Info cInstanceInfo;
     /**
      * Creates new form Principal
      */
@@ -50,13 +52,27 @@ private static GestionCompanyas cInstance;
         getContentPane().add(jButton1);
 
         jButton4.setText("Vuelo Diario");
-        jButton4.setActionCommand("Vuelo Diario");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton4);
 
         jButton3.setText("Vuelo Base");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton3);
 
         jButton5.setText("Información");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton5);
 
         pack();
@@ -72,6 +88,36 @@ private static GestionCompanyas cInstance;
         // Hace visible la instancia actual de Companya
         cInstance.setVisible(true);      // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+       if (cInstanceVD == null) {
+            // Si no hay, crea una nueva instancia y la guarda en companyaInstance
+            cInstanceVD = new GestionVDiario();
+        }
+
+        // Hace visible la instancia actual de Companya
+        cInstanceVD.setVisible(true);      // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+       if (cInstanceVB == null) {
+            // Si no hay, crea una nueva instancia y la guarda en companyaInstance
+            cInstanceVB = new GestionVBase();
+        }
+
+        // Hace visible la instancia actual de Companya
+        cInstanceVB.setVisible(true);      // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        if (cInstanceInfo == null) {
+            // Si no hay, crea una nueva instancia y la guarda en companyaInstance
+            cInstanceInfo = new Info();
+        }
+
+        // Hace visible la instancia actual de Companya
+        cInstanceInfo.setVisible(true);      // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments

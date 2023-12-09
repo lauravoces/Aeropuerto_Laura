@@ -325,7 +325,7 @@ public class GestionVDiario extends javax.swing.JFrame {
     private void btnGuardarVD2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarVD2ActionPerformed
     VueloDiario vueloDiario = new VueloDiario();
         try {
-            SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
+            SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String horaSR = lblHoraSR.getText();
             String horaLR = lblHoraLR.getText();
@@ -334,7 +334,7 @@ public class GestionVDiario extends javax.swing.JFrame {
             Date horaSRFormateada = formatoHora.parse(horaSR);
             Date horaLRFormateada = formatoHora.parse(horaLR);
            
-            vueloDiario.setCodigoVueloBase(Integer.parseInt(txtCodigoVueloDiario.getText()));
+            vueloDiario.setCodigoVueloBase(txtCodigoVueloDiario.getText());
             vueloDiario.setNumPlazasOcupadas(Integer.parseInt(txtPlazasOcupadas.getText()));
             vueloDiario.setPrecioVuelo(Float.parseFloat(txtPrecioVuelo.getText()));
             vueloDiario.setFechaVuelo(fechaVuelo);
@@ -348,14 +348,14 @@ public class GestionVDiario extends javax.swing.JFrame {
             HashMap<String, VueloDiario> vueloBaseD = obtenerHashMapActual();
 
             // Agregar la nueva instancia al HashMap
-          vueloBaseD.put(Integer.toString(vueloDiario.getCodigoVueloBase()), vueloDiario);
+          vueloBaseD.put(vueloDiario.getCodigoVueloBase(), vueloDiario);
 
 
 
             // Llamar al método para escribir en el archivo CSV
             writeVueloDiarioCSV(PATH_VUELODIARIO, vueloBaseD);
 
-            System.out.println(Integer.toString(vueloDiario.getCodigoVueloBase()) + " " + vueloDiario.getPrecioVuelo() + " " );
+            System.out.println(vueloDiario.getCodigoVueloBase() + " " + vueloDiario.getPrecioVuelo() + " " );
         } catch (ParseException ex) {
             System.out.println(ex.getMessage());
             //Logger.getLogger(GestionVuelosDiarios.class.getName()).log(Level.SEVERE, null, ex);

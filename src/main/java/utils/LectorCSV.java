@@ -94,38 +94,40 @@ public class LectorCSV<T> {
 
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
-    public HashMap<String, VueloDiario> readVueloDiarioCsv() {
-        HashMap<String, VueloDiario> vueloDiarioHashMap = new HashMap<>();
+ public HashMap<String, VueloDiario> readVueloDiarioCsv() {
+    HashMap<String, VueloDiario> vueloDiarioHashMap = new HashMap<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(PATH_VUELODIARIO))) {
-            String linea;
+    try (BufferedReader br = new BufferedReader(new FileReader(PATH_VUELODIARIO))) {
+        String linea;
 
-            while ((linea = br.readLine()) != null) {
-                String[] valores = linea.split(";");
-                if (valores.length == 7) {
-                    try {
-                        Date date = new SimpleDateFormat(DATE_FORMAT).parse(valores[1]);
-                        Date horaSalida = new SimpleDateFormat("HH:mm:ss").parse(valores[3]);
-                        Date horaLlegada = new SimpleDateFormat("HH:mm:ss").parse(valores[4]);
+        while ((linea = br.readLine()) != null) {
+            String[] valores = linea.split(";");
+            if (valores.length == 7) {
+                try {
+                    Date date = new SimpleDateFormat(DATE_FORMAT).parse(valores[1]);
+                    Date horaSalida = new SimpleDateFormat("HH:mm:ss").parse(valores[4]);
+                    Date horaLlegada = new SimpleDateFormat("HH:mm:ss").parse(valores[5]);
 
-                        vueloDiarioHashMap.put(valores[0], new VueloDiario(
-                                Integer.parseInt(valores[0]),
-                                date,
-                                horaSalida,
-                                horaLlegada,
-                                Integer.parseInt(valores[5]),
-                                Float.parseFloat(valores[6])
-                        ));
-                    } catch (ParseException e) {
-                        throw new RuntimeException("Error al parsear la fecha en el archivo de vuelos diarios: " + e.getMessage(), e);
-                    }
+                    VueloDiario vueloDiario = new VueloDiario(
+                            valores[0],
+                            date,
+                            horaSalida,
+                            horaLlegada,
+                            Integer.parseInt(valores[2]),
+                            Float.parseFloat(valores[3])
+                    );
+
+                    vueloDiarioHashMap.put(valores[0], vueloDiario);
+                } catch (ParseException e) {
+                    throw new RuntimeException("Error al parsear la fecha en el archivo de vuelos diarios: " + e.getMessage(), e);
                 }
             }
-        } catch (IOException e) {
-            throw new RuntimeException("Error al leer el archivo de vuelos diarios", e);
         }
-        return vueloDiarioHashMap;
+    } catch (IOException e) {
+        throw new RuntimeException("Error al leer el archivo de vuelos diarios", e);
     }
+    return vueloDiarioHashMap;
+}
    public HashMap<String, VueloBase> readVueloBaseCSV() {
         HashMap<String, VueloBase> vueloBaseHashMap = new HashMap<>();
 

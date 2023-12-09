@@ -11,7 +11,7 @@ import java.util.Date;
  * @author laura
  */
 public class VueloDiario {
-     private int codigoVueloBase;
+     private String codigoVueloBase;
     private Date fechaVuelo;
     private Date horaSalidaReal;
     private Date horaLlegadaReal;
@@ -21,11 +21,11 @@ public class VueloDiario {
     //vueloOirgen y vueloDestino
     private VueloBase vueloBase;
 
-    public int getCodigoVueloBase() {
+    public String getCodigoVueloBase() {
         return codigoVueloBase;
     }
 
-    public void setCodigoVueloBase(int codigoVueloBase) {
+    public void setCodigoVueloBase(String codigoVueloBase) {
         this.codigoVueloBase = codigoVueloBase;
     }
 
@@ -39,11 +39,11 @@ public class VueloDiario {
     
     
     
-    public int getCodigoVueloDiario() {
+    public String getCodigoVueloDiario() {
         return codigoVueloBase;
     }
 
-    public void setCodigoVueloDiario(int codigoVueloDiario) {
+    public void setCodigoVueloDiario(String codigoVueloDiario) {
         this.codigoVueloBase = codigoVueloDiario;
     }
 
@@ -88,7 +88,7 @@ public class VueloDiario {
     }
     
 
-    public VueloDiario(int codigoVueloDiario, Date fechaVuelo, Date horaSalidaReal, Date horaLlegadaReal, int numPlazasOcupadas, float precioVuelo) {
+    public VueloDiario(String codigoVueloDiario, Date fechaVuelo, Date horaSalidaReal, Date horaLlegadaReal, int numPlazasOcupadas, float precioVuelo) {
         this.codigoVueloBase = codigoVueloDiario;
         this.fechaVuelo = fechaVuelo; //va a ser solo la fecha
         this.horaSalidaReal = horaSalidaReal; //va a ser solo la hora
@@ -97,7 +97,7 @@ public class VueloDiario {
         this.precioVuelo = precioVuelo;
     }
 
-    public VueloDiario(int codigoVueloBase, Date fechaVuelo, Date horaSalidaReal, Date horaLlegadaReal, int numPlazasOcupadas, float precioVuelo, VueloBase vueloBase) {
+    public VueloDiario(String codigoVueloBase, Date fechaVuelo, Date horaSalidaReal, Date horaLlegadaReal, int numPlazasOcupadas, float precioVuelo, VueloBase vueloBase) {
         this.codigoVueloBase = codigoVueloBase;
         this.fechaVuelo = fechaVuelo;
         this.horaSalidaReal = horaSalidaReal;
