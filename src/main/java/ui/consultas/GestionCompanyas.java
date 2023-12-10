@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package ui;
+package ui.consultas;
 
 import dto.CompanyaAerea;
 
@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
+import ui.panelAyuda;
 
 import static utils.CSV.BorrarLineasCSV.borrarLineaCSV;
 import static utils.CSV.CrearCSV.writeCompanyaCSV;

@@ -5,9 +5,11 @@
 package app;
 
 import static app.Inicializaciones.lstMunicipio;
+import dto.Municipio;
 import dto.VueloDiario;
 import java.time.LocalDate;
 import java.util.List;
+import logica.Logica;
 
 /**
  *
@@ -15,7 +17,15 @@ import java.util.List;
  */
 public class maintest {
  public static void main(String[] args) {
-       System.out.println("Lista de Municipios: " + lstMunicipio);
+Logica logica = new Logica();
+
+        // Llama al método getAllMunicipios
+        List<Municipio> municipios = logica.getAllMunicipios();
+
+        // Ahora puedes imprimir los municipios para verificar el resultado
+        for (Municipio municipio : municipios) {
+            System.out.println("Código: " + municipio.getCodigo() + ", Nombre: " + municipio.getNombreMunicipio());
+        }
     }
     
   

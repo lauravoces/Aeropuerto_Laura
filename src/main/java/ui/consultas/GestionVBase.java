@@ -2,10 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package ui;
+package ui.consultas;
 
+import dto.Municipio;
 import dto.VueloBase;
 import dto.VueloDiario;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -21,6 +24,7 @@ import static utils.CSV.CrearCSV.writeCompanyaCSV;
 import static utils.CSV.CrearCSV.writeVueloBaseCSV;
 import utils.Validaciones;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import logica.Logica;
@@ -34,7 +38,7 @@ import static utils.CSV.ModificarCSV.modificarLineaCSV;
 public class GestionVBase extends javax.swing.JFrame {
 
     private HashMap<String, VueloBase> vueloBaseHashMap = new HashMap<>();
-
+    private Logica logicaNegocio=new Logica();
     /**
      * Creates new form GestionVBase
      */
@@ -43,25 +47,56 @@ public class GestionVBase extends javax.swing.JFrame {
         initComponents();
         llenarHorasComboBox();
         llenarMinutosComboBox();
+        llenarMunicipiosComboBox();
         jLabel9.setVisible(false);
-        txtCodigoVueloBase.getDocument().addDocumentListener(new DocumentListener() {
-    @Override
-    public void insertUpdate(DocumentEvent e) {
-        validarCodigoCompania();
-    }
+       
+  // DocumentListener para txtCodigoVueloBase
+        addTextFieldValidation(txtCodigoVueloBase, this::validarCodigoCompania);
 
-    @Override
-    public void removeUpdate(DocumentEvent e) {
-        validarCodigoCompania();
-    }
-
-    @Override
-    public void changedUpdate(DocumentEvent e) {
-        validarCodigoCompania();
-    }
-});
+        // DocumentListener para txtDiasOpera
+        addTextFieldValidation(txtDiasOpera, this::validarDiasOpera);
 
     }
+        private void addTextFieldValidation(JTextField textField, Runnable validationMethod) {
+        textField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validationMethod.run();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validationMethod.run();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                validationMethod.run();
+            }
+        });
+    }
+    
+private void cbxCodMunicipioActionPerformed(java.awt.event.ActionEvent evt) {
+    // Get the selected municipality code from the combo box
+    String selectedCodigo = (String) cbxCodMunicipio.getSelectedItem();
+
+    // Find the corresponding Municipio object
+    Municipio selectedMunicipio = Logica.getMunicipioByCodigo(selectedCodigo);
+
+    // Update txtCodMunicipio with the municipality name
+    txtCodMunicipio.setText(selectedMunicipio.getNombreMunicipio());
+}
+
+private void validarDiasOpera(){
+    String dias= txtDiasOpera.getText();
+    if( !Validaciones.sonDiasOperativosValidos(dias)){
+        jLabel9.setVisible(true);
+        jLabel9.setText("Solo vale LMXJVSD");
+    }else {
+        
+        // Limpiar el mensaje de error si la validación es exitosa
+        jLabel9.setText("");
+    }}
 private void validarCodigoCompania() {
     String codigoCompania = txtCodigoVueloBase.getText();
 //RESTRICCIONES
@@ -79,6 +114,33 @@ private void validarCodigoCompania() {
     }
 }
 //FINDERESTRICCIONES
+private void llenarMunicipiosComboBox() {
+    // Assuming that getAllMunicipios() returns a List<Municipio>
+    List<Municipio> municipios = Logica.getAllMunicipios();
+
+    // Clear the existing items in the combo box
+    cbxCodMunicipio.removeAllItems();
+
+    // Populate the combo box with municipality names
+    for (Municipio municipio : municipios) {
+        cbxCodMunicipio.addItem(municipio.getNombreMunicipio());
+    }
+
+    // Add a listener to the combo box to update txtCodMunicipio when an item is selected
+    cbxCodMunicipio.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Get the selected item (municipality name)
+            String selectedNombre = (String) cbxCodMunicipio.getSelectedItem();
+
+            // Use Logica method to get the corresponding municipality code
+            String municipioCodigo = Logica.getCodigoByNombre(selectedNombre);
+
+            // Set the municipality code in txtCodMunicipio text field
+            txtCodMunicipio.setText(municipioCodigo);
+        }
+    });
+}
     private void llenarHorasComboBox() {
         cbxHOSh.addItem("00");
         for (int i = 1; i < 24; i++) {
@@ -109,7 +171,7 @@ private void validarCodigoCompania() {
 
         txtCodigoVueloBase = new javax.swing.JTextField();
         txtAeropuertoOrigen = new javax.swing.JTextField();
-        txtAeropuertoDestino = new javax.swing.JTextField();
+        txtIATA = new javax.swing.JTextField();
         txtPlazas = new javax.swing.JTextField();
         cbxHOSh = new javax.swing.JComboBox<>();
         cbxHOSm = new javax.swing.JComboBox<>();
@@ -132,6 +194,11 @@ private void validarCodigoCompania() {
         btnModificar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
+        cbxCodMunicipio = new javax.swing.JComboBox<>();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        txtNombredelAeropuerto = new javax.swing.JTextField();
+        txtCodMunicipio = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -233,6 +300,20 @@ private void validarCodigoCompania() {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel9.setText("jLabel9");
 
+        cbxCodMunicipio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel11.setText("IATA: ");
+
+        jLabel12.setText("Nombre");
+
+        txtNombredelAeropuerto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombredelAeropuertoActionPerformed(evt);
+            }
+        });
+
+        txtCodMunicipio.setText("*");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -250,36 +331,54 @@ private void validarCodigoCompania() {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnModificar)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnGuardarVB))
-                            .addComponent(txtDiasOpera, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
-                            .addComponent(txtPlazas, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtAeropuertoDestino, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtAeropuertoOrigen, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCodigoVueloBase, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(cbxHOLh, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbxHOSh, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cbxHOSm, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbxHOLm, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jButton2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                                        .addComponent(btnModificar)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnGuardarVB))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(cbxHOLh, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(cbxHOSh, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(cbxHOSm, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(cbxHOLm, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(lblHOL, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblHOS, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lblHOL, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblHOS, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                        .addComponent(jButton3)))
+                                .addComponent(jButton3))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtDiasOpera, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtPlazas, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtCodigoVueloBase, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtAeropuertoOrigen, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel11)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtIATA, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel12)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtNombredelAeropuerto, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtCodMunicipio)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cbxCodMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 92, Short.MAX_VALUE)))
+                        .addGap(38, 38, 38)))
                 .addGap(19, 19, 19))
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
@@ -289,14 +388,11 @@ private void validarCodigoCompania() {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jButton4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(jLabel8)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCodigoVueloBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -306,8 +402,13 @@ private void validarCodigoCompania() {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtAeropuertoDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(txtIATA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel12)
+                    .addComponent(txtNombredelAeropuerto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCodMunicipio)
+                    .addComponent(cbxCodMunicipio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPlazas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -382,7 +483,8 @@ private void validarCodigoCompania() {
         LocalTime horaLRFormateada = LocalTime.parse(horaLR, formatoHora);
         vueloBase.setCodigoVuelo(txtCodigoVueloBase.getText());
         vueloBase.setcodigoAeropuertoOrigen(txtAeropuertoOrigen.getText());
-        vueloBase.setAeropuertoDestino(txtAeropuertoDestino.getText());
+        
+        vueloBase.setAeropuertoDestino(txtIATA.getText()+txtNombredelAeropuerto.getText()+txtCodMunicipio.getText());
         vueloBase.setNumPlazas(Integer.parseInt(txtPlazas.getText()));
         // Validate if the provided days of operation are correct
         vueloBase.setDiasOpera(txtDiasOpera.getText());
@@ -421,7 +523,7 @@ private void validarCodigoCompania() {
             Time timehoraLR = new Time(horaLRFormateada.getTime());
             String nuevocod = txtCodigoVueloBase.getText();//codigo a modificar
             String nuevoAeO = txtAeropuertoOrigen.getText();
-            String nuevoAeD = txtAeropuertoDestino.getText();
+            String nuevoAeD = txtIATA.getText();
             String nuevasPlazas = txtPlazas.getText();
             String nuevosDias = txtDiasOpera.getText();
        
@@ -444,6 +546,10 @@ private void validarCodigoCompania() {
     
     
     }//GEN-LAST:event_txtCodigoVueloBaseActionPerformed
+
+    private void txtNombredelAeropuertoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombredelAeropuertoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombredelAeropuertoActionPerformed
     private void actualizarLabel(javax.swing.JLabel label, javax.swing.JComboBox<String> cbxHoras, javax.swing.JComboBox<String> cbxMinutos) {
         String horas = cbxHoras.getSelectedItem() != null ? cbxHoras.getSelectedItem().toString() : "00";
         String minutos = cbxMinutos.getSelectedItem() != null ? cbxMinutos.getSelectedItem().toString() : "00";
@@ -488,6 +594,7 @@ private void validarCodigoCompania() {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardarVB;
     private javax.swing.JButton btnModificar;
+    private javax.swing.JComboBox<String> cbxCodMunicipio;
     private javax.swing.JComboBox<String> cbxHOLh;
     private javax.swing.JComboBox<String> cbxHOLm;
     private javax.swing.JComboBox<String> cbxHOSh;
@@ -496,6 +603,8 @@ private void validarCodigoCompania() {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -506,10 +615,12 @@ private void validarCodigoCompania() {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel lblHOL;
     private javax.swing.JLabel lblHOS;
-    private javax.swing.JTextField txtAeropuertoDestino;
     private javax.swing.JTextField txtAeropuertoOrigen;
+    private javax.swing.JLabel txtCodMunicipio;
     private javax.swing.JTextField txtCodigoVueloBase;
     private javax.swing.JTextField txtDiasOpera;
+    private javax.swing.JTextField txtIATA;
+    private javax.swing.JTextField txtNombredelAeropuerto;
     private javax.swing.JTextField txtPlazas;
     // End of variables declaration//GEN-END:variables
 }

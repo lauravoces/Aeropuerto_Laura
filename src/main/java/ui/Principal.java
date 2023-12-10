@@ -4,6 +4,10 @@
  */
 package ui;
 
+import ui.consultas.GestionCompanyas;
+import ui.consultas.GestionVBase;
+import ui.consultas.GestionVDiario;
+
 /**
  *
  * @author laura

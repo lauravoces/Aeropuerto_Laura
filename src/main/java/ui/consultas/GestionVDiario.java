@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package ui;
+package ui.consultas;
 
 import dto.VueloDiario;
 import java.awt.event.KeyEvent;
@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import ui.panelAyuda;
 import static utils.Archivos.PATH_VUELODIARIO;
 import static utils.CSV.CrearCSV.writeVueloDiarioCSV;
 

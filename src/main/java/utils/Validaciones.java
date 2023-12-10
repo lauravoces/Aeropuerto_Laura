@@ -35,7 +35,7 @@ public class Validaciones {
         return codMunicipio.matches("[0-9]{5}");
     }
 
-    public boolean sonDiasOperativosValidos(String dias) {
+    public static boolean sonDiasOperativosValidos(String dias) {
         return dias != null && dias.length() <= 7 && dias.matches("[LMXJVSD]?");
     }
 
@@ -44,6 +44,8 @@ public class Validaciones {
         String diaSemana = formatoFecha.format(fecha).toUpperCase();
         return diasOperativos.contains(diaSemana);
         }
+    
+    //esto era otra positibilidad pero no permite concat
       public static boolean esDiaSemanaValido(String dia) {
         switch (dia) {
             case Semana.MONDAY:
