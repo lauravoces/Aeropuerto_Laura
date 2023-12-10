@@ -332,4 +332,27 @@ public class Logica {
 
         return null;
     }
+    
+    public static String getCodigoAeropuerto(String nombre){
+         List<Aeropuerto> aeri = getAllAeropuertos();
+
+        for (Aeropuerto a : aeri) {
+            if (a.getNombre().equals(nombre)) {
+                return a.getCodigoIATA();
+            }
+        }
+
+        return null;
+    }
+    public static String getMuniAeropuerto(String nombre){
+         List<Aeropuerto> aeri = getAllAeropuertos();
+
+        for (Aeropuerto a : aeri) {
+            if (a.getNombre().equals(nombre)) {
+                return a.getCodigoMunicipio();
+            }
+        }
+
+        return null;
+    }
 }
