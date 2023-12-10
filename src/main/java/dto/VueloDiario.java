@@ -4,6 +4,9 @@
  */
 package dto;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 /**
@@ -12,18 +15,16 @@ import java.util.Date;
  */
 public class VueloDiario {
      private String codigoVueloBase;
-    private Date fechaVuelo;
-    private Date horaSalidaReal;
-    private Date horaLlegadaReal;
+    private LocalDate fechaVuelo;
+    private LocalTime horaSalidaReal;
+    private LocalTime horaLlegadaReal;
     private int numPlazasOcupadas;
     private float precioVuelo;
     //esto solo es para quine quiera, mismo funcionamiento que en 
     //vueloOirgen y vueloDestino
     private VueloBase vueloBase;
 
-    public VueloDiario(String codigoVuelo, Date fecha, int numPlazas, float precio) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
 
     public String getCodigoVueloBase() {
         return codigoVueloBase;
@@ -51,27 +52,27 @@ public class VueloDiario {
         this.codigoVueloBase = codigoVueloDiario;
     }
 
-    public Date getFechaVuelo() {
+    public LocalDate getFechaVuelo() {
         return fechaVuelo;
     }
 
-    public void setFechaVuelo(Date fechaVuelo) {
+    public void setFechaVuelo(LocalDate fechaVuelo) {
         this.fechaVuelo = fechaVuelo;
     }
 
-    public Date getHoraSalidaReal() {
+    public LocalTime getHoraSalidaReal() {
         return horaSalidaReal;
     }
 
-    public void setHoraSalidaReal(Date horaSalidaReal) {
+    public void setHoraSalidaReal(LocalTime horaSalidaReal) {
         this.horaSalidaReal = horaSalidaReal;
     }
 
-    public Date getHoraLlegadaReal() {
+    public LocalTime getHoraLlegadaReal() {
         return horaLlegadaReal;
     }
 
-    public void setHoraLlegadaReal(Date horaLlegadaReal) {
+    public void setHoraLlegadaReal(LocalTime horaLlegadaReal) {
         this.horaLlegadaReal = horaLlegadaReal;
     }
 
@@ -92,25 +93,37 @@ public class VueloDiario {
     }
     
 
-    public VueloDiario(String codigoVueloDiario, Date fechaVuelo, Date horaSalidaReal, Date horaLlegadaReal, int numPlazasOcupadas, float precioVuelo) {
-        this.codigoVueloBase = codigoVueloDiario;
-        this.fechaVuelo = fechaVuelo; //va a ser solo la fecha
-        this.horaSalidaReal = horaSalidaReal; //va a ser solo la hora
-        this.horaLlegadaReal = horaLlegadaReal; //va a ser solo la hora
-        this.numPlazasOcupadas = numPlazasOcupadas;
-        this.precioVuelo = precioVuelo;
+ 
+    public VueloDiario(String codigoVuelo, LocalDate fecha, int numPlazas, float precio, LocalTime horaSalida, LocalTime horaLlegada) {
+        this.codigoVueloBase = codigoVuelo;
+         this.fechaVuelo = fecha;
+   
+          this.numPlazasOcupadas = numPlazas;
+         this.precioVuelo = precio;
+        this.horaSalidaReal = horaSalida;
+         this.horaLlegadaReal = horaLlegada;
     }
-
-    public VueloDiario(String codigoVueloBase, Date fechaVuelo, int numPlazasOcupadas,  float precioVuelo, Date horaSalidaReal, Date horaLlegadaReal) {
-        this.codigoVueloBase = codigoVueloBase;
-        this.fechaVuelo = fechaVuelo;
-        this.horaSalidaReal = horaSalidaReal;
-        this.horaLlegadaReal = horaLlegadaReal;
-        this.numPlazasOcupadas = numPlazasOcupadas;
-        this.precioVuelo = precioVuelo;
-       
-    }
-    
     
     public VueloDiario(){};
+    
+     // Método para obtener la hora de salida formateada
+    public String getHoraSalidaFormatted() {
+        if (horaSalidaReal != null) {
+            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+            return formatter.format(horaSalidaReal);
+        } else {
+            return "";
+        }
+    }
+
+    // Método para obtener la hora de llegada formateada
+    public String getHoraLlegadaFormatted() {
+        if (horaLlegadaReal != null) {
+            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+            return formatter.format(horaLlegadaReal);
+        } else {
+            return "";
+        }
+    }
+     
 }

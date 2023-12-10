@@ -4,6 +4,7 @@
  */
 package dto;
 
+import java.time.LocalTime;
 import java.util.Date;
 
 /**
@@ -15,8 +16,8 @@ public class VueloBase {
     private String codigoAeropuertoOrigen;
     private String codigoAeropuertoDestino;
     private int numPlazas;
-    private Date horaOficialSalida;
-    private Date horaOficialLlegada;
+    private LocalTime horaOficialSalida;
+    private LocalTime horaOficialLlegada;
     private String diasOpera;
     private Aeropuerto aeropuertoOrigen;
     private Aeropuerto aeropuertoDestino;
@@ -60,19 +61,19 @@ public class VueloBase {
         this.numPlazas = numPlazas;
     }
 
-    public Date getHoraOficialSalida() {
+    public LocalTime getHoraOficialSalida() {
         return horaOficialSalida;
     }
 
-    public void setHoraOficialSalida(Date horaOficialSalida) {
+    public void setHoraOficialSalida(LocalTime horaOficialSalida) {
         this.horaOficialSalida = horaOficialSalida;
     }
 
-    public Date getHoraOficialLlegada() {
+    public LocalTime getHoraOficialLlegada() {
         return horaOficialLlegada;
     }
 
-    public void setHoraOficialLlegada(Date horaOficialLlegada) {
+    public void setHoraOficialLlegada(LocalTime horaOficialLlegada) {
         this.horaOficialLlegada = horaOficialLlegada;
     }
 
@@ -84,7 +85,7 @@ public class VueloBase {
         this.diasOpera = diasOpera;
     }
 
-    public VueloBase(String codigoVuelo, String aeropuertoOrigen, String aeropuertoDestino, int numPlazas, Date horaOficialSalida, Date horaOficialLlegada, String diasOpera) {
+    public VueloBase(String codigoVuelo, String aeropuertoOrigen, String aeropuertoDestino, int numPlazas, LocalTime horaOficialSalida, LocalTime horaOficialLlegada, String diasOpera) {
         this.codigoVuelo = codigoVuelo;
         this.codigoAeropuertoOrigen = aeropuertoOrigen;
         this.codigoAeropuertoDestino = aeropuertoDestino;

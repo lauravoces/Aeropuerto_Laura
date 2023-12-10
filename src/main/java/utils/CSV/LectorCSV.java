@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package utils;
+package utils.CSV;
 
 import dto.Aeropuerto;
 import dto.CompanyaAerea;
@@ -94,7 +94,7 @@ public class LectorCSV<T> {
 
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
- public HashMap<String, VueloDiario> readVueloDiarioCsv() {
+    public HashMap<String, VueloDiario> readVueloDiarioCsv() {
     HashMap<String, VueloDiario> vueloDiarioHashMap = new HashMap<>();
 
     try {
@@ -102,29 +102,23 @@ public class LectorCSV<T> {
 
         for (String line : lines) {
             String[] fields = line.split(";");
-  if (fields.length == 6) {
-     
-    String codigoVuelo = fields[0];
-    String fechaStr = fields[1];
-    int numPlazas = Integer.parseInt(fields[2]);  
-    float precio = Float.parseFloat(fields[3]);
-    String horaSalidaStr = fields[4];
-    String horaLlegadaStr = fields[5];
+            if (fields.length == 6) {
+                String codigoVuelo = fields[0];
+                String fechaStr = fields[1];
+                int numPlazas = Integer.parseInt(fields[2]);
+                float precio = Float.parseFloat(fields[3]);
+                String horaSalidaStr = fields[4];
+                String horaLlegadaStr = fields[5];
 
-    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-     SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-    Date horaSalida;
-    Date horaLlegada;
- Date fecha;
-    try {
-        horaSalida = timeFormat.parse(horaSalidaStr);
-        horaLlegada = timeFormat.parse(horaLlegadaStr);
-          fecha = dateFormat.parse(fechaStr);
-    } catch (ParseException e) {
-        throw new RuntimeException("Error al parsear la hora en el archivo de vuelos diarios: " + e.getMessage(), e);
-    }
+                DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
 
-         
+                // Convierte la fecha
+                LocalDate fecha = LocalDate.parse(fechaStr, dateFormat);
+
+                // Convierte las horas
+                LocalTime horaSalida = LocalTime.parse(horaSalidaStr, timeFormat);
+                LocalTime horaLlegada = LocalTime.parse(horaLlegadaStr, timeFormat);
 
                 VueloDiario vueloDiario = new VueloDiario(
                         codigoVuelo,
@@ -132,7 +126,7 @@ public class LectorCSV<T> {
                         numPlazas,
                         precio,
                         horaSalida,
-                       horaLlegada
+                        horaLlegada
                 );
 
                 vueloDiarioHashMap.put(codigoVuelo, vueloDiario);
@@ -148,41 +142,43 @@ public class LectorCSV<T> {
     return vueloDiarioHashMap;
 }
 
-   public HashMap<String, VueloBase> readVueloBaseCSV() {
-        HashMap<String, VueloBase> vueloBaseHashMap = new HashMap<>();
 
-        try {
-            List<String> lineas = Files.readAllLines(Path.of(PATH_VUELOSBASE));
+  public HashMap<String, VueloBase> readVueloBaseCSV() {
+    HashMap<String, VueloBase> vueloBaseHashMap = new HashMap<>();
 
-            for (String linea : lineas) {
-                String[] campos = linea.split(";");
-                if (campos.length == 7) {
-                    String codigoVuelo = campos[0];
-                    String aeropuertoOrigen = campos[1];
-                    String aeropuertoDestino = campos[2];
-                    int numPlazas = Integer.parseInt(campos[3]);
-                    String horaSalidaStr = campos[4];
-                    String horaLlegadaStr = campos[5];
-                    String diasOpera = campos[6];
+    try {
+        List<String> lineas = Files.readAllLines(Path.of(PATH_VUELOSBASE));
 
-                    SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
-                    Date horaSalida = formatoHora.parse(horaSalidaStr);
-                    Date horaLlegada = formatoHora.parse(horaLlegadaStr);
+        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
 
-                    VueloBase vueloBase = new VueloBase(codigoVuelo, aeropuertoOrigen, aeropuertoDestino,
-                            numPlazas, horaSalida, horaLlegada, diasOpera);
+        for (String linea : lineas) {
+            String[] campos = linea.split(";");
+            if (campos.length == 7) {
+                String codigoVuelo = campos[0];
+                String aeropuertoOrigen = campos[1];
+                String aeropuertoDestino = campos[2];
+                int numPlazas = Integer.parseInt(campos[3]);
+                String horaSalidaStr = campos[4];
+                String horaLlegadaStr = campos[5];
+                String diasOpera = campos[6];
 
-                    vueloBaseHashMap.put(codigoVuelo, vueloBase);
-                } else {
-                    // Manejar el formato incorrecto de la línea del CSV
-                    System.out.println("Formato incorrecto en línea del CSV: " + linea);
-                }
+                LocalTime horaSalida = LocalTime.parse(horaSalidaStr, formatoHora);
+                LocalTime horaLlegada = LocalTime.parse(horaLlegadaStr, formatoHora);
+
+                VueloBase vueloBase = new VueloBase(codigoVuelo, aeropuertoOrigen, aeropuertoDestino,
+                        numPlazas, horaSalida, horaLlegada, diasOpera);
+
+                vueloBaseHashMap.put(codigoVuelo, vueloBase);
+            } else {
+                // Manejar el formato incorrecto de la línea del CSV
+                System.out.println("Formato incorrecto en línea del CSV: " + linea);
             }
-        } catch (IOException | ParseException e) {
-            throw new RuntimeException("Error al leer el archivo CSV de vuelos base", e);
         }
-
-        return vueloBaseHashMap;
+    } catch (IOException e) {
+        throw new RuntimeException("Error al leer el archivo CSV de vuelos base", e);
     }
+
+    return vueloBaseHashMap;
+}
 
 }

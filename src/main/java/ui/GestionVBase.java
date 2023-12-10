@@ -10,20 +10,22 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.JOptionPane;
 import static utils.Archivos.PATH_VUELOSBASE;
-import static utils.CrearCSV.writeCompanyaCSV;
-import static utils.CrearCSV.writeVueloBaseCSV;
+import static utils.CSV.CrearCSV.writeCompanyaCSV;
+import static utils.CSV.CrearCSV.writeVueloBaseCSV;
 import utils.Validaciones;
 import javax.swing.JLabel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import logica.Logica;
-import static utils.BorrarLineasCSV.borrarLineaCSV;
-import static utils.ModificarCSV.modificarLineaCSV;
+import static utils.CSV.BorrarLineasCSV.borrarLineaCSV;
+import static utils.CSV.ModificarCSV.modificarLineaCSV;
 
 /**
  *
@@ -62,7 +64,7 @@ public class GestionVBase extends javax.swing.JFrame {
     }
 private void validarCodigoCompania() {
     String codigoCompania = txtCodigoVueloBase.getText();
-
+//RESTRICCIONES
     if (!Validaciones.esCodigoCompaniaValido(codigoCompania)) {
         // Mostrar un mensaje de error o cambiar el color del texto, etc.
         // Ejemplo de mensaje de error:
@@ -76,6 +78,7 @@ private void validarCodigoCompania() {
         jLabel9.setText("");
     }
 }
+//FINDERESTRICCIONES
     private void llenarHorasComboBox() {
         cbxHOSh.addItem("00");
         for (int i = 1; i < 24; i++) {
@@ -366,54 +369,32 @@ private void validarCodigoCompania() {
     private void btnGuardarVBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarVBActionPerformed
         VueloBase vueloBase = new VueloBase();
 
-    try {
-        SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
+        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm"); //Logger.getLogger(GestionVuelosDiarios.class.getName()).log(Level.SEVERE, null, ex);
         // Get selected hours and minutes from combo boxes
         String horaSH = cbxHOSh.getSelectedItem().toString();
         String minutoSH = cbxHOSm.getSelectedItem().toString();
         String horaLH = cbxHOLh.getSelectedItem().toString();
         String minutoLH = cbxHOLm.getSelectedItem().toString();
-
         // Concatenate hours and minutes to form the time strings
         String horaSR = horaSH + ":" + minutoSH;
         String horaLR = horaLH + ":" + minutoLH;
-
-        Date horaSRFormateada = formatoHora.parse(horaSR);
-        Date horaLRFormateada = formatoHora.parse(horaLR);
-        Time timehoraSR = new Time(horaSRFormateada.getTime());
-        Time timehoraLR = new Time(horaLRFormateada.getTime());
-
+        LocalTime horaSRFormateada = LocalTime.parse(horaSR, formatoHora);
+        LocalTime horaLRFormateada = LocalTime.parse(horaLR, formatoHora);
         vueloBase.setCodigoVuelo(txtCodigoVueloBase.getText());
         vueloBase.setcodigoAeropuertoOrigen(txtAeropuertoOrigen.getText());
         vueloBase.setAeropuertoDestino(txtAeropuertoDestino.getText());
         vueloBase.setNumPlazas(Integer.parseInt(txtPlazas.getText()));
-
-     
-
         // Validate if the provided days of operation are correct
-       
-            vueloBase.setDiasOpera(txtDiasOpera.getText());
-       
-
-        vueloBase.setHoraOficialSalida(timehoraSR);
-        vueloBase.setHoraOficialLlegada(timehoraLR);
-
+        vueloBase.setDiasOpera(txtDiasOpera.getText());
+        vueloBase.setHoraOficialSalida(horaSRFormateada);
+        vueloBase.setHoraOficialLlegada(horaLRFormateada);
         // Obtener el HashMap actual de CompanyaAerea
         HashMap<String, VueloBase> vueloBaseI = obtenerHashMapActual();
-
         // Agregar la nueva instancia al HashMap
         vueloBaseI.put(vueloBase.getCodigoVuelo(), vueloBase);
-
         // Llamar al método para escribir en el archivo CSV
         writeVueloBaseCSV(PATH_VUELOSBASE, vueloBaseI);
-
         System.out.println(vueloBase.getCodigoVuelo() + " " + vueloBase.getNumPlazas() + " " + vueloBase.getDiasOpera());
-    } catch (ParseException ex) {
-        System.out.println(ex.getMessage());
-        //Logger.getLogger(GestionVuelosDiarios.class.getName()).log(Level.SEVERE, null, ex);
-    }
     }//GEN-LAST:event_btnGuardarVBActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

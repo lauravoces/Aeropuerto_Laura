@@ -11,12 +11,15 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import static utils.Archivos.PATH_VUELODIARIO;
-import static utils.CrearCSV.writeVueloDiarioCSV;
+import static utils.CSV.CrearCSV.writeVueloDiarioCSV;
 
 /**
  *
@@ -192,6 +195,12 @@ public class GestionVDiario extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jLabel2.setText("Fecha de vuelo:");
 
+        txtCodigoVueloDiario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoVueloDiarioActionPerformed(evt);
+            }
+        });
+
         jLabel1.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jLabel1.setText("Código:");
 
@@ -324,44 +333,26 @@ public class GestionVDiario extends javax.swing.JFrame {
     }
     private void btnGuardarVD2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarVD2ActionPerformed
     VueloDiario vueloDiario = new VueloDiario();
-        try {
-            SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String horaSR = lblHoraSR.getText();
-            String horaLR = lblHoraLR.getText();
-            
-            Date fechaVuelo = dateFormat.parse(txtFechaVueloDiario.getText());
-            Date horaSRFormateada = formatoHora.parse(horaSR);
-            Date horaLRFormateada = formatoHora.parse(horaLR);
-           Time timehoraSR = new Time(horaSRFormateada.getTime());
-            Time timehoraLR = new Time(horaLRFormateada.getTime());
-            vueloDiario.setCodigoVueloBase(txtCodigoVueloDiario.getText());
-            vueloDiario.setNumPlazasOcupadas(Integer.parseInt(txtPlazasOcupadas.getText()));
-            vueloDiario.setPrecioVuelo(Float.parseFloat(txtPrecioVuelo.getText()));
-            vueloDiario.setFechaVuelo(fechaVuelo);
-            
-            
-           // Using java.sql.Time to store time values
-            
-             vueloDiario.setHoraSalidaReal(timehoraSR);
-             vueloDiario.setHoraLlegadaReal(timehoraLR);
-            
-              // Obtener el HashMap actual de CompanyaAerea
-            HashMap<String, VueloDiario> vueloBaseD = obtenerHashMapActual();
-
-            // Agregar la nueva instancia al HashMap
-          vueloBaseD.put(vueloDiario.getCodigoVueloBase(), vueloDiario);
-
-
-
-            // Llamar al método para escribir en el archivo CSV
-            writeVueloDiarioCSV(PATH_VUELODIARIO, vueloBaseD);
-
-            System.out.println(vueloDiario.getCodigoVueloBase() + " " + vueloDiario.getPrecioVuelo() + " " );
-        } catch (ParseException ex) {
-            System.out.println(ex.getMessage());
-            //Logger.getLogger(GestionVuelosDiarios.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm"); //Logger.getLogger(GestionVuelosDiarios.class.getName()).log(Level.SEVERE, null, ex);
+    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    String horaSR = lblHoraSR.getText();
+    String horaLR = lblHoraLR.getText();
+    LocalDate fechaVuelo = LocalDate.parse(txtFechaVueloDiario.getText(), dateFormat);
+    LocalTime horaSRFormateada = LocalTime.parse(horaSR, formatoHora);
+    LocalTime horaLRFormateada = LocalTime.parse(horaLR, formatoHora);
+    vueloDiario.setCodigoVueloBase(txtCodigoVueloDiario.getText());
+    vueloDiario.setNumPlazasOcupadas(Integer.parseInt(txtPlazasOcupadas.getText()));
+    vueloDiario.setPrecioVuelo(Float.parseFloat(txtPrecioVuelo.getText()));
+    vueloDiario.setFechaVuelo(fechaVuelo);
+    vueloDiario.setHoraSalidaReal(horaSRFormateada);
+    vueloDiario.setHoraLlegadaReal(horaLRFormateada);
+    // Obtener el HashMap actual de VueloDiario
+    HashMap<String, VueloDiario> vueloDiarioMap = obtenerHashMapActual();
+    // Agregar la nueva instancia al HashMap
+    vueloDiarioMap.put(vueloDiario.getCodigoVueloBase(), vueloDiario);
+    // Llamar al método para escribir en el archivo CSV
+    writeVueloDiarioCSV(PATH_VUELODIARIO, vueloDiarioMap);
+    System.out.println(vueloDiario.getCodigoVueloBase() + " " + vueloDiario.getPrecioVuelo() + " ");
         
         
         
@@ -421,6 +412,10 @@ public class GestionVDiario extends javax.swing.JFrame {
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void txtCodigoVueloDiarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoVueloDiarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoVueloDiarioActionPerformed
  private void mostrarPanelEnVentana(JPanel panel, String titulo) {
         // Crear una nueva ventana (JFrame) para representar el JPanel
         JFrame ventanaPanel = new JFrame(titulo);

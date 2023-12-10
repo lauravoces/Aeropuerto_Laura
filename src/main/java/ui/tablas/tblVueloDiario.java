@@ -4,6 +4,7 @@
  */
 package ui.tablas;
 
+import ui.models.VueloDiarioTableModel;
 import logica.Logica;
 
 /**

@@ -4,6 +4,7 @@
  */
 package ui.tablas;
 
+import ui.models.CompanyasTableModel;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.RowFilter;

@@ -15,7 +15,7 @@ public class AEMET_API {
      private static final String URL_AEMET = "https://opendata.aemet.es/opendata/api/prediccion/especifica/municipio/diaria/{municipio}";
 
        public static Temperaturas getTemperaturas(String aeropuertoCodigo, String codigoMunicipio) {
-        try {
+         try {
             String apiUrl = URL_AEMET.replace("{municipio}", codigoMunicipio);
 
             HttpResponse<JsonNode> jsonResponse = Unirest.get(apiUrl)
@@ -45,7 +45,7 @@ public class AEMET_API {
             System.out.println("Error en la solicitud: " + e.getMessage());
             return null;
         }
+        }
     }
     
 
-}

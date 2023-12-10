@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package utils;
+package utils.CSV;
 
 import dto.Aeropuerto;
 import dto.CompanyaAerea;
@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -72,6 +73,8 @@ public static void writeVueloBaseCSV(String ruta, HashMap<String, VueloBase> vue
             Files.createFile(Path.of(ruta));
         }
 
+        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+
         // Open the file once before the loop
         try (BufferedWriter writer = Files.newBufferedWriter(Path.of(ruta), StandardOpenOption.APPEND)) {
             int totalVuelos = vueloBaseHashMap.size();
@@ -79,45 +82,46 @@ public static void writeVueloBaseCSV(String ruta, HashMap<String, VueloBase> vue
 
             for (HashMap.Entry<String, VueloBase> entry : vueloBaseHashMap.entrySet()) {
                 VueloBase vueloBase = entry.getValue();
-                String horaSalidaStr = new SimpleDateFormat("HH:mm").format(vueloBase.getHoraOficialSalida());
-                String horaLlegadaStr = new SimpleDateFormat("HH:mm").format(vueloBase.getHoraOficialLlegada());
+                String horaSalidaStr = vueloBase.getHoraOficialSalida().format(formatoHora);
+                String horaLlegadaStr = vueloBase.getHoraOficialLlegada().format(formatoHora);
 
                 String linea = String.format("%s;%s;%s;%d;%s;%s;%s%s\n",
                         vueloBase.getCodigoVuelo(), vueloBase.getAeropuertoOrigen(),
                         vueloBase.getAeropuertoDestino(), vueloBase.getNumPlazas(), horaSalidaStr,
                         horaLlegadaStr, vueloBase.getDiasOpera(),
                         (vueloCounter++ < totalVuelos - 1) ? "\n" : "");
-      
+
                 writer.write(linea);
-               
             }
         }
     } catch (IOException e) {
         throw new RuntimeException("Error al escribir en el archivo CSV de vuelos base", e);
     }
 }
-    
+
 public static void writeVueloDiarioCSV(String ruta, HashMap<String, VueloDiario> vueloDiarioHashMap) {
     try {
         Files.createDirectories(Path.of(ruta).getParent());
         if (!Files.exists(Path.of(ruta))) {
             Files.createFile(Path.of(ruta));
         }
-        
+
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
+
         try (BufferedWriter writer = Files.newBufferedWriter(Path.of(ruta), StandardOpenOption.APPEND)) {
             int totalVuelos = vueloDiarioHashMap.size();
             int vueloCounter = 0;
 
-            for (HashMap.Entry<String, VueloDiario> entry : vueloDiarioHashMap.entrySet()) {
-                VueloDiario vueloDiario = entry.getValue();
-                String horaSalidaStr = new SimpleDateFormat("HH:mm").format(vueloDiario.getHoraSalidaReal());
-                String horaLlegadaStr = new SimpleDateFormat("HH:mm").format(vueloDiario.getHoraLlegadaReal());
-                String fechaStr = new SimpleDateFormat("yyyy-MM-dd").format(vueloDiario.getFechaVuelo());
+            for (VueloDiario vueloDiario : vueloDiarioHashMap.values()) {
+                String fechaStr = vueloDiario.getFechaVuelo().format(dateFormat);
+                String horaSalidaStr = vueloDiario.getHoraSalidaReal().format(timeFormat);
+                String horaLlegadaStr = vueloDiario.getHoraLlegadaReal().format(timeFormat);
 
-                String linea = String.format("%s;%s;%s;%.1f;%s;%s;%s\n",
+                String linea = String.format("%s;%s;%d;%.1f;%s;%s%s\n",
                         vueloDiario.getCodigoVueloBase(), fechaStr,
                         vueloDiario.getNumPlazasOcupadas(), vueloDiario.getPrecioVuelo(),
-                        horaSalidaStr, horaLlegadaStr, 
+                        horaSalidaStr, horaLlegadaStr,
                         (vueloCounter++ < totalVuelos - 1) ? "\n" : "");
                 writer.write(linea);
             }
@@ -126,6 +130,5 @@ public static void writeVueloDiarioCSV(String ruta, HashMap<String, VueloDiario>
         throw new RuntimeException("Error al escribir en el archivo CSV de vuelos diarios", e);
     }
 }
-
 
 }

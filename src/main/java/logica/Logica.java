@@ -9,9 +9,17 @@ import dto.Aeropuerto;
 import dto.CompanyaAerea;
 import dto.VueloBase;
 import dto.VueloDiario;
+
 import java.util.ArrayList;
-import java.util.HashMap;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -114,6 +122,7 @@ public class Logica {
 
     //Logica Vuelod Diarios
     private static List<VueloDiario> lstVuelosDiario = new ArrayList<VueloDiario>();
+    private static List<VueloDiario> lstVuelosLegada = new ArrayList<VueloDiario>();
 
     public static List<VueloDiario> getAllVuelosDiarios() {
          lstVuelosDiario = Inicializaciones.getInstance().getListVueloDiario();
@@ -132,7 +141,38 @@ public class Logica {
        
         return valorSalida;
     }
+    
+public List<VueloDiario> obtenerLlegadas(LocalDate fecha) {
+    LocalDate hoy = LocalDate.now();
 
+    lstVuelosLegada = Inicializaciones.getInstance().getListVueloDiario()
+            .stream()
+            .filter(vuelo -> vuelo.getFechaVuelo().equals(fecha) && !vuelo.getFechaVuelo().isBefore(hoy))
+            .sorted(Comparator.comparing(VueloDiario::getFechaVuelo))
+            .collect(Collectors.toList());
+
+    return lstVuelosLegada;
+}
+
+public List<VueloDiario> obtenerLlegadas2(LocalDate fecha) {
+    LocalDateTime hoy = LocalDate.now().atStartOfDay();
+
+    lstVuelosLegada = Inicializaciones.getInstance().getListVueloDiario()
+            .stream()
+            .filter(vuelo -> vuelo.getFechaVuelo().equals(fecha))
+            .peek(vuelo -> {
+                LocalDateTime horaLlegadaReal = vuelo.getHoraLlegadaReal().atDate(fecha);
+                System.out.println("Debug: Fecha de vuelo: " + vuelo.getFechaVuelo() + ", Hora de llegada: " + horaLlegadaReal);
+            })
+            .filter(vuelo -> {
+                LocalDateTime horaLlegadaReal = vuelo.getHoraLlegadaReal().atDate(fecha);
+                return !horaLlegadaReal.isBefore(hoy) && !horaLlegadaReal.equals(hoy);
+            })
+            .sorted(Comparator.comparing(VueloDiario::getHoraLlegadaReal))
+            .collect(Collectors.toList());
+
+    return lstVuelosLegada;
+}
     public static void addCompanyaAerea(CompanyaAerea newComp) {
         lstCompanyas.add(newComp);
     }

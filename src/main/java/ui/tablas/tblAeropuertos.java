@@ -4,6 +4,7 @@
  */
 package ui.tablas;
 
+import ui.models.AeropuertosTableModel;
 import logica.Logica;
 
 /**
