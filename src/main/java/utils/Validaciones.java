@@ -36,7 +36,7 @@ public class Validaciones {
     }
 
     public static boolean sonDiasOperativosValidos(String dias) {
-        return dias != null && dias.length() <= 7 && dias.matches("[LMXJVSD]?");
+        return dias != null && dias.length() <= 7 && dias.matches("[LMXJVSD]+");
     }
 
     public boolean esFechaDiaOperativo(Date fecha, String diasOperativos) {

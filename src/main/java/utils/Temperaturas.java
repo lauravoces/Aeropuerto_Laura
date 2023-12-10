@@ -25,6 +25,14 @@ public class Temperaturas {
         this.minTemp = minTemp;
         this.maxTemp = maxTemperature;
     }
+
+    public Temperaturas(String aeropuertoCodigo, String codigoMunicipio, String temperaturaMaxima, String temperaturaMinima) {
+        this.aeropCodigo = aeropuertoCodigo;
+        this.municipioCodigo = codigoMunicipio;
+
+        this.minTemp = (temperaturaMinima != null && !temperaturaMinima.trim().isEmpty()) ? Double.parseDouble(temperaturaMinima.trim()) : 0.0;
+        this.maxTemp = (temperaturaMaxima != null && !temperaturaMaxima.trim().isEmpty()) ? Double.parseDouble(temperaturaMaxima.trim()) : 0.0;
+    }
 //getters y setters
     public String getAeropCodigo() {
         return aeropCodigo;

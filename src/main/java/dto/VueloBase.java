@@ -19,15 +19,11 @@ public class VueloBase {
     private LocalTime horaOficialSalida;
     private LocalTime horaOficialLlegada;
     private String diasOpera;
-    private Aeropuerto aeropuertoOrigen;
-    private Aeropuerto aeropuertoDestino;
-     
-     /*
-     Hay dos maneras de trabajar, o con String de las clases 
-     codigoAeropuerto...
-     o con los objetos Aeropuerto
+    /*
+    Hay dos maneras de trabajar, o con String de las clases
+    codigoAeropuerto...
+    o con los objetos Aeropuerto
      */
-    
 
     public String getCodigoVuelo() {
         return codigoVuelo;

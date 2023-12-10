@@ -20,8 +20,6 @@ public class VueloDiario {
     private LocalTime horaLlegadaReal;
     private int numPlazasOcupadas;
     private float precioVuelo;
-    //esto solo es para quine quiera, mismo funcionamiento que en 
-    //vueloOirgen y vueloDestino
     private VueloBase vueloBase;
 
     

@@ -34,6 +34,7 @@ private static Info cInstanceInfo;
     private void initComponents() {
 
         jButton2 = new javax.swing.JButton();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jButton1 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -41,9 +42,12 @@ private static Info cInstanceInfo;
 
         jButton2.setText("jButton2");
 
+        jMenuItem1.setText("jMenuItem1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridLayout(2, 2, 4, 4));
 
+        jButton1.setBackground(new java.awt.Color(204, 255, 255));
         jButton1.setText("Compañias Aereas");
         jButton1.setMaximumSize(new java.awt.Dimension(100, 100));
         jButton1.setMinimumSize(new java.awt.Dimension(100, 100));
@@ -55,6 +59,7 @@ private static Info cInstanceInfo;
         });
         getContentPane().add(jButton1);
 
+        jButton4.setBackground(new java.awt.Color(204, 255, 204));
         jButton4.setText("Vuelo Diario");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -63,6 +68,7 @@ private static Info cInstanceInfo;
         });
         getContentPane().add(jButton4);
 
+        jButton3.setBackground(new java.awt.Color(255, 204, 255));
         jButton3.setText("Vuelo Base");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -71,6 +77,7 @@ private static Info cInstanceInfo;
         });
         getContentPane().add(jButton3);
 
+        jButton5.setBackground(new java.awt.Color(255, 255, 204));
         jButton5.setText("Información");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,5 +171,6 @@ private static Info cInstanceInfo;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JMenuItem jMenuItem1;
     // End of variables declaration//GEN-END:variables
 }

@@ -170,8 +170,11 @@ private tblVueloDiario vueloDiarioDialog;
 String compania = jTextField1.getText();
 String fechaTexto = aquilafecha.getText();
 
-if(aquilafecha!=null)
-fechaTexto=jTextField2.getText();
+ // Use jTextField2 if jTextField2 is not null and not empty
+if (jTextField2 != null && !jTextField2.getText().trim().isEmpty()) {
+    fechaTexto = jTextField2.getText();
+}
+   
 
 try {
     // Intenta parsear la fecha del JLabel

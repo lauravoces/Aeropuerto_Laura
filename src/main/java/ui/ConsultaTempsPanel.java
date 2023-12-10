@@ -1,6 +1,7 @@
 package ui;
 
 import api.AEMET_API;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,24 +20,21 @@ public class ConsultaTempsPanel extends JPanel {
         JButton consultarButton = new JButton("Consultar Temperaturas");
         JLabel resultadoLabel = new JLabel();
 
-        consultarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String aeropuertoCodigo = aeropuertoTextField.getText();
-                String municipioCodigo = municipioTextField.getText();
+        consultarButton.addActionListener(e -> {
+            String aeropuertoCodigo = aeropuertoTextField.getText();
+            String municipioCodigo = municipioTextField.getText();
 
-                try {
-                    Temperaturas temperaturas = consultarTemperaturas(aeropuertoCodigo, municipioCodigo);
-                    if (temperaturas != null) {
-                        resultadoLabel.setText("<html>Temperatura Mínima: " + temperaturas.getMinTemp() +
-                                "<br>Temperatura Máxima: " + temperaturas.getMaxTemp() + "</html>");
-                    } else {
-                        resultadoLabel.setText("Error al consultar las temperaturas.");
-                    }
-                } catch (Exception ex) {
+            try {
+                Temperaturas temperaturas = consultarTemperaturas(aeropuertoCodigo, municipioCodigo);
+                if (temperaturas != null) {
+                    resultadoLabel.setText("<html>Temperatura Mínima: " + temperaturas.getMinTemp() +
+                            "<br>Temperatura Máxima: " + temperaturas.getMaxTemp() + "</html>");
+                } else {
                     resultadoLabel.setText("Error al consultar las temperaturas.");
-                    ex.printStackTrace();
                 }
+            } catch (Exception ex) {
+                handleException(ex);
+                resultadoLabel.setText("Error al consultar las temperaturas.");
             }
         });
 
@@ -52,18 +50,16 @@ public class ConsultaTempsPanel extends JPanel {
 
     private Temperaturas consultarTemperaturas(String aeropuertoCodigo, String municipioCodigo) {
         try {
-            Temperaturas temperaturas = aemetApi.getTemperaturas(aeropuertoCodigo, municipioCodigo);
-            if (temperaturas != null) {
-                return temperaturas;
-            } else {
-                System.out.println("Error al consultar las temperaturas.");
-                return null;
-            }
+            return aemetApi.getTemperaturas(aeropuertoCodigo, municipioCodigo);
         } catch (Exception e) {
-            System.out.println("Error al consultar las temperaturas.");
-            e.printStackTrace();
+            handleException(e);
             return null;
         }
+    }
+
+    private void handleException(Exception e) {
+        System.out.println("Error occurred:");
+        e.printStackTrace();
     }
 
     public static void main(String[] args) {
