@@ -25,6 +25,11 @@ public class Validaciones {
         return prefijo >= 0 && prefijo <= 999;
     }
     
+     public boolean esCodigoVueloValido(String codigo) {
+        return esCodigoCompaniaValido(codigo.substring(0, 2)) 
+                && codigo.substring(2).matches("[0-9]{1,4}");
+    }
+     
     public static boolean esEntero(String numero) {
         Pattern patron = Pattern.compile("^-?\\d+$");
         Matcher comprobacion = patron.matcher(numero);
@@ -39,25 +44,11 @@ public class Validaciones {
         return telefono.matches("[0-9]{4,15}");
     }
 
-    public boolean esCodigoVueloValido(String codigo) {
-        return esCodigoCompaniaValido(codigo.substring(0, 2)) && codigo.substring(2).matches("[0-9]{1,4}");
-    }
-
     public boolean esCodigoMunicipioValido(String codMunicipio) {
         return codMunicipio.matches("[0-9]{5}");
     }
-
-    public static boolean esDiaOperativoValido(String dias) {
-        return dias != null && dias.length() <= 7 && dias.matches("[LMXJVSD]+");
-    }
-
-    public boolean esFechaDiaOperativo(Date fecha, String diasOperativos) {
-        DateFormat formatoFecha = new SimpleDateFormat("E", new Locale("es", "ES"));
-        String diaSemana = formatoFecha.format(fecha).toUpperCase();
-        return diasOperativos.contains(diaSemana);
-    }
-
-    //esto era otra positibilidad pero no permite concat
+    
+ //esto era otra positibilidad pero no permite concat
     public static boolean esDiaSemanaValido(String dia) {
         switch (dia) {
             case Semana.MONDAY:
@@ -71,5 +62,9 @@ public class Validaciones {
             default:
                 return false;
         }
+    }
+    
+    public static boolean esDiaOperativoValido(String dias) {
+        return dias != null && dias.length() <= 7 && dias.matches("[LMXJVSD]+");
     }
 }

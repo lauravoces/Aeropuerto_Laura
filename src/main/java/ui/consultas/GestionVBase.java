@@ -51,18 +51,14 @@ private panelAyudaVB ayudaFrame = new panelAyudaVB();
         llenarMinutosComboBox();
         llenarComp();
         jLabel9.setVisible(false);
-
-        // DocumentListener para txtCodigoVueloBase
-        addTextFieldValidation(txtCodigoVueloBase, this::validarCodigoCompania);
-
+        
         // DocumentListener para txtDiasOpera
         addTextFieldValidation(txtDiasOpera, this::validarDiasOpera);
         
         // DocumentListener para txtPlazas
         addTextFieldValidation(txtPlazas, this::validarNumPlazas);
         
-        //Validar Origen
-        addTextFieldValidation(txtAeropuertoOrigen, this::validarOrigen);
+      
 
     }
 //RESTRICCIONES
@@ -96,17 +92,7 @@ private panelAyudaVB ayudaFrame = new panelAyudaVB();
         txtCodMunicipio.setText(selectedMunicipio.getNombreMunicipio());
     }
     
-    LectorCSV lectorCSV = new LectorCSV(); // No es necesario proporcionar un tipo
-    
-    private void validarOrigen(){
-        String origen = txtAeropuertoOrigen.getText();
-        if(!lectorCSV.validarCodigoIATA(origen)){
-             jLabel9.setVisible(true);
-            jLabel9.setText("IATA No valido");
-        }else {
-            jLabel9.setText("");
-      }
-    }
+  
     
     private void validarNumPlazas(){
       String entero = txtPlazas.getText();
@@ -130,22 +116,7 @@ private panelAyudaVB ayudaFrame = new panelAyudaVB();
         }
     }
 
-    private void validarCodigoCompania() {
-        String codigoCompania = txtCodigoVueloBase.getText();
 
-        if (!Validaciones.esCodigoCompaniaValido(codigoCompania)) {
-            // Mostrar un mensaje de error o cambiar el color del texto, etc.
-            // Ejemplo de mensaje de error:
-            jLabel9.setVisible(true);
-
-            jLabel9.setText("Código de compañía no válido. 2 Caracteres, /n"
-                    + "el primero en mayúscula y el segundo en mayúscula o número.");
-
-        } else {
-            // Limpiar el mensaje de error si la validación es exitosa
-            jLabel9.setText("");
-        }
-    }
 //FINDERESTRICCIONES
 private void llenarComp(){
     List<Aeropuerto> compA = Logica.getAllAeropuertos();
@@ -271,6 +242,12 @@ private void llenarComp(){
         txtCodigoVueloBase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCodigoVueloBaseActionPerformed(evt);
+            }
+        });
+
+        txtAeropuertoOrigen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAeropuertoOrigenActionPerformed(evt);
             }
         });
 
@@ -646,6 +623,10 @@ private void mostrarPanelEnVentana(JPanel panel, String titulo) {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         mostrarPanelEnVentana(ayudaFrame, "Ayuda");
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void txtAeropuertoOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAeropuertoOrigenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAeropuertoOrigenActionPerformed
     private void actualizarLabel(javax.swing.JLabel label, javax.swing.JComboBox<String> cbxHoras, javax.swing.JComboBox<String> cbxMinutos) {
         String horas = cbxHoras.getSelectedItem() != null ? cbxHoras.getSelectedItem().toString() : "00";
         String minutos = cbxMinutos.getSelectedItem() != null ? cbxMinutos.getSelectedItem().toString() : "00";

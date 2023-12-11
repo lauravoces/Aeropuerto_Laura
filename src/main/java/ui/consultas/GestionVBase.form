@@ -188,6 +188,9 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtAeropuertoOrigen">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtAeropuertoOrigenActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtPlazas">
     </Component>
