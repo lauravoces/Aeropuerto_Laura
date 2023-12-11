@@ -5,7 +5,6 @@
 package ui.consultas;
 
 import dto.Aeropuerto;
-import dto.CompanyaAerea;
 import dto.Municipio;
 import dto.VueloBase;
 import java.awt.event.ActionEvent;
@@ -19,6 +18,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import static utils.Archivos.PATH_VUELOSBASE;
 import static utils.CSV.CrearCSV.writeVueloBaseCSV;
 import utils.Validaciones;
@@ -26,7 +27,9 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import logica.Logica;
+import ui.panelAyudaVB;
 import static utils.CSV.BorrarLineasCSV.borrarLineaCSV;
+import utils.CSV.LectorCSV;
 import static utils.CSV.ModificarCSV.modificarLineaCSV;
 
 /**
@@ -34,7 +37,7 @@ import static utils.CSV.ModificarCSV.modificarLineaCSV;
  * @author laura
  */
 public class GestionVBase extends javax.swing.JFrame {
-
+private panelAyudaVB ayudaFrame = new panelAyudaVB();
     private HashMap<String, VueloBase> vueloBaseHashMap = new HashMap<>();
     private Logica logicaNegocio = new Logica();
 
@@ -54,6 +57,12 @@ public class GestionVBase extends javax.swing.JFrame {
 
         // DocumentListener para txtDiasOpera
         addTextFieldValidation(txtDiasOpera, this::validarDiasOpera);
+        
+        // DocumentListener para txtPlazas
+        addTextFieldValidation(txtPlazas, this::validarNumPlazas);
+        
+        //Validar Origen
+        addTextFieldValidation(txtAeropuertoOrigen, this::validarOrigen);
 
     }
 //RESTRICCIONES
@@ -86,10 +95,32 @@ public class GestionVBase extends javax.swing.JFrame {
         // Update txtCodMunicipio with the municipality name
         txtCodMunicipio.setText(selectedMunicipio.getNombreMunicipio());
     }
-
+    
+    LectorCSV lectorCSV = new LectorCSV(); // No es necesario proporcionar un tipo
+    
+    private void validarOrigen(){
+        String origen = txtAeropuertoOrigen.getText();
+        if(!lectorCSV.validarCodigoIATA(origen)){
+             jLabel9.setVisible(true);
+            jLabel9.setText("IATA No valido");
+        }else {
+            jLabel9.setText("");
+      }
+    }
+    
+    private void validarNumPlazas(){
+      String entero = txtPlazas.getText();
+      if(!Validaciones.esEntero(entero)){
+           jLabel9.setVisible(true);
+            jLabel9.setText("Error, solo numero entero");
+      }else {
+            jLabel9.setText("");
+      }
+    }
+    
     private void validarDiasOpera() {
         String dias = txtDiasOpera.getText();
-        if (!Validaciones.sonDiasOperativosValidos(dias)) {
+        if (!Validaciones.esDiaOperativoValido(dias)) {
             jLabel9.setVisible(true);
             jLabel9.setText("Solo vale LMXJVSD");
         } else {
@@ -228,6 +259,10 @@ private void llenarComp(){
         txtIATA = new javax.swing.JLabel();
         txtNombreA = new javax.swing.JLabel();
         txtCodMunicipio = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 255));
@@ -304,6 +339,11 @@ private void llenarComp(){
         jLabel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jButton4.setText("Ayuda");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Cerrar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -338,6 +378,14 @@ private void llenarComp(){
         txtNombreA.setText("Nombre");
 
         txtCodMunicipio.setText("*");
+
+        jLabel10.setText("*Codigo+cuatro cifras");
+
+        jLabel11.setText("*Vale solo con el IATA");
+
+        jLabel12.setText("jLabel12");
+
+        jLabel13.setText("*Dias de la semana(L-D)");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -387,15 +435,19 @@ private void llenarComp(){
                         .addGap(80, 80, 80)
                         .addComponent(txtCodMunicipio, javax.swing.GroupLayout.DEFAULT_SIZE, 13, Short.MAX_VALUE))
                     .addComponent(txtAeropuertoOrigen)
-                    .addComponent(txtCodigoVueloBase))
+                    .addComponent(txtCodigoVueloBase, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbxCodMunicipio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 96, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(cbxCodMunicipio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel13))
+                        .addGap(0, 96, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
@@ -412,11 +464,13 @@ private void llenarComp(){
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCodigoVueloBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtAeropuertoOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -427,7 +481,8 @@ private void llenarComp(){
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPlazas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
@@ -445,7 +500,8 @@ private void llenarComp(){
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtDiasOpera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel13))
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardarVB)
@@ -498,7 +554,7 @@ private void llenarComp(){
         LocalTime horaLRFormateada = LocalTime.parse(horaLR, formatoHora);
         vueloBase.setCodigoVuelo(txtCodigoVueloBase.getText());
         vueloBase.setcodigoAeropuertoOrigen(txtAeropuertoOrigen.getText());
-        String nombreA= txtNombreA.getText().replaceAll("\\s", "");
+        String nombreA= txtNombreA.getText().replaceAll("\\s", ""); //lo guardo sin espacios, deberia haber hecho esto tambien al guardar las companias para ser honesta
         vueloBase.setAeropuertoDestino(txtIATA.getText() + nombreA + txtCodMunicipio.getText());
         vueloBase.setNumPlazas(Integer.parseInt(txtPlazas.getText()));
         
@@ -530,6 +586,8 @@ private void llenarComp(){
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+if(!Logica.tieneVuelosDiariosAsociados(txtCodigoVueloBase.getText())){
+    
 
         try {
 
@@ -561,12 +619,33 @@ private void llenarComp(){
             System.out.println(ex.getMessage());
             //Logger.getLogger(GestionVuelosDiarios.class.getName()).log(Level.SEVERE, null, ex);
         }
+        }else{
+     btnModificar.setEnabled(false);
+     btnModificar.setText("VD existente");
+}
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void txtCodigoVueloBaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoVueloBaseActionPerformed
 
 
     }//GEN-LAST:event_txtCodigoVueloBaseActionPerformed
+private void mostrarPanelEnVentana(JPanel panel, String titulo) {
+        // Crear una nueva ventana (JFrame) para representar el JPanel
+        JFrame ventanaPanel = new JFrame(titulo);
+
+        // Configurar la ventana
+        ventanaPanel.setSize(500, 300); // Ajusta el tamaño según tus necesidades
+        ventanaPanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        // Agregar el JPanel a la ventana
+        ventanaPanel.add(panel);
+
+        // Hacer visible la ventana
+        ventanaPanel.setVisible(true);
+    }
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        mostrarPanelEnVentana(ayudaFrame, "Ayuda");
+    }//GEN-LAST:event_jButton4ActionPerformed
     private void actualizarLabel(javax.swing.JLabel label, javax.swing.JComboBox<String> cbxHoras, javax.swing.JComboBox<String> cbxMinutos) {
         String horas = cbxHoras.getSelectedItem() != null ? cbxHoras.getSelectedItem().toString() : "00";
         String minutos = cbxMinutos.getSelectedItem() != null ? cbxMinutos.getSelectedItem().toString() : "00";
@@ -620,6 +699,10 @@ private void llenarComp(){
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

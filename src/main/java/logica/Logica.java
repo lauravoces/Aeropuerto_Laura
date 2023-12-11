@@ -354,4 +354,12 @@ public class Logica {
 
         return null;
     }
+    
+    public static boolean tieneVuelosDiariosAsociados(String codigoIATA) {
+        lstVuelosDiario = Inicializaciones.getInstance().getListVueloDiario();
+
+        // Verifica si hay vuelos diarios asociados al aeropuerto de origen o destino
+        return lstVuelosDiario.stream()
+                .anyMatch(vuelo -> vuelo.getCodigoVueloBase().equals(codigoIATA) || vuelo.getCodigoVueloDiario().equals(codigoIATA));
+    }
 }

@@ -19,6 +19,7 @@ import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import ui.panelAyuda;
+import ui.panelAyudaVD;
 import static utils.Archivos.PATH_VUELODIARIO;
 import static utils.CSV.CrearCSV.writeVueloDiarioCSV;
 
@@ -28,7 +29,7 @@ import static utils.CSV.CrearCSV.writeVueloDiarioCSV;
  */
 public class GestionVDiario extends javax.swing.JFrame {
     private HashMap<String, VueloDiario> vueloDiarioHashMap = new HashMap<>();
-   private panelAyuda ayudaFrame = new panelAyuda();
+   private panelAyudaVD ayudaFrame = new panelAyudaVD();
     /**
      * Creates new form GestionVDiario
      */
@@ -110,6 +111,7 @@ public class GestionVDiario extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
 
         jButton4.setText("Ayuda");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -233,6 +235,8 @@ public class GestionVDiario extends javax.swing.JFrame {
             }
         });
 
+        jLabel7.setText("*El mismo que VB");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -276,11 +280,17 @@ public class GestionVDiario extends javax.swing.JFrame {
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(lblHoraSR, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(lblHoraLR, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(bntAyuda)
-                    .addComponent(jButton6))
-                .addGap(23, 23, 23))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(bntAyuda)
+                            .addComponent(jButton6))
+                        .addGap(23, 23, 23))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel7)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -292,7 +302,8 @@ public class GestionVDiario extends javax.swing.JFrame {
                 .addGap(64, 64, 64)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCodigoVueloDiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtFechaVueloDiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -492,6 +503,7 @@ public class GestionVDiario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel lblHoraLR;
     private javax.swing.JLabel lblHoraSR;

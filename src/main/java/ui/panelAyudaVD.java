@@ -8,12 +8,12 @@ package ui;
  *
  * @author laura
  */
-public class panelAyuda extends javax.swing.JPanel {
+public class panelAyudaVD extends javax.swing.JPanel {
 
     /**
-     * Creates new form panelAyuda
+     * Creates new form panelAyudaVD
      */
-    public panelAyuda() {
+    public panelAyudaVD() {
         initComponents();
     }
 
@@ -26,19 +26,14 @@ public class panelAyuda extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        consultaTempsPanel1 = new ui.ConsultaTempsPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
 
         jLabel1.setText("Ayuda");
@@ -53,17 +48,9 @@ public class panelAyuda extends javax.swing.JPanel {
 
         jLabel6.setText("En la presente página usted puede hacer variadas consultas:");
 
+        jLabel8.setText("- Añadir, modificar y borrar Vuelos Diarios");
+
         jLabel7.setText("Siga los mensajes de error para saber cómo solucionar su problema");
-
-        jLabel8.setText("- Ver prox. Salidas");
-
-        jLabel9.setText("- Ver prox. Llegadas");
-
-        jLabel10.setText("- Ver Recaudaciones");
-
-        jLabel11.setText("- Ver vuelos por compañia");
-
-        jLabel12.setText("- Ver vuelos próximos");
 
         jLabel13.setText("Si tiene dudas o errores que no sabe solucionar contactenos");
 
@@ -89,13 +76,8 @@ public class panelAyuda extends javax.swing.JPanel {
                             .addComponent(jLabel2)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(66, 66, 66)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel12))))
-                .addContainerGap(30, Short.MAX_VALUE))
+                        .addComponent(jLabel8)))
+                .addContainerGap(29, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,28 +103,16 @@ public class panelAyuda extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel13)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private ui.ConsultaTempsPanel consultaTempsPanel1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -151,6 +121,5 @@ public class panelAyuda extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     // End of variables declaration//GEN-END:variables
 }

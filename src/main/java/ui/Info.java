@@ -107,6 +107,11 @@ public class Info extends javax.swing.JFrame {
         jButton8.setText("Cerrar");
 
         jButton9.setText("Ayuda");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -217,6 +222,10 @@ public class Info extends javax.swing.JFrame {
          pnlVueloPorCompanya vcm= new pnlVueloPorCompanya(this, true);
       vcm.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9ActionPerformed
 
     /**
      * @param args the command line arguments

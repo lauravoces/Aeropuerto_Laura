@@ -34,7 +34,13 @@ import static utils.Archivos.PATH_VUELOSBASE;
  * @param <T>
  */
 public class LectorCSV<T> {
+
     
+    public boolean validarCodigoIATA(String codigoIATA) {
+        HashMap<String, CompanyaAerea> companyaHashMap = readCompanyaCsv(); // Manejar el error de manera adecuada según tus necesidades
+        CompanyaAerea companyaAerea = companyaHashMap.get(codigoIATA.toUpperCase());
+        return companyaAerea != null;
+    }
     
     public HashMap<String, String> readMunicipiosCSV() {
         HashMap<String, String> municipiosHashMap = new HashMap<>();
