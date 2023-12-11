@@ -279,6 +279,7 @@ public class GestionCompanyas extends javax.swing.JFrame {
         // Llamar al método para escribir en el archivo CSV
         writeCompanyaCSV(PATH_COMPANYAAEREA, mapaCompanya);
         System.out.println(cAerea.getNombre() + " " + cAerea.getCodigo() + " " + cAerea.getDireccion());
+        
         //vaciado del codigo si ha ido bien
         txtPrefijoComp.setText("");
         txtCodigoComp.setText("");
@@ -287,7 +288,9 @@ public class GestionCompanyas extends javax.swing.JFrame {
         txtTlfInfoPasajeros.setText("");
         txtTlfInfoAeropuerto.setText("");
         txtMunicipioSedeCentral.setText("");
-
+        btnGuardarComp.setEnabled(false);
+        btnGuardarComp.setVisible(true);
+        btnGuardarComp.setText("Una a la vez");
     }//GEN-LAST:event_btnGuardarCompActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

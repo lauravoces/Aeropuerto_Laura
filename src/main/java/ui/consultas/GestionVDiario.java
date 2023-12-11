@@ -354,7 +354,10 @@ public class GestionVDiario extends javax.swing.JFrame {
     // Llamar al método para escribir en el archivo CSV
     writeVueloDiarioCSV(PATH_VUELODIARIO, vueloDiarioMap);
     System.out.println(vueloDiario.getCodigoVueloBase() + " " + vueloDiario.getPrecioVuelo() + " ");
-        
+    btnGuardarVD2.setEnabled(false);
+      //  jLabel9.setVisible(true);
+
+        //    jLabel9.setText("Uno a la vez");    
         
         
         

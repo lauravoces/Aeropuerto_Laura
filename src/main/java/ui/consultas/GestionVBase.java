@@ -486,12 +486,12 @@ private void llenarComp(){
         VueloBase vueloBase = new VueloBase();
 
         DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm"); //Logger.getLogger(GestionVuelosDiarios.class.getName()).log(Level.SEVERE, null, ex);
-        // Get selected hours and minutes from combo boxes
+       
         String horaSH = cbxHOSh.getSelectedItem().toString();
         String minutoSH = cbxHOSm.getSelectedItem().toString();
         String horaLH = cbxHOLh.getSelectedItem().toString();
         String minutoLH = cbxHOLm.getSelectedItem().toString();
-        // Concatenate hours and minutes to form the time strings
+       
         String horaSR = horaSH + ":" + minutoSH;
         String horaLR = horaLH + ":" + minutoLH;
         LocalTime horaSRFormateada = LocalTime.parse(horaSR, formatoHora);
@@ -501,10 +501,12 @@ private void llenarComp(){
         String nombreA= txtNombreA.getText().replaceAll("\\s", "");
         vueloBase.setAeropuertoDestino(txtIATA.getText() + nombreA + txtCodMunicipio.getText());
         vueloBase.setNumPlazas(Integer.parseInt(txtPlazas.getText()));
-        // Validate if the provided days of operation are correct
+        
         vueloBase.setDiasOpera(txtDiasOpera.getText());
         vueloBase.setHoraOficialSalida(horaSRFormateada);
         vueloBase.setHoraOficialLlegada(horaLRFormateada);
+        
+        
         // Obtener el HashMap actual de CompanyaAerea
         HashMap<String, VueloBase> vueloBaseI = obtenerHashMapActual();
         // Agregar la nueva instancia al HashMap
@@ -512,6 +514,10 @@ private void llenarComp(){
         // Llamar al método para escribir en el archivo CSV
         writeVueloBaseCSV(PATH_VUELOSBASE, vueloBaseI);
         System.out.println(vueloBase.getCodigoVuelo() + " " + vueloBase.getNumPlazas() + " " + vueloBase.getDiasOpera());
+        btnGuardarVB.setEnabled(false);
+        jLabel9.setVisible(true);
+
+            jLabel9.setText("Uno a la vez");
     }//GEN-LAST:event_btnGuardarVBActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

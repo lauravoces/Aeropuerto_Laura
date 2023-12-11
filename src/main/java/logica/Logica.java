@@ -127,7 +127,6 @@ public class Logica {
     //Logica Vuelod Diarios
     private static List<VueloDiario> lstVuelosDiario = new ArrayList<VueloDiario>();
     private static List<VueloDiario> lstVuelosLegada = new ArrayList<VueloDiario>();
-    private static List<VueloDiario> lstVuelosS = new ArrayList<VueloDiario>();
     private static List<VueloDiario> lstVuelosProximos = new ArrayList<VueloDiario>();
     private static List<VueloBase> lstVueloCompanyaFecha = new ArrayList<VueloBase>();
 
