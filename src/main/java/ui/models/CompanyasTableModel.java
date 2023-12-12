@@ -23,20 +23,39 @@ public class CompanyasTableModel extends AbstractTableModel  {
     private String[] columnas={
         "Prefijo","Código","Nombre", "Dirección", "Municipio", "Telf. ATC", "Telf. Aeropuerto"
     };
+
+    /**
+     *
+     * @param listCmp
+     */
     public CompanyasTableModel (List<CompanyaAerea>listCmp ){
         this.listCmp=listCmp;
     }
             
+    /**
+     *
+     * @return
+     */
     @Override
     public int getRowCount() {
         return listCmp.size();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getColumnCount() {
         return columnas.length;
     }
 
+    /**
+     *
+     * @param rowIndex
+     * @param columnIndex
+     * @return
+     */
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
        switch(columnIndex){
@@ -61,6 +80,11 @@ public class CompanyasTableModel extends AbstractTableModel  {
     
     }
 
+    /**
+     *
+     * @param column
+     * @return
+     */
     @Override
     public String getColumnName(int column) {
         return columnas[column];

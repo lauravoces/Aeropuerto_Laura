@@ -26,14 +26,29 @@ public class Inicializaciones {
     private static HashMap<String, VueloDiario> vueloDiarioHashMap = new HashMap<>();
     private static HashMap<String, String> municipiosHashMap = new HashMap<>();
 
+    /**
+     *
+     */
     protected static List<Aeropuerto> lstAeropuertos;
     
+    /**
+     *
+     */
     protected static List<CompanyaAerea> lstCompanya;
     
+    /**
+     *
+     */
     protected static List<VueloBase> lstVueloBase;
     
+    /**
+     *
+     */
     protected static List<VueloDiario> lstVueloDiario;
     
+    /**
+     *
+     */
     protected static List<String> lstMunicipio;
 
     private Inicializaciones() {
@@ -59,23 +74,51 @@ public class Inicializaciones {
         
     }
 
-
+    /**
+     *
+     * @return
+     */
     public static Inicializaciones getInstance() {
         return INSTANCE;
     }
-     public List<Aeropuerto> getLstAeropuertos() {
+
+    /**
+     *
+     * @return
+     */
+    public List<Aeropuerto> getLstAeropuertos() {
         return lstAeropuertos;  // Devuelve directamente la lista cargada
     }
+
+    /**
+     *
+     * @return
+     */
     public List<CompanyaAerea> getLstCompanya() {
         return lstCompanya;
     }
+
+    /**
+     *
+     * @return
+     */
     public List<VueloBase> getListVueloBase(){
         return lstVueloBase;
     }
-     public List<VueloDiario> getListVueloDiario(){
+
+    /**
+     *
+     * @return
+     */
+    public List<VueloDiario> getListVueloDiario(){
         return lstVueloDiario;
     }
-     public List<String> getListMunicipio(){
+
+    /**
+     *
+     * @return
+     */
+    public List<String> getListMunicipio(){
         return lstMunicipio;
     }
  }

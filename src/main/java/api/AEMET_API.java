@@ -12,6 +12,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import utils.Temperaturas;
 
+/**
+ *
+ * @author laura
+ */
 public class AEMET_API {
 //Me rindo, llevo dias intentando que funcione la api, pero no consigo leer bien el JSON, en teoria, EN TEORIA, campos deberia ser el primero y me lo da como not found
     //lo intente para OVD 33016. tienes las respuestas de la consulta en otros archivos, junto a los csv.
@@ -24,6 +28,13 @@ public class AEMET_API {
 
     
     //metodo que en teoria daria las temperaturas max y minimas a un obj temperatura, no lo hace
+
+    /**
+     *
+     * @param aeropuertoCodigo
+     * @param codigoMunicipio
+     * @return
+     */
     public static Temperaturas getTemperaturas(String aeropuertoCodigo, String codigoMunicipio) {
         String temperaturaMaxima = null;
         String temperaturaMinima = null;

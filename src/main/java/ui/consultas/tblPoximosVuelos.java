@@ -15,13 +15,20 @@ public class tblPoximosVuelos extends javax.swing.JDialog {
 private Logica logicaNegocio=new Logica();
     /**
      * Creates new form tblPoximosVuelos
+     * @param parent
+     * @param modal
      */
     public tblPoximosVuelos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
          jTable1.setModel(new VueloDiarioTableModel(logicaNegocio.getProximosVuelos()));
     }
- public javax.swing.JTable getTabla() {
+
+    /**
+     *
+     * @return
+     */
+    public javax.swing.JTable getTabla() {
         return jTable1;
     }
     /**

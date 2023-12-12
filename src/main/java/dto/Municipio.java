@@ -12,15 +12,28 @@ public class Municipio {
     private String codigo;
     private String nombreMunicipio;
 
+    /**
+     *
+     * @param codigo
+     * @param nombreMunicipio
+     */
     public Municipio(String codigo, String nombreMunicipio) {
         this.codigo = codigo;
         this.nombreMunicipio = nombreMunicipio;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCodigo() {
         return codigo;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNombreMunicipio() {
         return nombreMunicipio;
     }

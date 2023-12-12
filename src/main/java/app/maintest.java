@@ -16,7 +16,12 @@ import logica.Logica;
  * @author laura
  */
 public class maintest {
- public static void main(String[] args) {
+
+    /**
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
 Logica logica = new Logica();
 
         // Llama al método getAllMunicipios

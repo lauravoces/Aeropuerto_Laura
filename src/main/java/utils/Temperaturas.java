@@ -15,6 +15,13 @@ public class Temperaturas {
     private double minTemp;
     private double maxTemp;
 
+    /**
+     *
+     * @param aeropCodigo
+     * @param municipioCodigo
+     * @param minTemp
+     * @param maxTemperature
+     */
     public Temperaturas(String aeropCodigo,
             String municipioCodigo,
             double minTemp,
@@ -26,6 +33,13 @@ public class Temperaturas {
         this.maxTemp = maxTemperature;
     }
 
+    /**
+     *
+     * @param aeropuertoCodigo
+     * @param codigoMunicipio
+     * @param temperaturaMaxima
+     * @param temperaturaMinima
+     */
     public Temperaturas(String aeropuertoCodigo, String codigoMunicipio, String temperaturaMaxima, String temperaturaMinima) {
         this.aeropCodigo = aeropuertoCodigo;
         this.municipioCodigo = codigoMunicipio;
@@ -34,18 +48,35 @@ public class Temperaturas {
         this.maxTemp = (temperaturaMaxima != null && !temperaturaMaxima.trim().isEmpty()) ? Double.parseDouble(temperaturaMaxima.trim()) : 0.0;
     }
 //getters y setters
+
+    /**
+     *
+     * @return
+     */
     public String getAeropCodigo() {
         return aeropCodigo;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getMunicipioCodigo() {
         return municipioCodigo;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getMinTemp() {
         return minTemp;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getMaxTemp() {
         return maxTemp;
     }

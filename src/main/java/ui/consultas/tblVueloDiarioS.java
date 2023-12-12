@@ -17,6 +17,8 @@ private Logica logicaNegocio=new Logica();
 LocalDate fechaActual = LocalDate.now();
     /**
      * Creates new form tblVueloDiarioS
+     * @param parent
+     * @param modal
      */
     public tblVueloDiarioS(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -29,7 +31,12 @@ LocalDate fechaActual = LocalDate.now();
     // Manejar la excepción de manera adecuada, por ejemplo, mostrar un mensaje de error al usuario.
 }
     }
- public javax.swing.JTable getTabla() {
+
+    /**
+     *
+     * @return
+     */
+    public javax.swing.JTable getTabla() {
         return jTable1;
     }
     /**
@@ -60,7 +67,7 @@ LocalDate fechaActual = LocalDate.now();
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Cerrar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);

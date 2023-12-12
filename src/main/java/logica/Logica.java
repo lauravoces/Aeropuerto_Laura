@@ -39,12 +39,22 @@ public class Logica {
     private static List<Aeropuerto> lstAeropuertos;
 
     //Precargar la lista con todos los aeropuertos
+
+    /**
+     *
+     * @return
+     */
     public static List<Aeropuerto> getAllAeropuertos() {
         // Llama al método de Inicializaciones para obtener la lista de aeropuertos
         lstAeropuertos = Inicializaciones.getInstance().getLstAeropuertos();
         return lstAeropuertos;
     }
 
+    /**
+     *
+     * @param codigoIATA
+     * @return
+     */
     public static Aeropuerto getAeropuertoByCodigoIATA(String codigoIATA) {
         lstAeropuertos = Inicializaciones.getInstance().getLstAeropuertos();
         Aeropuerto valorSalida = null;
@@ -58,17 +68,30 @@ public class Logica {
         return valorSalida;
     }
 
+    /**
+     *
+     */
     public static Aeropuerto aeropuertoBase = getAeropuertoByCodigoIATA("OVD");
 
     /*METODOS PARA LAS COMPAÑIAS*/
     private static List<CompanyaAerea> lstCompanyas = new ArrayList<CompanyaAerea>();
 
     //Precargar la lista con todas las companyas
+
+    /**
+     *
+     * @return
+     */
     public static List<CompanyaAerea> getAllCompanyas() {
         lstCompanyas = Inicializaciones.getInstance().getLstCompanya();
         return lstCompanyas;
     }
 
+    /**
+     *
+     * @param codigo
+     * @return
+     */
     public static CompanyaAerea getCompanyaByCodigo(String codigo) {
 
         CompanyaAerea valorSalida = null;
@@ -83,6 +106,11 @@ public class Logica {
         return valorSalida;
     }
 
+    /**
+     *
+     * @param prefijo
+     * @return
+     */
     public static CompanyaAerea getCompanyaByPrefijo(int prefijo) {
         CompanyaAerea valorSalida = null;
         lstCompanyas = Inicializaciones.getInstance().getLstCompanya();
@@ -99,12 +127,21 @@ public class Logica {
     //logica de vuelo base
     private static List<VueloBase> lstVuelosBase = new ArrayList<VueloBase>();
 
+    /**
+     *
+     * @return
+     */
     public static List<VueloBase> getAllVuelosBase() {
         lstVuelosBase = Inicializaciones.getInstance().getListVueloBase();
 
         return lstVuelosBase;
     }
 
+    /**
+     *
+     * @param codigo
+     * @return
+     */
     public static VueloBase getVueloBaseByCodigo(String codigo) {
         VueloBase vueloBaseSalida = null;
         for (VueloBase vb : lstVuelosBase) {
@@ -115,11 +152,21 @@ public class Logica {
         return vueloBaseSalida;
     }
 
+    /**
+     *
+     * @param codigoIATA
+     * @return
+     */
     public static VueloBase getVueloBaseByAeropuertoOrigen(String codigoIATA) {
 
         return new VueloBase();
     }
 
+    /**
+     *
+     * @param codigoIATA
+     * @return
+     */
     public static VueloBase getVueloBaseByAeropuertoDestino(String codigoIATA) {
         return new VueloBase();
     }
@@ -130,11 +177,20 @@ public class Logica {
     private static List<VueloDiario> lstVuelosProximos = new ArrayList<VueloDiario>();
     private static List<VueloBase> lstVueloCompanyaFecha = new ArrayList<VueloBase>();
 
+    /**
+     *
+     * @return
+     */
     public static List<VueloDiario> getAllVuelosDiarios() {
         lstVuelosDiario = Inicializaciones.getInstance().getListVueloDiario();
         return lstVuelosDiario;
     }
 
+    /**
+     *
+     * @param codigo
+     * @return
+     */
     public static VueloDiario getVueloDiarioByCodigoVueloBase(String codigo) {
         VueloDiario valorSalida = null;
         lstVuelosDiario = Inicializaciones.getInstance().getListVueloDiario();
@@ -148,6 +204,11 @@ public class Logica {
         return valorSalida;
     }
 
+    /**
+     *
+     * @param fecha
+     * @return
+     */
     public List<VueloDiario> obtenerLlegadas(LocalDate fecha) {
         LocalDate hoy = LocalDate.now();
 
@@ -160,6 +221,11 @@ public class Logica {
         return lstVuelosLegada;
     }
 
+    /**
+     *
+     * @param fecha
+     * @return
+     */
     public List<VueloDiario> obtenerLlegadas2(LocalDate fecha) {
         LocalDateTime hoy = LocalDate.now().atStartOfDay();
 
@@ -182,6 +248,11 @@ public class Logica {
         return lstVuelosLlegada;
     }
 
+    /**
+     *
+     * @param fecha
+     * @return
+     */
     public List<VueloDiario> obtenerSalidas2(LocalDate fecha) {
         LocalDateTime hoy = LocalDate.now().atStartOfDay();
 
@@ -204,6 +275,10 @@ public class Logica {
         return lstVuelosS;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<VueloDiario> getProximosVuelos() {
         lstVuelosProximos = Inicializaciones.getInstance().getListVueloDiario();
         LocalDateTime ahora = LocalDateTime.now();
@@ -225,6 +300,10 @@ public class Logica {
         return lstVuelosProximos;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<VueloDiario> getProximasSalidas() {
         lstVuelosProximos = Inicializaciones.getInstance().getListVueloDiario();
         LocalDateTime ahora = LocalDateTime.now();
@@ -255,14 +334,27 @@ public class Logica {
         }
     }
 
+    /**
+     *
+     * @param newComp
+     */
     public static void addCompanyaAerea(CompanyaAerea newComp) {
         lstCompanyas.add(newComp);
     }
 
+    /**
+     *
+     * @param v
+     */
     public static void addVueloBase(VueloBase v) {
         lstVuelosBase.add(v);
     }
 
+    /**
+     *
+     * @param codigo
+     * @param newComp
+     */
     public static void updateCompanyaByCodigo(String codigo, CompanyaAerea newComp) {
         CompanyaAerea oldComp = getCompanyaByCodigo(codigo);
         oldComp.setDireccion(newComp.getDireccion());
@@ -274,12 +366,20 @@ public class Logica {
 
     }
 
+    /**
+     *
+     * @param codigo
+     */
     public static void deleteCompanyaByCodigo(String codigo) {
         CompanyaAerea delComp = getCompanyaByCodigo(codigo);
         lstCompanyas.remove(delComp);
 
     }
 
+    /**
+     *
+     * @return
+     */
     public static List<Municipio> getAllMunicipios() {
         List<Municipio> lstMunicipios = new ArrayList<>();
 
@@ -307,6 +407,11 @@ public class Logica {
         return lstMunicipios;
     }
 
+    /**
+     *
+     * @param codigo
+     * @return
+     */
     public static Municipio getMunicipioByCodigo(String codigo) {
 
         List<Municipio> municipios = getAllMunicipios();
@@ -320,6 +425,11 @@ public class Logica {
         return null;
     }
 
+    /**
+     *
+     * @param nombre
+     * @return
+     */
     public static String getCodigoByNombre(String nombre) {
         List<Municipio> municipios = getAllMunicipios();
 
@@ -332,6 +442,11 @@ public class Logica {
         return null;
     }
     
+    /**
+     *
+     * @param nombre
+     * @return
+     */
     public static String getCodigoAeropuerto(String nombre){
          List<Aeropuerto> aeri = getAllAeropuertos();
 
@@ -343,6 +458,24 @@ public class Logica {
 
         return null;
     }
+    
+       public static String getCodigoCA(String nombre){
+         List<CompanyaAerea> aeri = getAllCompanyas();
+
+        for (CompanyaAerea a : aeri) {
+            if (a.getNombre().equals(nombre)) {
+                return a.getCodigo();
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * @param nombre
+     * @return
+     */
     public static String getMuniAeropuerto(String nombre){
          List<Aeropuerto> aeri = getAllAeropuertos();
 
@@ -355,6 +488,11 @@ public class Logica {
         return null;
     }
     
+    /**
+     *
+     * @param codigoIATA
+     * @return
+     */
     public static boolean tieneVuelosDiariosAsociados(String codigoIATA) {
         lstVuelosDiario = Inicializaciones.getInstance().getListVueloDiario();
 

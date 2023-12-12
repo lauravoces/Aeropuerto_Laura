@@ -9,11 +9,39 @@ package utils;
  * @author laura
  */
 public interface Semana {
+
+    /**
+     *
+     */
     String MONDAY = "L";
+
+    /**
+     *
+     */
     String TUESDAY = "M";
+
+    /**
+     *
+     */
     String WEDNESDAY = "X";
+
+    /**
+     *
+     */
     String THURSDAY = "J";
+
+    /**
+     *
+     */
     String FRIDAY = "V";
+
+    /**
+     *
+     */
     String SATURDAY = "S";
+
+    /**
+     *
+     */
     String SUNDAY = "D";
 }

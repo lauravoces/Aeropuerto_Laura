@@ -26,20 +26,39 @@ public class VueloBaseTableModel extends AbstractTableModel{
    private String[] columnas={
         "Código VB","Ae Origen","Ae Destino", "Plazas", "Hora Salida", "Hora Llegada", "Dias que opera"
     };
+
+    /**
+     *
+     * @param listVBB
+     */
     public VueloBaseTableModel (List<VueloBase>listVBB ){
         this.listVBB=listVBB;
     }
             
+    /**
+     *
+     * @return
+     */
     @Override
     public int getRowCount() {
         return listVBB.size();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getColumnCount() {
         return columnas.length;
     }
 
+    /**
+     *
+     * @param rowIndex
+     * @param columnIndex
+     * @return
+     */
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
        switch(columnIndex){
@@ -65,6 +84,11 @@ public class VueloBaseTableModel extends AbstractTableModel{
     
     }
 
+    /**
+     *
+     * @param column
+     * @return
+     */
     @Override
     public String getColumnName(int column) {
         return columnas[column];

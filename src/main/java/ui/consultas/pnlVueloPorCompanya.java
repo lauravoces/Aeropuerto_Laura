@@ -29,6 +29,8 @@ private tblVueloDiario vueloDiarioDialog;
 
     /**
      * Creates new form pnlVueloPorCompanya
+     * @param parent
+     * @param modal
      */
     public pnlVueloPorCompanya(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -45,6 +47,11 @@ private tblVueloDiario vueloDiarioDialog;
         sorter.setSortKeys(sortKeys);
         aquilafecha.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
     }
+
+    /**
+     *
+     * @return
+     */
     public javax.swing.JTable getTabla() {
         return jTable1;
     }

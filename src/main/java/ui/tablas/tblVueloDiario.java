@@ -15,12 +15,19 @@ public class tblVueloDiario extends javax.swing.JDialog {
 private Logica logicaNegocio=new Logica();
     /**
      * Creates new form tblVueloDiario
+     * @param parent
+     * @param modal
      */
     public tblVueloDiario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
          jTable1.setModel(new VueloDiarioTableModel(logicaNegocio.getAllVuelosDiarios()));
     }
+
+    /**
+     *
+     * @return
+     */
     public javax.swing.JTable getTabla() {
         return jTable1;
     }

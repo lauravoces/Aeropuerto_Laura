@@ -15,6 +15,8 @@ public class tblVueloBase extends javax.swing.JDialog {
 private Logica logicaNegocio=new Logica();
     /**
      * Creates new form tblVueloBase
+     * @param parent
+     * @param modal
      */
     public tblVueloBase(java.awt.Frame parent, boolean modal) {
         super(parent, modal);

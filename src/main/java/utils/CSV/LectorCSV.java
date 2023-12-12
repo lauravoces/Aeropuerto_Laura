@@ -35,9 +35,10 @@ import static utils.Archivos.PATH_VUELOSBASE;
  */
 public class LectorCSV<T> {
 
-    
-  
-    
+    /**
+     *
+     * @return
+     */
     public HashMap<String, String> readMunicipiosCSV() {
         HashMap<String, String> municipiosHashMap = new HashMap<>();
 
@@ -56,7 +57,11 @@ public class LectorCSV<T> {
         return municipiosHashMap;
     }
 
-   public HashMap<String, Aeropuerto> readAeropuertoCsv() {
+    /**
+     *
+     * @return
+     */
+    public HashMap<String, Aeropuerto> readAeropuertoCsv() {
         HashMap<String, Aeropuerto> aeropuertoHashMap = new HashMap<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(PATH_AEROPUERTO))) {
@@ -71,7 +76,11 @@ public class LectorCSV<T> {
         return aeropuertoHashMap;
     }
 
-   public HashMap<String, CompanyaAerea> readCompanyaCsv() {
+    /**
+     *
+     * @return
+     */
+    public HashMap<String, CompanyaAerea> readCompanyaCsv() {
         HashMap<String, CompanyaAerea> companyaHashMap = new HashMap<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(PATH_COMPANYAAEREA))) {
@@ -96,6 +105,10 @@ public class LectorCSV<T> {
 
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
+    /**
+     *
+     * @return
+     */
     public HashMap<String, VueloDiario> readVueloDiarioCsv() {
     HashMap<String, VueloDiario> vueloDiarioHashMap = new HashMap<>();
 
@@ -144,8 +157,11 @@ public class LectorCSV<T> {
     return vueloDiarioHashMap;
 }
 
-
-  public HashMap<String, VueloBase> readVueloBaseCSV() {
+    /**
+     *
+     * @return
+     */
+    public HashMap<String, VueloBase> readVueloBaseCSV() {
     HashMap<String, VueloBase> vueloBaseHashMap = new HashMap<>();
 
     try {

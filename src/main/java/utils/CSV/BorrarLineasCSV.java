@@ -14,7 +14,13 @@ import java.util.List;
  * @author laura
  */
 public class BorrarLineasCSV {
-     public static void borrarLineaCSV(String ruta, String codigoAEliminar) {
+
+    /**
+     *
+     * @param ruta
+     * @param codigoAEliminar
+     */
+    public static void borrarLineaCSV(String ruta, String codigoAEliminar) {
         try {
             List<String> lineas = Files.readAllLines(Path.of(ruta));
 

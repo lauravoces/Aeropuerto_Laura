@@ -17,12 +17,19 @@ private Logica logicaNegocio=new Logica();
 LocalDate fechaActual = LocalDate.now();
     /**
      * Creates new form tblVueloDiario
+     * @param parent
+     * @param modal
      */
     public tblVueloDiarioL(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
          jTable1.setModel(new VueloDiarioTableModel(logicaNegocio.obtenerLlegadas2(fechaActual)));
     }
+
+    /**
+     *
+     * @return
+     */
     public javax.swing.JTable getTabla() {
         return jTable1;
     }

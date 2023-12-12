@@ -15,7 +15,12 @@ import ui.Principal;
  */
 public class main {
     private static Principal pInstance; 
-     public static void main(String args[]) {
+
+    /**
+     *
+     * @param args
+     */
+    public static void main(String args[]) {
      Inicializaciones.getInstance();//esto en teoria inicia los hasmap y los lectores
       if (pInstance == null) {
             // Si no hay, crea una nueva instancia y la guarda

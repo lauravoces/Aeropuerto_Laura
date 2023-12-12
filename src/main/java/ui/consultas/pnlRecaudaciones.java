@@ -24,6 +24,8 @@ private Logica logicaNegocio=new Logica();
 private TableRowSorter< VueloDiarioTableModel> sorter;
     /**
      * Creates new form pnlRecaudaciones
+     * @param parent
+     * @param modal
      */
     public pnlRecaudaciones(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -85,7 +87,7 @@ private TableRowSorter< VueloDiarioTableModel> sorter;
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Cerrar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -128,8 +130,7 @@ private TableRowSorter< VueloDiarioTableModel> sorter;
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButton2)))
-                                .addGap(177, 177, 177)))))
+                                        .addComponent(jButton2)))))))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(

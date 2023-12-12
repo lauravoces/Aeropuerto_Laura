@@ -19,20 +19,39 @@ public class AeropuertosTableModel extends AbstractTableModel {
     private String[] columnas={
         "Código","Nombre","Municipio"
     };
+
+    /**
+     *
+     * @param listAero
+     */
     public AeropuertosTableModel (List<Aeropuerto>listAero ){
         this.listAero=listAero;
     }
             
+    /**
+     *
+     * @return
+     */
     @Override
     public int getRowCount() {
         return listAero.size();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int getColumnCount() {
         return columnas.length;
     }
 
+    /**
+     *
+     * @param rowIndex
+     * @param columnIndex
+     * @return
+     */
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
        switch(columnIndex){
@@ -49,6 +68,11 @@ public class AeropuertosTableModel extends AbstractTableModel {
     
     }
 
+    /**
+     *
+     * @param column
+     * @return
+     */
     @Override
     public String getColumnName(int column) {
         return columnas[column];

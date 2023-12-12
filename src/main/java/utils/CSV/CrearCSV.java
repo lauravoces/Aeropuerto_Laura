@@ -23,7 +23,11 @@ import java.util.HashMap;
 public class CrearCSV {
     private static final String DATE_FORMAT = "yyyy-MM-dd";
 
-
+    /**
+     *
+     * @param ruta
+     * @param aeropuertoHashMap
+     */
     public static void writeAeropuertoCSV(String ruta, HashMap<String, Aeropuerto> aeropuertoHashMap) {
         try {
             Files.createDirectories(Path.of(ruta).getParent());
@@ -41,7 +45,12 @@ public class CrearCSV {
         }
     }
 
-public static void writeCompanyaCSV(String ruta, HashMap<String, CompanyaAerea> companyaHashMap) {
+    /**
+     *
+     * @param ruta
+     * @param companyaHashMap
+     */
+    public static void writeCompanyaCSV(String ruta, HashMap<String, CompanyaAerea> companyaHashMap) {
     try {
         Files.createDirectories(Path.of(ruta).getParent());
         if (!Files.exists(Path.of(ruta))) {
@@ -70,10 +79,12 @@ public static void writeCompanyaCSV(String ruta, HashMap<String, CompanyaAerea> 
     }
 }
 
-
-    
-    
-public static void writeVueloBaseCSV(String ruta, HashMap<String, VueloBase> vueloBaseHashMap) {
+    /**
+     *
+     * @param ruta
+     * @param vueloBaseHashMap
+     */
+    public static void writeVueloBaseCSV(String ruta, HashMap<String, VueloBase> vueloBaseHashMap) {
     try {
         Files.createDirectories(Path.of(ruta).getParent());
         if (!Files.exists(Path.of(ruta))) {
@@ -106,7 +117,12 @@ public static void writeVueloBaseCSV(String ruta, HashMap<String, VueloBase> vue
     }
 }
 
-public static void writeVueloDiarioCSV(String ruta, HashMap<String, VueloDiario> vueloDiarioHashMap) {
+    /**
+     *
+     * @param ruta
+     * @param vueloDiarioHashMap
+     */
+    public static void writeVueloDiarioCSV(String ruta, HashMap<String, VueloDiario> vueloDiarioHashMap) {
     try {
         Files.createDirectories(Path.of(ruta).getParent());
         if (!Files.exists(Path.of(ruta))) {
