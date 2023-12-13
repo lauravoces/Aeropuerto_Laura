@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -228,6 +229,7 @@ public class GestionCompanyas extends javax.swing.JFrame {
 
         jLabel10.setText("*IATA");
 
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 0, 51));
         jLabel11.setText("jLabel11");
 
@@ -341,8 +343,9 @@ public class GestionCompanyas extends javax.swing.JFrame {
         return companyaMap;
     }
     private void btnGuardarCompActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCompActionPerformed
+        int resultado = JOptionPane.showConfirmDialog(this, "Estas Seguro?", "Comprobacion", JOptionPane.YES_NO_OPTION);
+        if (resultado == JOptionPane.YES_OPTION) {
         CompanyaAerea cAerea = new CompanyaAerea();
-//ESTO FUNCIONA. HAY QUE IMPLEMENTAR VALIDACIONES.
         cAerea.setPrefijo(Integer.parseInt(txtPrefijoComp.getText()));
         cAerea.setCodigo(txtCodigoComp.getText());
         cAerea.setNombre(txtNombreComp.getText());
@@ -371,6 +374,9 @@ public class GestionCompanyas extends javax.swing.JFrame {
         btnGuardarComp.setEnabled(false);
         btnGuardarComp.setVisible(true);
         btnGuardarComp.setText("Una a la vez");
+        } else if (resultado == JOptionPane.NO_OPTION) {
+            jLabel9.setText("No se ha guardado el vuelo diario");
+        }  
     }//GEN-LAST:event_btnGuardarCompActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

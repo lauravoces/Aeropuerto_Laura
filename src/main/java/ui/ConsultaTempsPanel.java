@@ -1,37 +1,55 @@
 package ui;
 
 import api.AEMET_API;
-
-import javax.swing.*;
+import dto.Aeropuerto;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import javax.swing.*;
+import logica.Logica;
 import utils.Temperaturas;
 
 /**
- *
- * @author laura
+ * Panel para consultar temperaturas con componentes Swing.
+ * Este panel tiene un JComboBox para seleccionar el aeropuerto, un botón para consultar las temperaturas,
+ * y muestra el código del aeropuerto, el municipio y el resultado en JLabels.
+ * Por algun motivo incierto ahora no me deja usarlo como componente... pero en su momento me dejó.
+ * Y no he cambiado nada. Por eso está ahí en Info y no me da fallos en tiempo de ejecución.
+ * Lo único que hice fue cambiarlo a un combobox y ahora no me quiere funcionar, pero la clase Info es testigo de que en su momento
+ * Lo agregé a paleta y lo añadí....
  */
+
 public class ConsultaTempsPanel extends JPanel {
 
     private static AEMET_API aemetApi = new AEMET_API();
+    private JComboBox<String> cbxAeropuerto;
+    private JLabel lblCodA;
+    private JLabel lblMuni;
+    private JLabel resultadoLabel;
 
     /**
-     * Todo esto estaba pensado para obtener las temperaturas del JSON que se generaba por la consulta a la API.
-     * En teoria funciona bien, pero la API no fuciona y por ende esta clase que es un componente UI no funcionará
-     * Puede ser añadido a cualquier formulario y no da error mientras se hace.
+     * Constructor del panel.
      */
-    public ConsultaTempsPanel() {
-        setLayout(new GridLayout(4, 2));
+      public ConsultaTempsPanel() {
+        initComponents();
+    }
+    private void initComponents() {
+        setLayout(new GridLayout(5, 2));
 
-        JTextField aeropuertoTextField = new JTextField(10);
-        JTextField municipioTextField = new JTextField(10);
+        cbxAeropuerto = new JComboBox<>();
+        lblCodA = new JLabel("*");
+        lblMuni = new JLabel("*");
+        resultadoLabel = new JLabel();
+
         JButton consultarButton = new JButton("Consultar Temperaturas");
-        JLabel resultadoLabel = new JLabel();
+
+        llenarComp(); 
 
         consultarButton.addActionListener(e -> {
-            String aeropuertoCodigo = aeropuertoTextField.getText();
-            String municipioCodigo = municipioTextField.getText();
+            String selectedNombre = (String) cbxAeropuerto.getSelectedItem();
+            String aeropuertoCodigo = Logica.getCodigoAeropuerto(selectedNombre);
+            String municipioCodigo = Logica.getMuniAeropuerto(selectedNombre);
 
             try {
                 Temperaturas temperaturas = consultarTemperaturas(aeropuertoCodigo, municipioCodigo);
@@ -47,16 +65,49 @@ public class ConsultaTempsPanel extends JPanel {
             }
         });
 
+        add(new JLabel("Seleccionar Aeropuerto:"));
+        add(cbxAeropuerto);
         add(new JLabel("Código Aeropuerto:"));
-        add(aeropuertoTextField);
-        add(new JLabel("Código Municipio:"));
-        add(municipioTextField);
+        add(lblCodA);
+        add(new JLabel("Municipio:"));
+        add(lblMuni);
         add(consultarButton);
         add(new JLabel());
         add(new JLabel());
         add(resultadoLabel);
     }
 
+    /**
+     * Método para llenar el JComboBox con los aeropuertos.
+     */
+    private void llenarComp() {
+        List<Aeropuerto> compA = Logica.getAllAeropuertos();
+        cbxAeropuerto.removeAllItems();
+
+        for (Aeropuerto a : compA) {
+            cbxAeropuerto.addItem(a.getNombre());
+        }
+
+        cbxAeropuerto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedNombre = (String) cbxAeropuerto.getSelectedItem();
+                String codigoIATA = Logica.getCodigoAeropuerto(selectedNombre);
+                String municipioCodigo = Logica.getMuniAeropuerto(selectedNombre);
+
+                lblCodA.setText(codigoIATA);
+                lblMuni.setText(municipioCodigo);
+            }
+        });
+    }
+
+    /**
+     * Método para consultar las temperaturas.
+     *
+     * @param aeropuertoCodigo Código del aeropuerto.
+     * @param municipioCodigo Código del municipio.
+     * @return Objeto Temperaturas con las temperaturas consultadas.
+     */
     private Temperaturas consultarTemperaturas(String aeropuertoCodigo, String municipioCodigo) {
         try {
             return aemetApi.getTemperaturas(aeropuertoCodigo, municipioCodigo);
@@ -66,14 +117,20 @@ public class ConsultaTempsPanel extends JPanel {
         }
     }
 
+    /**
+     * Maneja las excepciones imprimiendo el stack trace en la consola.
+     *
+     * @param e Excepción.
+     */
     private void handleException(Exception e) {
         System.out.println("Error occurred:");
         e.printStackTrace();
     }
 
     /**
+     * Método principal para ejecutar la aplicación.
      *
-     * @param args
+     * @param args Argumentos de línea de comandos (no se utilizan).
      */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -83,7 +140,7 @@ public class ConsultaTempsPanel extends JPanel {
             ConsultaTempsPanel consultaTempsPanel = new ConsultaTempsPanel();
             frame.getContentPane().add(consultaTempsPanel);
 
-            frame.setSize(300, 200);
+            frame.setSize(400, 250);
             frame.setVisible(true);
         });
     }

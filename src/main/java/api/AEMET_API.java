@@ -21,89 +21,55 @@ public class AEMET_API {
     //lo intente para OVD 33016. tienes las respuestas de la consulta en otros archivos, junto a los csv.
     //seguramente esto se debe a que me he olvidado de algo, posiblemente algo muy tonto, pero no se que estoy haciendo mal, al principio el codigo era simple y en teoria tenia sentido
     //pero este monstruo no hace nada.
-    
+
     //KEY y URL de consulta proporcionada en opendata
     private static final String API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsYS52by5ncmFAZ21haWwuY29tIiwianRpIjoiNDAxZmM1MDgtYzRiNi00OTQ2LWFkNGYtMjlhNDllNjBlZTQ3IiwiaXNzIjoiQUVNRVQiLCJpYXQiOjE3MDE5OTMyMDMsInVzZXJJZCI6IjQwMWZjNTA4LWM0YjYtNDk0Ni1hZDRmLTI5YTQ5ZTYwZWU0NyIsInJvbGUiOiIifQ.1i5plmEU3B44LqUSyp5gYyrh-mArWRQtMXofclP4Ej0";
     private static final String URL_AEMET = "https://opendata.aemet.es/opendata/api/prediccion/especifica/municipio/diaria/{municipio}";
 
-    
     //metodo que en teoria daria las temperaturas max y minimas a un obj temperatura, no lo hace
-
     /**
-     * Consulta a la API de AEMET por medio de mi propioa API_KEY. No funciona tal y como esta, pero la logica no deberia estar mal encaminada, creo
+     * Consulta a la API de AEMET por medio de mi propioa API_KEY. No funciona
+     * tal y como esta, pero la logica no deberia estar mal encaminada, creo
+     *
      * @param aeropuertoCodigo
      * @param codigoMunicipio
      * @return
      */
-    public static Temperaturas getTemperaturas(String aeropuertoCodigo, String codigoMunicipio) {
-        String temperaturaMaxima = null;
-        String temperaturaMinima = null;
-        try {
+    public static Temperaturas getTemperaturas(String aeropuertoCodigo, String codigoMunicipio) throws UnirestException {
+        
             String apiUrl = URL_AEMET.replace("{municipio}", codigoMunicipio);
-            HttpResponse<JsonNode> jsonResponse = Unirest.get(apiUrl)
+            HttpResponse<JsonNode> firstResponse = Unirest.get(apiUrl)
                     .header("accept", "application/json")
                     .queryString("api_key", API_KEY)
+                    .asJson();
+            String url = firstResponse.getBody().getObject().getString("datos");
+
+            HttpResponse<JsonNode> jsonResponse = Unirest.get(url)
+                    .header("accept", "application/json")
                     .asJson();
 
             int statusCode = jsonResponse.getStatus();
             if (statusCode == 200) {
                 JSONArray jsonArray = jsonResponse.getBody().getArray();
 
-               //porque la iteracion sobre el array falla.... ??? misterios de la vida, lo intente con muchas combinaciones ya.
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject item = jsonArray.getJSONObject(i);
+                
+                 JSONObject jn = jsonArray.getJSONObject(0);
+                 JSONObject prediccion = jn.getJSONObject("prediccion");
+                    JSONArray diaArray = prediccion.getJSONArray("dia");
+                    JSONObject diaItem = diaArray.getJSONObject(0);
+                        JSONObject temperatura = diaItem.getJSONObject("temperatura");
+                       String tempMin=Integer.toString(temperatura.getInt("minima"));
+                       String tempMax=Integer.toString(temperatura.getInt("maxima"));
 
-                   
-                    JSONArray camposArray = item.getJSONArray("campos");
-                    for (int j = 0; j < camposArray.length(); j++) {
-                        JSONObject camposItem = camposArray.getJSONObject(j);
+Temperaturas temperaturas = new Temperaturas(aeropuertoCodigo, codigoMunicipio, tempMax, tempMin);
+          
 
-                        
-                        JSONArray prediccionArray = camposItem.getJSONArray("prediccion");
-                        for (int k = 0; k < prediccionArray.length(); k++) {
-                            JSONObject prediccionItem = prediccionArray.getJSONObject(k);
-
-                          
-                            JSONArray diaArray = prediccionItem.getJSONArray("dia");
-                            for (int l = 0; l < diaArray.length(); l++) {
-                                JSONObject diaItem = diaArray.getJSONObject(l);
-
-                             
-                                JSONArray temperaturaArray = diaItem.getJSONArray("temperatura");
-                                for (int m = 0; m < temperaturaArray.length(); m++) {
-                                    JSONObject temperaturaItem = temperaturaArray.getJSONObject(m);
-
-                                  
-                                    temperaturaMaxima = temperaturaItem.getString("maxima");
-                                    temperaturaMinima = temperaturaItem.getString("minima");
-
-                                   
-                                    JSONArray datoArray = temperaturaItem.getJSONArray("dato");
-                                    for (int n = 0; n < datoArray.length(); n++) {
-                                        JSONObject datoItem = datoArray.getJSONObject(n);
-
-                                    
-                                        String horaDato = datoItem.getString("hora");
-                                        String valorDato = datoItem.getString("value");
-
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
-                System.out.println("Error en la solicitud: " + statusCode);
-                return null;
-            }
-            //si esto devolviera algo se lo daria al constructor y entonces el elemento de UI que cree serviría de algo, pero no.
-            Temperaturas temperaturas = new Temperaturas(aeropuertoCodigo, codigoMunicipio, temperaturaMaxima, temperaturaMinima);
+//porque la iteracion sobre el array falla.... ??? misterios de la vida, lo intente con muchas combinaciones ya.
+              
+          
             return temperaturas;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (UnirestException ex) {
-            Logger.getLogger(AEMET_API.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+       
+       
     }
-}
+        return null;
+}}

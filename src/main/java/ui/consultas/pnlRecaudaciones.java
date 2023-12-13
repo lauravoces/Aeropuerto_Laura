@@ -50,7 +50,7 @@ private TableRowSorter< VueloDiarioTableModel> sorter;
     for (int i = 0; i < filas; i++) {
         Object valorCelda = jTable1.getValueAt(i, columnaAsumar);
 
-        // Verifica si el valor de la celda es numérico antes de sumarlo
+        //Verifica si el valor de la celda es numérico antes de sumarlo
         if (valorCelda instanceof Number) {
             suma += ((Number) valorCelda).doubleValue();
         }

@@ -24,24 +24,20 @@ public class ModificarCSV {
     public static void modificarLineaCSV(String ruta, String codigoAModificar, String nuevoContenido) {
         try {
             List<String> lineas = Files.readAllLines(Path.of(ruta));
-
-            // Crear una nueva lista para almacenar las líneas modificadas
+          
             List<String> nuevasLineas = lineas.stream()
                     .map(linea -> {
-                        // Dividir la línea en campos usando el delimitador ";"
-                        String[] campos = linea.split(";");
-                        // Verificar si el código coincide con el código a modificar
-                        if (campos[1].equals(codigoAModificar)) {
-                            // Modificar la línea con el nuevo contenido
+                        // Dividir usando el delimitador ";"
+                        String[] campos = linea.split(";");                       
+                        if (campos[1].equals(codigoAModificar)) {                           
                             return nuevoContenido;
                         } else {
-                            // Mantener la línea sin cambios
+                            //sin cambios
                             return linea;
                         }
                     })
                     .toList();
-
-            // Escribir las líneas actualizadas al archivo
+            //Escribir las líneas actualizadas al archivo
             Files.write(Path.of(ruta), nuevasLineas);
         } catch (IOException e) {
             throw new RuntimeException("Error al modificar la línea del archivo CSV", e);

@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
@@ -442,6 +443,8 @@ public class GestionVDiario extends javax.swing.JFrame {
         return vueloDiarioHashMap;
     }
     private void btnGuardarVD2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarVD2ActionPerformed
+        int resultado = JOptionPane.showConfirmDialog(this, "Estas Seguro?", "Comprobacion", JOptionPane.YES_NO_OPTION);
+        if (resultado == JOptionPane.YES_OPTION) {
         VueloDiario vueloDiario = new VueloDiario();
         DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm"); //Logger.getLogger(GestionVuelosDiarios.class.getName()).log(Level.SEVERE, null, ex);
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -456,17 +459,18 @@ public class GestionVDiario extends javax.swing.JFrame {
         vueloDiario.setFechaVuelo(fechaVuelo);
         vueloDiario.setHoraSalidaReal(horaSRFormateada);
         vueloDiario.setHoraLlegadaReal(horaLRFormateada);
-        // Obtener el HashMap actual de VueloDiario
+        //HashMap actual de VueloDiario
         HashMap<String, VueloDiario> vueloDiarioMap = obtenerHashMapActual();
-        // Agregar la nueva instancia al HashMap
+        //Instancia al HashMap
         vueloDiarioMap.put(vueloDiario.getCodigoVueloBase(), vueloDiario);
-        // Llamar al método para escribir en el archivo CSV
+        //Escritura de csv
         writeVueloDiarioCSV(PATH_VUELODIARIO, vueloDiarioMap);
         System.out.println(vueloDiario.getCodigoVueloBase() + " " + vueloDiario.getPrecioVuelo() + " ");
         btnGuardarVD2.setEnabled(false);
-        //  jLabel9.setVisible(true);
-
-        //    jLabel9.setText("Uno a la vez");    
+        
+        } else if (resultado == JOptionPane.NO_OPTION) {
+            jLabel9.setText("No se ha guardado el vuelo diario");
+        }   
 
     }//GEN-LAST:event_btnGuardarVD2ActionPerformed
 

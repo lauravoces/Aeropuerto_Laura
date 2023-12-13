@@ -114,14 +114,6 @@ public class GestionVBase extends javax.swing.JFrame {
         });
     }
 
-    private void cbxCodMunicipioActionPerformed(java.awt.event.ActionEvent evt) {
-
-        String selectedCodigo = (String) cbxCodMunicipio.getSelectedItem();
-
-        Municipio selectedMunicipio = Logica.getMunicipioByCodigo(selectedCodigo);
-
-        txtCodMunicipio.setText(selectedMunicipio.getNombreMunicipio());
-    }
 
     private void validarCodVuelo() {
         String entero = txtCodigoVueloBase.getText();
@@ -403,6 +395,11 @@ public class GestionVBase extends javax.swing.JFrame {
         jLabel9.setText("jLabel9");
 
         cbxCodMunicipio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxCodMunicipio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxCodMunicipioActionPerformed(evt);
+            }
+        });
 
         txtIATA.setText("IATA");
 
@@ -421,6 +418,11 @@ public class GestionVBase extends javax.swing.JFrame {
         lblCodOrigen.setText("IATA");
 
         cbxOrigen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxOrigen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxOrigenActionPerformed(evt);
+            }
+        });
 
         lblAE.setText("Compañia");
 
@@ -704,6 +706,14 @@ public class GestionVBase extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         mostrarPanelEnVentana(ayudaFrame, "Ayuda");
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void cbxOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxOrigenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxOrigenActionPerformed
+
+    private void cbxCodMunicipioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxCodMunicipioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxCodMunicipioActionPerformed
     private void actualizarLabel(javax.swing.JLabel label, javax.swing.JComboBox<String> cbxHoras, javax.swing.JComboBox<String> cbxMinutos) {
         String horas = cbxHoras.getSelectedItem() != null ? cbxHoras.getSelectedItem().toString() : "00";
         String minutos = cbxMinutos.getSelectedItem() != null ? cbxMinutos.getSelectedItem().toString() : "00";

@@ -57,12 +57,10 @@ public class CrearCSV {
             Files.createFile(Path.of(ruta));
         }
 
-        // Open the file in append mode
         try (BufferedWriter writer = Files.newBufferedWriter(Path.of(ruta), StandardOpenOption.APPEND)) {
             int totalCompanies = companyaHashMap.size();
             int companyCounter = 0;
-
-            // Write new entries only
+       
             for (HashMap.Entry<String, CompanyaAerea> entry : companyaHashMap.entrySet()) {
                 CompanyaAerea companyaAerea = entry.getValue();
                 String linea = String.format("%d;%s;%s;%s;%s;%s;%s%s",
@@ -93,7 +91,7 @@ public class CrearCSV {
 
         DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
 
-        // Open the file once before the loop
+        
         try (BufferedWriter writer = Files.newBufferedWriter(Path.of(ruta), StandardOpenOption.APPEND)) {
             int totalVuelos = vueloBaseHashMap.size();
             int vueloCounter = 0;

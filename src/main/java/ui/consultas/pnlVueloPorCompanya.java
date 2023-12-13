@@ -184,10 +184,10 @@ if (jTextField2 != null && !jTextField2.getText().trim().isEmpty()) {
    
 
 try {
-    // Intenta parsear la fecha del JLabel
+    //Intenta parsear la fecha del JLabel
     LocalDate fecha = LocalDate.parse(fechaTexto, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-    // Crear un RowFilter para filtrar por compañía y fecha
+    //Crear un RowFilter para filtrar por compañía y fecha
     RowFilter<Object, Object> rowFilter = RowFilter.andFilter(
         List.of(
             RowFilter.regexFilter(compania, 0),                // Filtro por compañía en la columna 0
@@ -195,12 +195,12 @@ try {
         )
     );
 
-    // Aplicar el filtro al TableRowSorter
+    //Aplicar el filtro al TableRowSorter
     TableRowSorter<VueloDiarioTableModel> sorter = (TableRowSorter<VueloDiarioTableModel>) jTable1.getRowSorter();
     sorter.setRowFilter(rowFilter);
 } catch (DateTimeParseException ex) {
     System.err.println("Error al parsear la fecha: " + ex.getMessage());
-    // Manejo de errores o mensaje al usuario
+    //Manejo de errores o mensaje al usuario
 }
   
    

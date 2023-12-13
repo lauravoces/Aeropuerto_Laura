@@ -121,17 +121,18 @@ public class LectorCSV<T> {
                 String codigoVuelo = fields[0];
                 String fechaStr = fields[1];
                 int numPlazas = Integer.parseInt(fields[2]);
-                float precio = Float.parseFloat(fields[3]);
+                float precio = Float.parseFloat(fields[3].replace(",", "."));
+                
                 String horaSalidaStr = fields[4];
                 String horaLlegadaStr = fields[5];
 
                 DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
 
-                // Convierte la fecha
+                //Convierte la fecha
                 LocalDate fecha = LocalDate.parse(fechaStr, dateFormat);
 
-                // Convierte las horas
+                //Convierte las horas
                 LocalTime horaSalida = LocalTime.parse(horaSalidaStr, timeFormat);
                 LocalTime horaLlegada = LocalTime.parse(horaLlegadaStr, timeFormat);
 
@@ -145,8 +146,7 @@ public class LectorCSV<T> {
                 );
 
                 vueloDiarioHashMap.put(codigoVuelo, vueloDiario);
-            } else {
-                // Manejar el formato incorrecto de la línea del CSV
+            } else {             
                 System.out.println("Formato incorrecto en línea del CSV: " + line);
             }
         }
@@ -187,8 +187,7 @@ public class LectorCSV<T> {
                         numPlazas, horaSalida, horaLlegada, diasOpera);
 
                 vueloBaseHashMap.put(codigoVuelo, vueloBase);
-            } else {
-                // Manejar el formato incorrecto de la línea del CSV
+            } else {              
                 System.out.println("Formato incorrecto en línea del CSV: " + linea);
             }
         }
