@@ -1,5 +1,6 @@
 # Aeropuerto_Laura
+- Por si se me olvidara he subido a main el zip con el proyecto a fecha 13 de diciembre a las 20:21
+# Branch Final
+- Contiene el commit mas reciente
 
-# moverse a la branch final para ver los push que hice, main y master estan obsoletas.
 
-# es posible que de aqui a que entrege la API siga sin ir, pese a que tengo el componente creado
