@@ -16,7 +16,7 @@ public class Temperaturas {
     private double maxTemp;
 
     /**
-     *
+     * 
      * @param aeropCodigo
      * @param municipioCodigo
      * @param minTemp

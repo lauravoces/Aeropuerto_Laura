@@ -13,8 +13,12 @@ import java.util.regex.Pattern;
  */
 public class Validaciones {
 
-    
-     public static boolean esTelefonoValido(String telefono) {
+    /**
+     * Metodo que valida si una cadena es valida, incluye la posibilidad de añadir un prefijo de pais
+     * @param telefono
+     * @return
+     */
+    public static boolean esTelefonoValido(String telefono) {
        
         String patronTelefono = "^(\\+\\d{1,3})?\\d{9,}$";
         Pattern patron = Pattern.compile(patronTelefono);
@@ -22,6 +26,11 @@ public class Validaciones {
         return comprobacion.matches();
     }
     
+    /**
+     * Metodo que valida las fechas en formato yyyy-MM-dd
+     * @param fecha
+     * @return
+     */
     public static boolean esFechaValida(String fecha) {
         String patronFecha = "^\\d{4}-\\d{2}-\\d{2}$";
         Pattern patron = Pattern.compile(patronFecha);
@@ -32,7 +41,7 @@ public class Validaciones {
     
     
     /**
-     *
+     * Metodo que valida si el prefijo será entre 0 y 999
      * @param prefijo
      * @return
      */
@@ -46,7 +55,7 @@ public class Validaciones {
     }
     
     /**
-     *
+     * Metodo que valida el formato del codigo de vuelo
      * @param codigo
      * @return
      */
@@ -56,7 +65,7 @@ public class Validaciones {
     }
      
     /**
-     *
+     * Metodo que valida si el numero es un entero
      * @param numero
      * @return
      */
@@ -66,6 +75,12 @@ public class Validaciones {
         return comprobacion.matches();
     }
     
+    /**
+     * Metodo que valida si el string es un numero de 0 a 9999
+     * Es usado en los codigos de vuelo diario despues del codigo de compañia
+     * @param numero
+     * @return
+     */
     public static boolean esEntero2(String numero) {
         Pattern patron = Pattern.compile("^\\d{1,4}$"); // Ajustado para permitir de 0 a 9999
         Matcher comprobacion = patron.matcher(numero);
@@ -73,7 +88,7 @@ public class Validaciones {
     }
     
     /**
-     *
+     * Valida el codigo de una compañia cuando vamos a introducirla
      * @param codigo
      * @return
      */
@@ -82,7 +97,7 @@ public class Validaciones {
     }
     
     /**
-     *
+     * valida los municipios
      * @param codMunicipio
      * @return
      */
@@ -93,7 +108,7 @@ public class Validaciones {
  //esto era otra positibilidad pero no permite concat
 
     /**
-     *
+     * Esto fue un primer intento de validar la semana, al final no lo hice porque no me validaba una cadena concatenada
      * @param dia
      * @return
      */
@@ -113,7 +128,7 @@ public class Validaciones {
     }
     
     /**
-     *
+     * Valida que la cadena introducida sea del formato LMX.... lo que esta en matches
      * @param dias
      * @return
      */

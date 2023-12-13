@@ -17,7 +17,7 @@ import utils.Temperaturas;
  * @author laura
  */
 public class AEMET_API {
-//Me rindo, llevo dias intentando que funcione la api, pero no consigo leer bien el JSON, en teoria, EN TEORIA, campos deberia ser el primero y me lo da como not found
+    //Me rindo, llevo dias intentando que funcione la api, pero no consigo leer bien el JSON, en teoria, EN TEORIA, campos deberia ser el primero y me lo da como not found
     //lo intente para OVD 33016. tienes las respuestas de la consulta en otros archivos, junto a los csv.
     //seguramente esto se debe a que me he olvidado de algo, posiblemente algo muy tonto, pero no se que estoy haciendo mal, al principio el codigo era simple y en teoria tenia sentido
     //pero este monstruo no hace nada.
@@ -30,7 +30,7 @@ public class AEMET_API {
     //metodo que en teoria daria las temperaturas max y minimas a un obj temperatura, no lo hace
 
     /**
-     *
+     * Consulta a la API de AEMET por medio de mi propioa API_KEY. No funciona tal y como esta, pero la logica no deberia estar mal encaminada, creo
      * @param aeropuertoCodigo
      * @param codigoMunicipio
      * @return

@@ -8,10 +8,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import utils.Temperaturas;
 
+/**
+ *
+ * @author laura
+ */
 public class ConsultaTempsPanel extends JPanel {
 
     private static AEMET_API aemetApi = new AEMET_API();
 
+    /**
+     * Todo esto estaba pensado para obtener las temperaturas del JSON que se generaba por la consulta a la API.
+     * En teoria funciona bien, pero la API no fuciona y por ende esta clase que es un componente UI no funcionará
+     * Puede ser añadido a cualquier formulario y no da error mientras se hace.
+     */
     public ConsultaTempsPanel() {
         setLayout(new GridLayout(4, 2));
 
@@ -62,6 +71,10 @@ public class ConsultaTempsPanel extends JPanel {
         e.printStackTrace();
     }
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Consulta de Temperaturas");

@@ -459,7 +459,12 @@ public class Logica {
         return null;
     }
     
-       public static String getCodigoCA(String nombre){
+    /**
+     *
+     * @param nombre
+     * @return
+     */
+    public static String getCodigoCA(String nombre){
          List<CompanyaAerea> aeri = getAllCompanyas();
 
         for (CompanyaAerea a : aeri) {
