@@ -4,16 +4,8 @@
  */
 package utils;
 
-import dto.CompanyaAerea;
-import java.io.FileReader;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import utils.CSV.LectorCSV;
 
 /**
  *
@@ -21,13 +13,36 @@ import utils.CSV.LectorCSV;
  */
 public class Validaciones {
 
+    
+     public static boolean esTelefonoValido(String telefono) {
+       
+        String patronTelefono = "^(\\+\\d{1,3})?\\d{9,}$";
+        Pattern patron = Pattern.compile(patronTelefono);
+        Matcher comprobacion = patron.matcher(telefono);   
+        return comprobacion.matches();
+    }
+    
+    public static boolean esFechaValida(String fecha) {
+        String patronFecha = "^\\d{4}-\\d{2}-\\d{2}$";
+        Pattern patron = Pattern.compile(patronFecha);
+        Matcher comprobacion = patron.matcher(fecha);
+        return comprobacion.matches();
+    }
+
+    
+    
     /**
      *
      * @param prefijo
      * @return
      */
-    public boolean esPrefijoValido(int prefijo) {
-        return prefijo >= 0 && prefijo <= 999;
+    public static boolean esPrefijoValido(String prefijo) {
+        try {
+            int prefijoNumerico = Integer.parseInt(prefijo);
+            return prefijoNumerico >= 0 && prefijoNumerico <= 999;
+        } catch (NumberFormatException e) {        
+            return false;
+        }
     }
     
     /**
@@ -51,24 +66,21 @@ public class Validaciones {
         return comprobacion.matches();
     }
     
+    public static boolean esEntero2(String numero) {
+        Pattern patron = Pattern.compile("^\\d{1,4}$"); // Ajustado para permitir de 0 a 9999
+        Matcher comprobacion = patron.matcher(numero);
+        return comprobacion.matches();
+    }
+    
     /**
      *
      * @param codigo
      * @return
      */
     public static boolean esCodigoCompaniaValido(String codigo) {
-        return codigo.length() == 2 && codigo.matches("[A-Z][A-Z0-9]");
+        return codigo.length() == 3 && codigo.matches("[A-Z][A-Z0-9]");
     }
-
-    /**
-     *
-     * @param telefono
-     * @return
-     */
-    public boolean esTelefonoValido(String telefono) {
-        return telefono.matches("[0-9]{4,15}");
-    }
-
+    
     /**
      *
      * @param codMunicipio

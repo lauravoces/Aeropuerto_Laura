@@ -4,40 +4,48 @@
  */
 package ui.consultas;
 
+import dto.VueloBase;
 import dto.VueloDiario;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.sql.Time;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import ui.panelAyuda;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import logica.Logica;
 import ui.panelAyudaVD;
 import static utils.Archivos.PATH_VUELODIARIO;
+import static utils.CSV.BorrarLineasCSV.borrarLineaCSV;
 import static utils.CSV.CrearCSV.writeVueloDiarioCSV;
+import static utils.CSV.ModificarCSV.modificarLineaCSV;
+import utils.Validaciones;
 
 /**
  *
  * @author laura
  */
 public class GestionVDiario extends javax.swing.JFrame {
+
     private HashMap<String, VueloDiario> vueloDiarioHashMap = new HashMap<>();
-   private panelAyudaVD ayudaFrame = new panelAyudaVD();
+    private HashMap<String, VueloBase> vueloBaseHashMap = new HashMap<>();
+    private panelAyudaVD ayudaFrame = new panelAyudaVD();
+
     /**
      * Creates new form GestionVDiario
      */
     public GestionVDiario() {
         initComponents();
-         llenarHorasComboBox();
+        llenarHorasComboBox();
         llenarMinutosComboBox();
-         addKeyListener(new KeyListener() {
+        addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
                 // No necesitas implementar esto para la tecla F1
@@ -59,8 +67,82 @@ public class GestionVDiario extends javax.swing.JFrame {
 
         // Hacer que el JFrame sea enfocable para que pueda recibir eventos de teclado
         setFocusable(true);
+
+        //otras cosas
+        llenarVueloBase();
+
+        // DocumentListener para fechas
+        addTextFieldValidation(txtFechaVueloDiario, this::validarFecha);
+        addTextFieldValidation(txtPlazasOcupadas, this::validarPlazas);
+        addTextFieldValidation(txtPrecioVuelo, this::validarPlazas);//Total, es otro entero
+
     }
- private void llenarHorasComboBox() {
+
+    //RESTRICCIONES
+    private void validarPlazas() {
+        String entero = txtPlazasOcupadas.getText();
+        if (!Validaciones.esEntero(entero)) {
+            jLabel9.setVisible(true);
+            jLabel9.setText("Error, solo numero entero");
+        } else {
+            jLabel9.setText("");
+        }
+    }
+
+    private void validarFecha() {
+        String fecha = txtFechaVueloDiario.getText();
+        if (!Validaciones.esFechaValida(fecha)) {
+            jLabel9.setVisible(true);
+            jLabel9.setText("Fecha: yyyy-MM-dd");
+        } else {
+
+            // Limpiar el mensaje de error si la validación es exitosa
+            jLabel9.setText("");
+        }
+    }
+
+    private void addTextFieldValidation(JTextField textField, Runnable validationMethod) {
+        textField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validationMethod.run();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validationMethod.run();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                validationMethod.run();
+            }
+        });
+    }
+
+    private void llenarVueloBase() {
+        List<VueloBase> compA = Logica.getAllVuelosBase();
+
+        cbxVBcod.removeAllItems();
+
+        for (VueloBase a : compA) {
+            cbxVBcod.addItem(a.getCodigoVuelo());
+
+        }
+
+        cbxVBcod.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String selectedNombre = (String) cbxVBcod.getSelectedItem();
+
+                lblVBcod.setText(selectedNombre);
+
+            }
+        });
+    }
+
+    private void llenarHorasComboBox() {
         cbxHorasSR.addItem("00");
         for (int i = 1; i < 24; i++) {
             cbxHorasSR.addItem(String.format("%02d", i));
@@ -78,6 +160,7 @@ public class GestionVDiario extends javax.swing.JFrame {
             cbxMinutosLR.addItem(String.format("%02d", i));
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -105,13 +188,15 @@ public class GestionVDiario extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtFechaVueloDiario = new javax.swing.JTextField();
-        txtCodigoVueloDiario = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         bntAyuda = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        lblVBcod = new javax.swing.JLabel();
+        cbxVBcod = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
 
         jButton4.setText("Ayuda");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -198,12 +283,6 @@ public class GestionVDiario extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jLabel2.setText("Fecha de vuelo:");
 
-        txtCodigoVueloDiario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCodigoVueloDiarioActionPerformed(evt);
-            }
-        });
-
         jLabel1.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jLabel1.setText("Código:");
 
@@ -237,14 +316,23 @@ public class GestionVDiario extends javax.swing.JFrame {
 
         jLabel7.setText("*El mismo que VB");
 
+        lblVBcod.setText("jLabel9");
+
+        cbxVBcod.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel9.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel9.setText("jLabel9");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnBorrar)
                         .addGap(18, 18, 18)
                         .addComponent(btnModificar)
@@ -262,7 +350,6 @@ public class GestionVDiario extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtCodigoVueloDiario)
                                 .addComponent(txtFechaVueloDiario)
                                 .addComponent(txtPlazasOcupadas)
                                 .addComponent(txtPrecioVuelo)
@@ -279,7 +366,11 @@ public class GestionVDiario extends javax.swing.JFrame {
                                     .addGap(59, 59, 59)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(lblHoraSR, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lblHoraLR, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                        .addComponent(lblHoraLR, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(lblVBcod)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(cbxVBcod, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
@@ -301,9 +392,10 @@ public class GestionVDiario extends javax.swing.JFrame {
                     .addComponent(bntAyuda))
                 .addGap(64, 64, 64)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCodigoVueloDiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel7))
+                    .addComponent(jLabel7)
+                    .addComponent(lblVBcod)
+                    .addComponent(cbxVBcod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtFechaVueloDiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -328,13 +420,19 @@ public class GestionVDiario extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPrecioVuelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addGap(49, 49, 49)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardarVD2)
-                    .addComponent(jButton6)
-                    .addComponent(btnModificar)
-                    .addComponent(btnBorrar))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnGuardarVD2)
+                            .addComponent(jButton6)
+                            .addComponent(btnModificar)
+                            .addComponent(btnBorrar))
+                        .addContainerGap(36, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel9)
+                        .addGap(25, 25, 25))))
         );
 
         pack();
@@ -344,35 +442,32 @@ public class GestionVDiario extends javax.swing.JFrame {
         return vueloDiarioHashMap;
     }
     private void btnGuardarVD2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarVD2ActionPerformed
-    VueloDiario vueloDiario = new VueloDiario();
-    DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm"); //Logger.getLogger(GestionVuelosDiarios.class.getName()).log(Level.SEVERE, null, ex);
-    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    String horaSR = lblHoraSR.getText();
-    String horaLR = lblHoraLR.getText();
-    LocalDate fechaVuelo = LocalDate.parse(txtFechaVueloDiario.getText(), dateFormat);
-    LocalTime horaSRFormateada = LocalTime.parse(horaSR, formatoHora);
-    LocalTime horaLRFormateada = LocalTime.parse(horaLR, formatoHora);
-    vueloDiario.setCodigoVueloBase(txtCodigoVueloDiario.getText());
-    vueloDiario.setNumPlazasOcupadas(Integer.parseInt(txtPlazasOcupadas.getText()));
-    vueloDiario.setPrecioVuelo(Float.parseFloat(txtPrecioVuelo.getText()));
-    vueloDiario.setFechaVuelo(fechaVuelo);
-    vueloDiario.setHoraSalidaReal(horaSRFormateada);
-    vueloDiario.setHoraLlegadaReal(horaLRFormateada);
-    // Obtener el HashMap actual de VueloDiario
-    HashMap<String, VueloDiario> vueloDiarioMap = obtenerHashMapActual();
-    // Agregar la nueva instancia al HashMap
-    vueloDiarioMap.put(vueloDiario.getCodigoVueloBase(), vueloDiario);
-    // Llamar al método para escribir en el archivo CSV
-    writeVueloDiarioCSV(PATH_VUELODIARIO, vueloDiarioMap);
-    System.out.println(vueloDiario.getCodigoVueloBase() + " " + vueloDiario.getPrecioVuelo() + " ");
-    btnGuardarVD2.setEnabled(false);
-      //  jLabel9.setVisible(true);
+        VueloDiario vueloDiario = new VueloDiario();
+        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm"); //Logger.getLogger(GestionVuelosDiarios.class.getName()).log(Level.SEVERE, null, ex);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String horaSR = lblHoraSR.getText();
+        String horaLR = lblHoraLR.getText();
+        LocalDate fechaVuelo = LocalDate.parse(txtFechaVueloDiario.getText(), dateFormat);
+        LocalTime horaSRFormateada = LocalTime.parse(horaSR, formatoHora);
+        LocalTime horaLRFormateada = LocalTime.parse(horaLR, formatoHora);
+        vueloDiario.setCodigoVueloBase(lblVBcod.getText());
+        vueloDiario.setNumPlazasOcupadas(Integer.parseInt(txtPlazasOcupadas.getText()));
+        vueloDiario.setPrecioVuelo(Float.parseFloat(txtPrecioVuelo.getText()));
+        vueloDiario.setFechaVuelo(fechaVuelo);
+        vueloDiario.setHoraSalidaReal(horaSRFormateada);
+        vueloDiario.setHoraLlegadaReal(horaLRFormateada);
+        // Obtener el HashMap actual de VueloDiario
+        HashMap<String, VueloDiario> vueloDiarioMap = obtenerHashMapActual();
+        // Agregar la nueva instancia al HashMap
+        vueloDiarioMap.put(vueloDiario.getCodigoVueloBase(), vueloDiario);
+        // Llamar al método para escribir en el archivo CSV
+        writeVueloDiarioCSV(PATH_VUELODIARIO, vueloDiarioMap);
+        System.out.println(vueloDiario.getCodigoVueloBase() + " " + vueloDiario.getPrecioVuelo() + " ");
+        btnGuardarVD2.setEnabled(false);
+        //  jLabel9.setVisible(true);
 
         //    jLabel9.setText("Uno a la vez");    
-        
-        
-        
-        
+
     }//GEN-LAST:event_btnGuardarVD2ActionPerformed
 
     private void cbxHorasLRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxHorasLRActionPerformed
@@ -384,16 +479,16 @@ public class GestionVDiario extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxMinutosLRActionPerformed
 
     private void cbxMinutosSRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxMinutosSRActionPerformed
-       actualizarLabel(lblHoraSR, cbxHorasSR, cbxMinutosSR);
+        actualizarLabel(lblHoraSR, cbxHorasSR, cbxMinutosSR);
     }//GEN-LAST:event_cbxMinutosSRActionPerformed
 
     private void cbxHorasSRItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxHorasSRItemStateChanged
-       
+
 
     }//GEN-LAST:event_cbxHorasSRItemStateChanged
 
     private void cbxHorasSRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxHorasSRActionPerformed
-       actualizarLabel(lblHoraSR, cbxHorasSR, cbxMinutosSR);
+        actualizarLabel(lblHoraSR, cbxHorasSR, cbxMinutosSR);
     }//GEN-LAST:event_cbxHorasSRActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -421,17 +516,38 @@ public class GestionVDiario extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        // TODO add your handling code here:
+        String codigoABorrar = lblVBcod.getText(); // Reemplaza con el código de la compañía que deseas borrar
+        borrarLineaCSV(PATH_VUELODIARIO, codigoABorrar);        // TODO add your handling code here:        // TODO add your handling code here:
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnModificarActionPerformed
 
-    private void txtCodigoVueloDiarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoVueloDiarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCodigoVueloDiarioActionPerformed
- private void mostrarPanelEnVentana(JPanel panel, String titulo) {
+        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm"); //Logger.getLogger(GestionVuelosDiarios.class.getName()).log(Level.SEVERE, null, ex);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String horaSR = lblHoraSR.getText();
+        String horaLR = lblHoraLR.getText();
+
+        LocalDate fechaVuelo = LocalDate.parse(txtFechaVueloDiario.getText(), dateFormat);
+        LocalTime horaSRFormateada = LocalTime.parse(horaSR, formatoHora);
+        LocalTime horaLRFormateada = LocalTime.parse(horaLR, formatoHora);
+        String codVuelo = lblVBcod.getText();
+        String numPlazasOcupadas = txtPlazasOcupadas.getText();
+        String precioVuelo = txtPrecioVuelo.getText();
+
+        /*vueloDiario.getCodigoVueloBase(), fechaStr,
+                        vueloDiario.getNumPlazasOcupadas(), vueloDiario.getPrecioVuelo(),
+                        horaSalidaStr, horaLlegadaStr,*/
+        // Construir la línea actualizada para el CSV
+        String linea = String.format("%s;%s;%d;%.1f;%s;%s%s\n",
+                codVuelo, fechaVuelo,
+                numPlazasOcupadas, precioVuelo, horaSRFormateada,
+                horaLRFormateada);
+
+        // Llamar al método para modificar la línea en el archivo CSV
+        modificarLineaCSV(PATH_VUELODIARIO, codVuelo, linea);
+        System.out.println(linea);
+    }//GEN-LAST:event_btnModificarActionPerformed
+    private void mostrarPanelEnVentana(JPanel panel, String titulo) {
         // Crear una nueva ventana (JFrame) para representar el JPanel
         JFrame ventanaPanel = new JFrame(titulo);
 
@@ -445,11 +561,13 @@ public class GestionVDiario extends javax.swing.JFrame {
         // Hacer visible la ventana
         ventanaPanel.setVisible(true);
     }
-  private void actualizarLabel(javax.swing.JLabel label, javax.swing.JComboBox<String> cbxHoras, javax.swing.JComboBox<String> cbxMinutos) {
+
+    private void actualizarLabel(javax.swing.JLabel label, javax.swing.JComboBox<String> cbxHoras, javax.swing.JComboBox<String> cbxMinutos) {
         String horas = cbxHoras.getSelectedItem() != null ? cbxHoras.getSelectedItem().toString() : "00";
         String minutos = cbxMinutos.getSelectedItem() != null ? cbxMinutos.getSelectedItem().toString() : "00";
         label.setText(horas + ":" + minutos);
     }
+
     /**
      * @param args the command line arguments
      */
@@ -494,6 +612,7 @@ public class GestionVDiario extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbxHorasSR;
     private javax.swing.JComboBox<String> cbxMinutosLR;
     private javax.swing.JComboBox<String> cbxMinutosSR;
+    private javax.swing.JComboBox<String> cbxVBcod;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
@@ -505,9 +624,10 @@ public class GestionVDiario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel lblHoraLR;
     private javax.swing.JLabel lblHoraSR;
-    private javax.swing.JTextField txtCodigoVueloDiario;
+    private javax.swing.JLabel lblVBcod;
     private javax.swing.JTextField txtFechaVueloDiario;
     private javax.swing.JTextField txtPlazasOcupadas;
     private javax.swing.JTextField txtPrecioVuelo;

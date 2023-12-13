@@ -11,12 +11,16 @@ import javax.swing.JPanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import ui.panelAyuda;
 
 import static utils.CSV.BorrarLineasCSV.borrarLineaCSV;
 import static utils.CSV.CrearCSV.writeCompanyaCSV;
 import static utils.CSV.ModificarCSV.modificarLineaCSV;
 import static utils.Archivos.PATH_COMPANYAAEREA;
+import utils.Validaciones;
 
 /**
  *
@@ -56,8 +60,59 @@ public class GestionCompanyas extends javax.swing.JFrame {
 
         // Hacer que el JFrame sea enfocable para que pueda recibir eventos de teclado
         setFocusable(true);
+        addTextFieldValidation(txtPrefijoComp, this::validarCodVuelo);
+        addTextFieldValidation(txtCodigoComp,  this::validarCodComp);
+        addTextFieldValidation(txtTlfInfoPasajeros, this::validarTlf);
+        addTextFieldValidation(txtTlfInfoPasajeros, this::validarTlf);
+        
     }
+      private void validarTlf(){
+        String tlf=txtTlfInfoPasajeros.getText();
+        String tlf2=txtTlfInfoPasajeros.getText();
+        if(!Validaciones.esTelefonoValido(tlf)||!Validaciones.esTelefonoValido(tlf2)){
+             jLabel1.setVisible(true);
+            jLabel1.setText("Error, mal telefono");
+        }else{
+             jLabel1.setText("");
+        }
+    }
+     private void validarCodVuelo(){
+      String entero = txtPrefijoComp.getText();
+      if(!Validaciones.esPrefijoValido(entero)){
+           jLabel1.setVisible(true);
+            jLabel1.setText("Error, numero entero");
+      }else {
+            jLabel1.setText("");
+      }
+    }
+     
+     private void validarCodComp(){
+         String codComp = txtCodigoComp.getText();
+         if(!Validaciones.esCodigoCompaniaValido(codComp)){
+             jLabel1.setVisible(true);
+            jLabel1.setText("Error, numero entero");
+         }else {
+            jLabel1.setText("");
+      }
+     }
+ private void addTextFieldValidation(JTextField textField, Runnable validationMethod) {
+        textField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validationMethod.run();
+            }
 
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validationMethod.run();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                validationMethod.run();
+            }
+        });
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -89,6 +144,8 @@ public class GestionCompanyas extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -171,6 +228,11 @@ public class GestionCompanyas extends javax.swing.JFrame {
 
         jLabel10.setText("*IATA");
 
+        jLabel11.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel11.setText("jLabel11");
+
+        jLabel12.setText("*Nombre del Municipio");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -186,33 +248,37 @@ public class GestionCompanyas extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel11)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addGap(22, 22, 22)
-                        .addComponent(jButton1)
-                        .addGap(21, 21, 21)
-                        .addComponent(btnGuardarComp))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtTlfInfoAeropuerto)
-                        .addComponent(txtTlfInfoPasajeros)
-                        .addComponent(txtMunicipioSedeCentral)
-                        .addComponent(txtDirSedeCentral)
-                        .addComponent(txtNombreComp)
-                        .addComponent(txtCodigoComp)
-                        .addComponent(txtPrefijoComp, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton2)
+                                .addGap(22, 22, 22)
+                                .addComponent(jButton1)
+                                .addGap(21, 21, 21)
+                                .addComponent(btnGuardarComp))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtTlfInfoAeropuerto)
+                                .addComponent(txtTlfInfoPasajeros)
+                                .addComponent(txtMunicipioSedeCentral)
+                                .addComponent(txtDirSedeCentral)
+                                .addComponent(txtNombreComp)
+                                .addComponent(txtCodigoComp)
+                                .addComponent(txtPrefijoComp, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel12))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -243,7 +309,8 @@ public class GestionCompanyas extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtMunicipioSedeCentral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTlfInfoPasajeros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -258,7 +325,9 @@ public class GestionCompanyas extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addComponent(jLabel11)
+                .addGap(21, 21, 21))
         );
 
         pack();
@@ -398,6 +467,8 @@ public class GestionCompanyas extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

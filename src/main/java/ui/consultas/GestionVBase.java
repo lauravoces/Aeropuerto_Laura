@@ -42,18 +42,18 @@ import static utils.CSV.ModificarCSV.modificarLineaCSV;
  * @author laura
  */
 public class GestionVBase extends javax.swing.JFrame {
-private panelAyudaVB ayudaFrame = new panelAyudaVB();
+
+    private panelAyudaVB ayudaFrame = new panelAyudaVB();
     private HashMap<String, VueloBase> vueloBaseHashMap = new HashMap<>();
     private Logica logicaNegocio = new Logica();
 
     /**
      * Creates new form GestionVBase
      */
-
     public GestionVBase() {
         initComponents();
-                // PARA EL F1
-              // Configurar el KeyListener para detectar la tecla F1
+        // PARA EL F1_formula one
+        // Configurar el KeyListener para detectar la tecla F1
         addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -73,27 +73,28 @@ private panelAyudaVB ayudaFrame = new panelAyudaVB();
                 // No necesitas implementar esto para la tecla F1
             }
         });
-         // Hacer que el JFrame sea enfocable para que pueda recibir eventos de teclado
+        // Hacer que el JFrame sea enfocable para que pueda recibir eventos de teclado
         setFocusable(true);
 
-        
         llenarHorasComboBox();
         llenarMinutosComboBox();
         llenarAerea();
         llenarComp();
         llenarComp2();
         jLabel9.setVisible(false);
-        
+
         // DocumentListener para txtDiasOpera
         addTextFieldValidation(txtDiasOpera, this::validarDiasOpera);
-        
+
         // DocumentListener para txtPlazas
         addTextFieldValidation(txtPlazas, this::validarNumPlazas);
-        
-      
+
+        // DocumentListener para el codigo del vuelo, parte numerica
+        addTextFieldValidation(txtCodigoVueloBase, this::validarCodVuelo);
 
     }
 //RESTRICCIONES
+
     private void addTextFieldValidation(JTextField textField, Runnable validationMethod) {
         textField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -114,28 +115,34 @@ private panelAyudaVB ayudaFrame = new panelAyudaVB();
     }
 
     private void cbxCodMunicipioActionPerformed(java.awt.event.ActionEvent evt) {
-        
+
         String selectedCodigo = (String) cbxCodMunicipio.getSelectedItem();
 
-       
         Municipio selectedMunicipio = Logica.getMunicipioByCodigo(selectedCodigo);
 
-       
         txtCodMunicipio.setText(selectedMunicipio.getNombreMunicipio());
     }
-    
-  
-    
-    private void validarNumPlazas(){
-      String entero = txtPlazas.getText();
-      if(!Validaciones.esEntero(entero)){
-           jLabel9.setVisible(true);
-            jLabel9.setText("Error, solo numero entero");
-      }else {
+
+    private void validarCodVuelo() {
+        String entero = txtCodigoVueloBase.getText();
+        if (!Validaciones.esEntero2(entero)) {
+            jLabel9.setVisible(true);
+            jLabel9.setText("Error, numero entero");
+        } else {
             jLabel9.setText("");
-      }
+        }
     }
-    
+
+    private void validarNumPlazas() {
+        String entero = txtPlazas.getText();
+        if (!Validaciones.esEntero(entero)) {
+            jLabel9.setVisible(true);
+            jLabel9.setText("Error, solo numero entero");
+        } else {
+            jLabel9.setText("");
+        }
+    }
+
     private void validarDiasOpera() {
         String dias = txtDiasOpera.getText();
         if (!Validaciones.esDiaOperativoValido(dias)) {
@@ -148,83 +155,79 @@ private panelAyudaVB ayudaFrame = new panelAyudaVB();
         }
     }
 
-
 //FINDERESTRICCIONES
-private void llenarComp(){
-    List<Aeropuerto> compA = Logica.getAllAeropuertos();
-     
+    private void llenarComp() {
+        List<Aeropuerto> compA = Logica.getAllAeropuertos();
+
         cbxCodMunicipio.removeAllItems();
-         
+
         for (Aeropuerto a : compA) {
-              cbxCodMunicipio.addItem(a.getNombre());
-        
+            cbxCodMunicipio.addItem(a.getNombre());
+
         }
-         
+
         cbxCodMunicipio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
                 String selectedNombre = (String) cbxCodMunicipio.getSelectedItem();
 
-                
                 String nombreAeropuerto = selectedNombre;
                 String codigoIATA = Logica.getCodigoAeropuerto(selectedNombre);
                 String municipioCodigo = Logica.getMuniAeropuerto(selectedNombre);
 
-               
                 txtIATA.setText(codigoIATA);
                 txtNombreA.setText(nombreAeropuerto);
                 txtCodMunicipio.setText(municipioCodigo);
             }
         });
-}
-private void llenarComp2(){
-    List<Aeropuerto> compA = Logica.getAllAeropuertos();
-     
+    }
+
+    private void llenarComp2() {
+        List<Aeropuerto> compA = Logica.getAllAeropuertos();
+
         cbxOrigen.removeAllItems();
-        
+
         for (Aeropuerto a : compA) {
-              cbxOrigen.addItem(a.getNombre());
-        
+            cbxOrigen.addItem(a.getNombre());
+
         }
-        
+
         cbxOrigen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               
+
                 String selectedNombre = (String) cbxOrigen.getSelectedItem();
                 String codigoIATA = Logica.getCodigoAeropuerto(selectedNombre);
-               
 
-                
                 lblCodOrigen.setText(codigoIATA);
-                
+
             }
         });
-}
-private void llenarAerea(){
-    List<CompanyaAerea> compA = Logica.getAllCompanyas();
-  
+    }
+
+    private void llenarAerea() {
+        List<CompanyaAerea> compA = Logica.getAllCompanyas();
+
         cbxAE.removeAllItems();
-         
+
         for (CompanyaAerea a : compA) {
-              cbxAE.addItem(a.getNombre());
-        
+            cbxAE.addItem(a.getNombre());
+
         }
-         
+
         cbxAE.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
                 String nom = (String) cbxAE.getSelectedItem();
-               
+
                 String codComp = Logica.getCodigoCA(nom);
                 lblAE.setText(codComp);
-                
+
             }
         });
-}
-   
+    }
 
     private void llenarHorasComboBox() {
         cbxHOSh.addItem("00");
@@ -364,6 +367,7 @@ private void llenarAerea(){
         jLabel8.setToolTipText("");
         jLabel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jButton4.setBackground(new java.awt.Color(204, 255, 204));
         jButton4.setText("Ayuda");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -371,6 +375,7 @@ private void llenarAerea(){
             }
         });
 
+        jButton3.setBackground(new java.awt.Color(255, 204, 204));
         jButton3.setText("Cerrar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -589,46 +594,44 @@ private void llenarAerea(){
 
     private void btnGuardarVBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarVBActionPerformed
         int resultado = JOptionPane.showConfirmDialog(this, "Estas Seguro?", "Comprobacion", JOptionPane.YES_NO_OPTION);
-        if(resultado==JOptionPane.YES_OPTION){
-        VueloBase vueloBase = new VueloBase();
+        if (resultado == JOptionPane.YES_OPTION) {
+            VueloBase vueloBase = new VueloBase();
 
-        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm"); //Logger.getLogger(GestionVuelosDiarios.class.getName()).log(Level.SEVERE, null, ex);
-       
-        String horaSH = cbxHOSh.getSelectedItem().toString();
-        String minutoSH = cbxHOSm.getSelectedItem().toString();
-        String horaLH = cbxHOLh.getSelectedItem().toString();
-        String minutoLH = cbxHOLm.getSelectedItem().toString();
-       
-        String horaSR = horaSH + ":" + minutoSH;
-        String horaLR = horaLH + ":" + minutoLH;
-        LocalTime horaSRFormateada = LocalTime.parse(horaSR, formatoHora);
-        LocalTime horaLRFormateada = LocalTime.parse(horaLR, formatoHora);
-        vueloBase.setCodigoVuelo(lblAE.getText()+txtCodigoVueloBase.getText());
-       
-        vueloBase.setcodigoAeropuertoOrigen(lblCodOrigen.getText());
-        String nombreA= txtNombreA.getText().replaceAll("\\s", ""); //lo guardo sin espacios, deberia haber hecho esto tambien al guardar las companias para ser honesta
-        vueloBase.setAeropuertoDestino(txtIATA.getText() + nombreA + txtCodMunicipio.getText());
-        vueloBase.setNumPlazas(Integer.parseInt(txtPlazas.getText()));
-        
-        vueloBase.setDiasOpera(txtDiasOpera.getText());
-        vueloBase.setHoraOficialSalida(horaSRFormateada);
-        vueloBase.setHoraOficialLlegada(horaLRFormateada);
-        
-        
-        // Obtener el HashMap actual de CompanyaAerea
-        HashMap<String, VueloBase> vueloBaseI = obtenerHashMapActual();
-        // Agregar la nueva instancia al HashMap
-        vueloBaseI.put(vueloBase.getCodigoVuelo(), vueloBase);
-        // Llamar al método para escribir en el archivo CSV
-        writeVueloBaseCSV(PATH_VUELOSBASE, vueloBaseI);
-        System.out.println(vueloBase.getCodigoVuelo() + " " + vueloBase.getNumPlazas() + " " + vueloBase.getDiasOpera());
-        btnGuardarVB.setEnabled(false);
-        jLabel9.setVisible(true);
+            DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm"); //Logger.getLogger(GestionVuelosDiarios.class.getName()).log(Level.SEVERE, null, ex);
+
+            String horaSH = cbxHOSh.getSelectedItem().toString();
+            String minutoSH = cbxHOSm.getSelectedItem().toString();
+            String horaLH = cbxHOLh.getSelectedItem().toString();
+            String minutoLH = cbxHOLm.getSelectedItem().toString();
+
+            String horaSR = horaSH + ":" + minutoSH;
+            String horaLR = horaLH + ":" + minutoLH;
+            LocalTime horaSRFormateada = LocalTime.parse(horaSR, formatoHora);
+            LocalTime horaLRFormateada = LocalTime.parse(horaLR, formatoHora);
+            vueloBase.setCodigoVuelo(lblAE.getText() + txtCodigoVueloBase.getText());
+
+            vueloBase.setcodigoAeropuertoOrigen(lblCodOrigen.getText());
+            String nombreA = txtNombreA.getText().replaceAll("\\s", ""); //lo guardo sin espacios, deberia haber hecho esto tambien al guardar las companias para ser honesta
+            vueloBase.setAeropuertoDestino(txtIATA.getText() + nombreA + txtCodMunicipio.getText());
+            vueloBase.setNumPlazas(Integer.parseInt(txtPlazas.getText()));
+
+            vueloBase.setDiasOpera(txtDiasOpera.getText());
+            vueloBase.setHoraOficialSalida(horaSRFormateada);
+            vueloBase.setHoraOficialLlegada(horaLRFormateada);
+
+            // Obtener el HashMap actual de CompanyaAerea
+            HashMap<String, VueloBase> vueloBaseI = obtenerHashMapActual();
+            // Agregar la nueva instancia al HashMap
+            vueloBaseI.put(vueloBase.getCodigoVuelo(), vueloBase);
+            // Llamar al método para escribir en el archivo CSV
+            writeVueloBaseCSV(PATH_VUELOSBASE, vueloBaseI);
+            System.out.println(vueloBase.getCodigoVuelo() + " " + vueloBase.getNumPlazas() + " " + vueloBase.getDiasOpera());
+            btnGuardarVB.setEnabled(false);
+            jLabel9.setVisible(true);
 
             jLabel9.setText("Uno a la vez");
-        }
-        else if(resultado==JOptionPane.NO_OPTION){
-             jLabel9.setText("No se ha guardado el vuelo");
+        } else if (resultado == JOptionPane.NO_OPTION) {
+            jLabel9.setText("No se ha guardado el vuelo");
         }
     }//GEN-LAST:event_btnGuardarVBActionPerformed
 
@@ -642,50 +645,49 @@ private void llenarAerea(){
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-if(!Logica.tieneVuelosDiariosAsociados(txtCodigoVueloBase.getText())){
-    
+        if (!Logica.tieneVuelosDiariosAsociados(txtCodigoVueloBase.getText())) {
 
-        try {
+            try {
 
-            SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
+                SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
 
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String horaSR = lblHOS.getText();
-            String horaLR = lblHOL.getText();
-            Date horaSRFormateada = formatoHora.parse(horaSR);
-            Date horaLRFormateada = formatoHora.parse(horaLR);
-            Time timehoraSR = new Time(horaSRFormateada.getTime());
-            Time timehoraLR = new Time(horaLRFormateada.getTime());
-            String nuevocod = txtCodigoVueloBase.getText();//codigo a modificar
-            String nuevoAeO = lblCodOrigen.getText();
-            String nuevoAeD = txtIATA.getText();
-            String nuevasPlazas = txtPlazas.getText();
-            String nuevosDias = txtDiasOpera.getText();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String horaSR = lblHOS.getText();
+                String horaLR = lblHOL.getText();
+                Date horaSRFormateada = formatoHora.parse(horaSR);
+                Date horaLRFormateada = formatoHora.parse(horaLR);
+                Time timehoraSR = new Time(horaSRFormateada.getTime());
+                Time timehoraLR = new Time(horaLRFormateada.getTime());
+                String nuevocod = txtCodigoVueloBase.getText();//codigo a modificar
+                String nuevoAeO = lblCodOrigen.getText();
+                String nuevoAeD = txtIATA.getText();
+                String nuevasPlazas = txtPlazas.getText();
+                String nuevosDias = txtDiasOpera.getText();
 
-            // Construir la línea actualizada para el CSV
-            String linea = String.format("%s;%s;%s;%s;%s;%s;%s;\n",
-                    nuevocod, nuevoAeO,
-                    nuevoAeD, nuevasPlazas, timehoraSR,
-                    timehoraLR, nuevosDias);
+                // Construir la línea actualizada para el CSV
+                String linea = String.format("%s;%s;%s;%s;%s;%s;%s;\n",
+                        nuevocod, nuevoAeO,
+                        nuevoAeD, nuevasPlazas, timehoraSR,
+                        timehoraLR, nuevosDias);
 
-            // Llamar al método para modificar la línea en el archivo CSV
-            modificarLineaCSV(PATH_VUELOSBASE, nuevocod, linea);
-            System.out.println(linea);
-        } catch (ParseException ex) {
-            System.out.println(ex.getMessage());
-            //Logger.getLogger(GestionVuelosDiarios.class.getName()).log(Level.SEVERE, null, ex);
+                // Llamar al método para modificar la línea en el archivo CSV
+                modificarLineaCSV(PATH_VUELOSBASE, nuevocod, linea);
+                System.out.println(linea);
+            } catch (ParseException ex) {
+                System.out.println(ex.getMessage());
+                //Logger.getLogger(GestionVuelosDiarios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            btnModificar.setEnabled(false);
+            btnModificar.setText("VD existente");
         }
-        }else{
-     btnModificar.setEnabled(false);
-     btnModificar.setText("VD existente");
-}
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void txtCodigoVueloBaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoVueloBaseActionPerformed
 
 
     }//GEN-LAST:event_txtCodigoVueloBaseActionPerformed
-private void mostrarPanelEnVentana(JPanel panel, String titulo) {
+    private void mostrarPanelEnVentana(JPanel panel, String titulo) {
         // Crear una nueva ventana (JFrame) para representar el JPanel
         JFrame ventanaPanel = new JFrame(titulo);
 
