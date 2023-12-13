@@ -12,18 +12,26 @@
         <exec.mainClass>com.mycompany.laura.aeropuerto_primeraeva.Aeropuerto_primeraEva</exec.mainClass>
     </properties>
      <dependencies>
-      
+
         <dependency>
             <groupId>com.mashape.unirest</groupId>
             <artifactId>unirest-java</artifactId>
             <version>1.4.9</version>
         </dependency>
-
-        
+  
         <dependency>
            <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20210307</version>
         </dependency>
-    </dependencies>
+          <dependency>
+               <groupId>io.soluble.pjb</groupId>
+               <artifactId>php-java-bridge</artifactId>
+               <version>7.1.3</version>
+               <type>pom</type>
+          </dependency>
+        
+
+
+     </dependencies>
 </project>

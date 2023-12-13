@@ -19,7 +19,9 @@ import utils.CSV.LectorCSV;
  */
 public class Inicializaciones {
 
-    private static final Inicializaciones INSTANCE = new Inicializaciones();
+    
+    //INSTANCIAS DE LOS HASHMAPS. (Referenciados luego como HM)
+    private static final Inicializaciones INSTANCIA = new Inicializaciones();
     private static HashMap<String, Aeropuerto> aeropuertoHashMap = new HashMap<>();
     private static HashMap<String, CompanyaAerea> companyaHashMap = new HashMap<>();
     private static HashMap<String, VueloBase> vueloBaseHashMap = new HashMap<>();
@@ -27,27 +29,27 @@ public class Inicializaciones {
     private static HashMap<String, String> municipiosHashMap = new HashMap<>();
 
     /**
-     *
+     * lista de Aeropuertos
      */
     protected static List<Aeropuerto> lstAeropuertos;
-    
+
     /**
-     *
+     * lista de Compañias Aereas
      */
     protected static List<CompanyaAerea> lstCompanya;
-    
+
     /**
-     *
+     * lista de Vuelos Base
      */
     protected static List<VueloBase> lstVueloBase;
-    
+
     /**
-     *
+     * lista de Vuelos Diarios
      */
     protected static List<VueloDiario> lstVueloDiario;
-    
+
     /**
-     *
+     * lista de municipios.
      */
     protected static List<String> lstMunicipio;
 
@@ -56,42 +58,41 @@ public class Inicializaciones {
     }
 
     private void init() {
-        //CREO EL OBJ para leer
-        LectorCSV csvReader = new LectorCSV();
-        
-        municipiosHashMap = csvReader.readMunicipiosCSV();       
-        aeropuertoHashMap= csvReader.readAeropuertoCsv();     
-        vueloBaseHashMap= csvReader.readVueloBaseCSV();
-        vueloDiarioHashMap=csvReader.readVueloDiarioCsv();
-        companyaHashMap= csvReader.readCompanyaCsv();
-        
-          lstAeropuertos = new ArrayList<>(aeropuertoHashMap.values());
-        lstMunicipio=new  ArrayList<>(municipiosHashMap.values());
-      
-        lstCompanya= new ArrayList<>(companyaHashMap.values());
-        lstVueloBase=new ArrayList<>(vueloBaseHashMap.values());
-        lstVueloDiario=new ArrayList<>(vueloDiarioHashMap.values());
-        
+        //Creo un objeto que me lea los CSV.
+        LectorCSV miLectorCSV = new LectorCSV();
+        //Leo mis HM para obtener los valores
+        municipiosHashMap = miLectorCSV.readMunicipiosCSV();
+        aeropuertoHashMap = miLectorCSV.readAeropuertoCsv();
+        vueloBaseHashMap = miLectorCSV.readVueloBaseCSV();
+        vueloDiarioHashMap = miLectorCSV.readVueloDiarioCsv();
+        companyaHashMap = miLectorCSV.readCompanyaCsv();
+        //Cargo todo eso en mis ArrayList que serán usandos en Lógica
+        lstAeropuertos = new ArrayList<>(aeropuertoHashMap.values());
+        lstMunicipio = new ArrayList<>(municipiosHashMap.values());
+        lstCompanya = new ArrayList<>(companyaHashMap.values());
+        lstVueloBase = new ArrayList<>(vueloBaseHashMap.values());
+        lstVueloDiario = new ArrayList<>(vueloDiarioHashMap.values());
+
     }
 
     /**
-     *
+     * Metodo para obtener la instancia
      * @return
      */
     public static Inicializaciones getInstance() {
-        return INSTANCE;
+        return INSTANCIA;
     }
 
     /**
-     *
+     * Devuelve directamente la lista cargada
      * @return
      */
     public List<Aeropuerto> getLstAeropuertos() {
-        return lstAeropuertos;  // Devuelve directamente la lista cargada
+        return lstAeropuertos;  
     }
 
     /**
-     *
+     * Devuelve directamente la lista cargada
      * @return
      */
     public List<CompanyaAerea> getLstCompanya() {
@@ -99,26 +100,26 @@ public class Inicializaciones {
     }
 
     /**
-     *
+     * Devuelve directamente la lista cargada
      * @return
      */
-    public List<VueloBase> getListVueloBase(){
+    public List<VueloBase> getListVueloBase() {
         return lstVueloBase;
     }
 
     /**
-     *
+     * Devuelve directamente la lista cargada
      * @return
      */
-    public List<VueloDiario> getListVueloDiario(){
+    public List<VueloDiario> getListVueloDiario() {
         return lstVueloDiario;
     }
 
     /**
-     *
+     * Devuelve directamente la lista cargada
      * @return
      */
-    public List<String> getListMunicipio(){
+    public List<String> getListMunicipio() {
         return lstMunicipio;
     }
- }
+}
