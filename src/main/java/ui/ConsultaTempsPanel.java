@@ -5,6 +5,7 @@ import dto.Aeropuerto;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.List;
 import javax.swing.*;
 import logica.Logica;
@@ -20,7 +21,7 @@ import utils.Temperaturas;
  * Lo agregé a paleta y lo añadí....
  */
 
-public class ConsultaTempsPanel extends JPanel {
+public class ConsultaTempsPanel extends JPanel implements Serializable{
 
     private static AEMET_API aemetApi = new AEMET_API();
     private JComboBox<String> cbxAeropuerto;
