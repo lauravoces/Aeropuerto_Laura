@@ -4,5 +4,6 @@
 - Contiene el commit mas reciente
 # Los datos
 - No son datos muy alla, especialmente me refiero a los vuelos, está con muchas pruebas.
+# El zip es una version estable, creo que hice dos commits antes a final sin querer mientras probaba algo en otro proyecto, por lo que sea, ante la duda, el zip, al menos para lo que son las clases de java
 
 
