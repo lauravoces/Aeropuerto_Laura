@@ -238,7 +238,7 @@ public List<VueloDiario> obtenerLlegadas2(LocalDate fecha) {
                     .anyMatch(vueloBase -> vueloBase.getCodigoVuelo().equals(vueloDiario.getCodigoVueloBase()) && vueloBase.getAeropuertoDestino().contains("OVD")))
             .peek(vueloDiario -> {
                 LocalDateTime horaLlegadaReal = vueloDiario.getHoraLlegadaReal().atDate(fecha);
-                System.out.println("Debug: Fecha de vuelo: " + vueloDiario.getFechaVuelo() + ", Hora de llegada: " + horaLlegadaReal);
+                System.out.println("Fecha de vuelo: " + vueloDiario.getFechaVuelo() + ", Hora de llegada: " + horaLlegadaReal);
             })
             .filter(vueloDiario -> {
                 LocalDateTime horaLlegadaReal = vueloDiario.getHoraLlegadaReal().atDate(fecha);
@@ -268,7 +268,7 @@ public List<VueloDiario> obtenerSalidas2(LocalDate fecha) {
                     .anyMatch(vueloBase -> vueloBase.getCodigoVuelo().equals(vueloDiario.getCodigoVueloBase()) && "ovd".equalsIgnoreCase(vueloBase.getAeropuertoOrigen())))
             .peek(vueloDiario -> {
                 LocalTime horaSalidaReal = vueloDiario.getHoraSalidaReal();
-                System.out.println("Debug: Fecha de vuelo: " + vueloDiario.getFechaVuelo() + ", Hora de salida: " + horaSalidaReal);
+                System.out.println("Fecha de vuelo: " + vueloDiario.getFechaVuelo() + ", Hora de salida: " + horaSalidaReal);
             })
             .filter(vueloDiario -> {
                 LocalTime horaSalidaReal = vueloDiario.getHoraSalidaReal();
@@ -291,7 +291,7 @@ public List<VueloDiario> getProximosVuelos() {
     LocalDate hoy = LocalDate.now();
     LocalTime ahora = LocalTime.now();
 
-    System.out.println("Debug: Hora actual: " + ahora);
+    System.out.println("Hora actual: " + ahora);
 
     LocalDate limiteSuperior = hoy.plusDays(7);//tendria que poner aqui la variable, pero soy vaga
 
@@ -304,7 +304,7 @@ public List<VueloDiario> getProximosVuelos() {
             .sorted(Comparator.comparing(VueloDiario::getFechaVuelo).thenComparing(VueloDiario::getHoraSalidaReal))
             .collect(Collectors.toList());
 
-    System.out.println("Debug: Lista de próximos vuelos después del filtrado: " + lstVuelosProximos);
+   
 
     return lstVuelosProximos;
 }
@@ -328,7 +328,7 @@ public List<VueloDiario> getProximosVuelos() {
                 && vuelo.getFechaVuelo().isBefore(LocalDate.now().plusDays(NUMERO_DIAS_PROXIMOS)))
                 .peek(vuelo -> {
                     LocalDateTime horaSalidaReal = vuelo.getHoraSalidaReal().atDate(vuelo.getFechaVuelo());
-                    System.out.println("Debug: Fecha de vuelo: " + vuelo.getFechaVuelo() + ", Hora de salida: " + horaSalidaReal);
+                    System.out.println("Fecha de vuelo: " + vuelo.getFechaVuelo() + ", Hora de salida: " + horaSalidaReal);
                 })
                 .filter(vuelo -> {
                     LocalDateTime horaSalidaReal = vuelo.getHoraSalidaReal().atDate(vuelo.getFechaVuelo());
